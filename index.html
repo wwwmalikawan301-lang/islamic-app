@@ -5,38 +5,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Meri Islamic App</title>
   <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0f6b4a">
+  <meta name="theme-color" content="#0f6b4a">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: sans-serif; background: #f3f7f4; color: #1b3a2b; }
+    body { margin: 0; font-family: "Noto Nastaliq Urdu", sans-serif; background: #f3f7f4; color: #1b3a2b; }
     header { background: #0f6b4a; color: white; padding: 22px 16px; text-align: center; position: relative; }
-    header h1 { margin: 0 0 4px; font-size: 24px; }
-    header p { margin: 0; opacity: 0.85; }
-    #back { display: none; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.2); color: white; border: 0; border-radius: 8px; padding: 8px 12px; font-size: 16px; }
+    header h1 { margin: 0 0 4px; font-size: 24px; line-height: 1.9; }
+    header p { margin: 0; opacity: 0.85; line-height: 1.8; }
+    #back { display: none; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.2); color: white; border: 0; border-radius: 8px; padding: 8px 12px; font-size: 16px; font-family: inherit; }
     #app { padding: 16px; display: grid; gap: 14px; }
-    .card { background: white; border-radius: 14px; padding: 20px 18px; font-size: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
-    .detail { background: white; border-radius: 14px; padding: 20px 18px; line-height: 2; font-size: 20px; white-space: pre-line; }
+    .card { background: white; border-radius: 14px; padding: 16px 18px; font-size: 20px; line-height: 2; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    .detail { background: white; border-radius: 14px; padding: 20px 18px; line-height: 2.4; font-size: 20px; white-space: pre-line; }
   </style>
 </head>
 <body>
   <header>
-    <button id="back">Wapas</button>
+    <button id="back">واپس</button>
     <h1 id="title">السلام علیکم</h1>
-    <p id="sub">Meri Islamic App</p>
+    <p id="sub">میری اسلامک ایپ</p>
   </header>
   <div id="app"></div>
 
   <script>
     const DATA = {
-      names: { title: "Islamic Names", icon: "📖", items: [
+      names: { title: "اسلامی نام", icon: "📖", items: [
         { t: "Muhammad", d: "Matlab: jis ki bohat tareef ki jaye." },
         { t: "Fatima", d: "Matlab: door rakhne wali (buraiyon se)." },
         { t: "Ali", d: "Matlab: buland martabe wala." }
       ]},
-      poetry: { title: "Poetry", icon: "✍️", items: [
+      poetry: { title: "شاعری", icon: "✍️", items: [
         { t: "Sample nazm", d: "Yahan apni nazm likhna.\nHar misra nayi line mein." }
       ]},
-      stories: { title: "Kahaniyan", icon: "📚", items: [
+      stories: { title: "کہانیاں", icon: "📚", items: [
         { t: "Sample kahani", d: "Yahan poori kahani likhna." }
       ]}
     };
@@ -49,10 +52,7 @@
     function setHead(t, s) { title.textContent = t; sub.textContent = s; }
 
     function home() {
-      if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("sw.js");
-}
-      setHead("السلام علیکم", "Meri Islamic App");
+      setHead("السلام علیکم", "میری اسلامک ایپ");
       back.style.display = "none";
       app.innerHTML = "";
       for (const key in DATA) {
@@ -89,6 +89,10 @@
     }
 
     home();
+
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("sw.js");
+    }
   </script>
 </body>
 </html>
