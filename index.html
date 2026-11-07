@@ -30,19 +30,7 @@
   <div id="app"></div>
 
   <script>
-    const DATA = {
-      names: { title: "اسلامی نام", icon: "📖", items: [
-        { t: "Muhammad", d: "Matlab: jis ki bohat tareef ki jaye." },
-        { t: "Fatima", d: "Matlab: door rakhne wali (buraiyon se)." },
-        { t: "Ali", d: "Matlab: buland martabe wala." }
-      ]},
-      poetry: { title: "شاعری", icon: "✍️", items: [
-        { t: "Sample nazm", d: "Yahan apni nazm likhna.\nHar misra nayi line mein." }
-      ]},
-      stories: { title: "کہانیاں", icon: "📚", items: [
-        { t: "Sample kahani", d: "Yahan poori kahani likhna." }
-      ]}
-    };
+    let DATA = {};
 
     const app = document.getElementById("app");
     const back = document.getElementById("back");
@@ -88,7 +76,12 @@
       app.appendChild(d);
     }
 
-    home();
+    fetch("data.json", { cache: "no-store" })
+      .then(r => r.json())
+      .then(j => { DATA = j; home(); })
+      .catch(() => {
+        app.innerHTML = "<div class='card'>Data load nahi hua. data.json mein koi ghalti ho sakti hai.</div>";
+      });
 
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.register("sw.js");
