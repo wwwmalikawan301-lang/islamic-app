@@ -19,6 +19,18 @@
     #app { padding: 16px; display: grid; gap: 14px; }
     .card { background: white; border-radius: 14px; padding: 16px 18px; font-size: 20px; line-height: 2; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
     .detail { background: white; border-radius: 14px; padding: 20px 18px; line-height: 2.4; font-size: 20px; white-space: pre-line; }
+
+    body.dark { background: #0d1a16; color: #e6efe9; }
+    .panel { background: #14251f; border: 1px solid #25403a; border-radius: 16px; padding: 16px; display: grid; gap: 12px; }
+    .panel select, .panel input { width: 100%; padding: 12px; font-size: 16px; font-family: inherit; background: #0b1511; color: #e6efe9; border: 1px solid #2c4a42; border-radius: 12px; }
+    .panel button { padding: 12px; font-size: 18px; font-family: inherit; background: #6fd3aa; color: #0b2a1e; border: 0; border-radius: 12px; }
+    .count { text-align: center; color: #d4b84a; font-size: 18px; }
+    .tablewrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    th { background: #0f3b2a; padding: 10px 8px; font-size: 18px; }
+    td { padding: 10px 8px; border: 1px solid #25403a; line-height: 2; vertical-align: middle; font-size: 17px; }
+    td.nm { color: #6fd3aa; font-size: 22px; }
+    td.en { color: #d4b84a; font-family: Georgia, serif; text-align: center; font-size: 17px; }
   </style>
 </head>
 <body>
@@ -31,13 +43,20 @@
 
   <script>
     let DATA = {};
+    let NAMES = null;
 
     const app = document.getElementById("app");
     const back = document.getElementById("back");
     const title = document.getElementById("title");
     const sub = document.getElementById("sub");
 
-    function setHead(t, s) { title.textContent = t; sub.textContent = s; }
+    const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+    function setHead(t, s) {
+      title.textContent = t;
+      sub.textContent = s;
+      document.body.classList.remove("dark");
+    }
 
     function home() {
       setHead("السلام علیکم", "میری اسلامک ایپ");
@@ -47,7 +66,7 @@
         const c = document.createElement("div");
         c.className = "card";
         c.textContent = DATA[key].icon + " " + DATA[key].title;
-        c.onclick = () => category(key);
+        c.onclick = () => (key === "names" ? namesPage() : category(key));
         app.appendChild(c);
       }
     }
@@ -74,6 +93,79 @@
       d.className = "detail";
       d.textContent = item.d;
       app.appendChild(d);
+    }
+
+    function loadNames() {
+      if (NAMES) return Promise.resolve(NAMES);
+      return fetch("names.json", { cache: "no-store" })
+        .then(r => r.json())
+        .then(j => {
+          NAMES = j.sort((a, b) => a.n.localeCompare(b.n, "ur"));
+          return NAMES;
+        });
+    }
+
+    function namesPage() {
+      setHead(DATA.names ? DATA.names.title : "اسلامی نام", "");
+      document.body.classList.add("dark");
+      back.style.display = "block";
+      back.onclick = home;
+
+      app.innerHTML = `
+        <div class="panel">
+          <select id="fLetter"><option value="">حرف منتخب کریں (سب)</option></select>
+          <select id="fGender">
+            <option value="">جنس منتخب کریں (سب)</option>
+            <option value="لڑکا">لڑکا</option>
+            <option value="لڑکی">لڑکی</option>
+          </select>
+          <input id="fSearch" type="search" placeholder="نام یا معنی لکھ کر تلاش کریں">
+          <button id="fBtn">🔍 تلاش کریں</button>
+        </div>
+        <div class="count" id="count">لوڈ ہو رہا ہے...</div>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th>نام</th><th>English</th><th>معنی</th></tr></thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>`;
+
+      const fLetter = document.getElementById("fLetter");
+      const fGender = document.getElementById("fGender");
+      const fSearch = document.getElementById("fSearch");
+      const fBtn = document.getElementById("fBtn");
+      const count = document.getElementById("count");
+      const tbody = document.getElementById("tbody");
+
+      function render() {
+        const L = fLetter.value;
+        const G = fGender.value;
+        const Q = fSearch.value.trim().toLowerCase();
+        const list = NAMES.filter(x =>
+          (!L || x.n.charAt(0) === L) &&
+          (!G || x.g === G) &&
+          (!Q || x.n.includes(Q) || x.e.toLowerCase().includes(Q) || x.m.includes(Q))
+        );
+        count.textContent = list.length + " نام";
+        tbody.innerHTML = list.map(x =>
+          "<tr><td class='nm'>" + esc(x.n) + "</td><td class='en'>" + esc(x.e) + "</td><td>" + esc(x.m) + "</td></tr>"
+        ).join("");
+      }
+
+      loadNames()
+        .then(list => {
+          const letters = [...new Set(list.map(x => x.n.charAt(0)))].sort((a, b) => a.localeCompare(b, "ur"));
+          fLetter.innerHTML = '<option value="">حرف منتخب کریں (سب)</option>' +
+            letters.map(l => '<option value="' + esc(l) + '">' + esc(l) + '</option>').join("");
+          fLetter.onchange = render;
+          fGender.onchange = render;
+          fSearch.oninput = render;
+          fBtn.onclick = render;
+          render();
+        })
+        .catch(() => {
+          count.textContent = "names.json لوڈ نہیں ہوئی۔ فائل میں کوئی غلطی ہو سکتی ہے۔";
+        });
     }
 
     fetch("data.json", { cache: "no-store" })
