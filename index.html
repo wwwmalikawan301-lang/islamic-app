@@ -12,7 +12,7 @@
   <style>
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     html { overflow-x: hidden; width: 100%; }
-    body { margin: 0; width: 100%; overflow-x: hidden; overflow-wrap: break-word; overscroll-behavior: none; touch-action: pan-y pinch-zoom; font-family: "Noto Nastaliq Urdu", sans-serif; background: #f3f7f4; color: #1b3a2b; padding-bottom: calc(78px + env(safe-area-inset-bottom)); min-height: 100vh; }
+    body { margin: 0; width: 100%; overflow-x: hidden; overflow-wrap: break-word; overscroll-behavior: none; touch-action: pan-y pinch-zoom; font-family: "Noto Nastaliq Urdu", sans-serif; background: #f3f7f4; color: #1b3a2b; padding-bottom: calc(70px + env(safe-area-inset-bottom)); min-height: 100vh; }
     body.home { background: linear-gradient(#eaf6ee, #d9eddf); }
     body.dark { background: #0b1612; color: #e6efe9; }
 
@@ -22,22 +22,22 @@
     #greet { display: none; }
     .decos { display: none; position: absolute; top: 0; right: 0; bottom: 0; left: 0; overflow: hidden; pointer-events: none; z-index: 1; }
     .deco { position: absolute; height: auto; }
-    #hdr.hero { background: radial-gradient(circle at 30% 20%, #17935f 0%, rgba(23,147,95,0) 45%), linear-gradient(160deg, #0b5b3c, #0d6f48 55%, #0a4a31); padding: 46px 16px 70px; border-radius: 0 0 36px 36px; }
-    #hdr.hero .decos { display: block; border-radius: 0 0 36px 36px; }
-    #hdr.hero h1 { font-size: 36px; line-height: 1.7; margin-bottom: 0; }
-    #hdr.hero p { font-size: 22px; color: #f2cf6b; opacity: 1; font-weight: 700; }
-    #hdr.hero #greet { display: block; margin-top: 12px; font-size: 15px; line-height: 2; position: relative; z-index: 2; }
-    .moon { top: 26px; left: 22%; width: 56px; filter: drop-shadow(0 0 10px rgba(247,224,140,0.7)); }
-    .mosque { left: 0; bottom: 18px; width: 38%; max-width: 160px; }
-    .lantern { width: 28px; filter: drop-shadow(0 0 8px rgba(247,224,140,0.8)); }
-    .lantern-l { left: 8px; top: 0; }
-    .lantern-r { right: 8px; top: 54px; }
+    #hdr.hero { background: radial-gradient(circle at 30% 20%, #17935f 0%, rgba(23,147,95,0) 45%), linear-gradient(160deg, #0b5b3c, #0d6f48 55%, #0a4a31); padding: 30px 16px 54px; border-radius: 0 0 30px 30px; }
+    #hdr.hero .decos { display: block; border-radius: 0 0 30px 30px; }
+    #hdr.hero h1 { font-size: 30px; line-height: 1.6; margin-bottom: 0; }
+    #hdr.hero p { font-size: 19px; line-height: 1.7; color: #f2cf6b; opacity: 1; font-weight: 700; }
+    #hdr.hero #greet { display: block; margin-top: 6px; font-size: 14px; line-height: 1.9; position: relative; z-index: 2; }
+    .moon { top: 20px; left: 24%; width: 44px; filter: drop-shadow(0 0 10px rgba(247,224,140,0.7)); }
+    .mosque { left: 0; bottom: 12px; width: 32%; max-width: 130px; }
+    .lantern { width: 24px; filter: drop-shadow(0 0 8px rgba(247,224,140,0.8)); }
+    .lantern-l { left: 62px; top: 0; }
+    .lantern-r { right: 10px; top: 30px; }
 
     #back { display: none; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.2); color: white; border: 0; border-radius: 8px; padding: 8px 12px; font-size: 16px; font-family: inherit; z-index: 3; }
     #menuBtn { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.2); color: white; border: 0; border-radius: 8px; width: 40px; height: 40px; font-size: 24px; line-height: 1; font-family: sans-serif; z-index: 3; }
-    #hdr.hero #menuBtn { top: 40px; transform: none; }
+    #hdr.hero #menuBtn { top: 24px; transform: none; }
     #menu { display: none; position: absolute; left: 12px; top: 68px; background: white; color: #1b3a2b; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.25); min-width: 210px; z-index: 25; overflow: hidden; }
-    #hdr.hero #menu { top: 92px; }
+    #hdr.hero #menu { top: 74px; }
     #menu.show { display: block; }
     #menu button { display: block; width: 100%; text-align: right; padding: 12px 16px; border: 0; background: none; font-family: inherit; font-size: 17px; color: inherit; line-height: 2; }
     #menu button + button { border-top: 1px solid #e3ece6; }
@@ -48,34 +48,36 @@
     .mb { background: none; border: 0; font-size: 26px; padding: 4px 12px; }
 
     #app { padding: 16px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
+    body.home #app { padding: 0 14px 14px; gap: 10px; }
     #app > * { min-width: 0; max-width: 100%; }
     .card { background: white; border-radius: 14px; padding: 16px 18px; font-size: 20px; line-height: 2; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
     .detail { background: white; border-radius: 14px; padding: 20px 18px; line-height: 2.4; font-size: 20px; white-space: pre-line; }
 
-    .sb { display: flex; align-items: center; gap: 6px; background: #fff; border-radius: 40px; padding: 6px 8px; box-shadow: 0 6px 18px rgba(0,60,30,0.18); margin-top: -34px; position: relative; z-index: 3; }
-    .sb input { flex: 1 1 auto; width: 0; min-width: 0; border: 0; outline: 0; background: none; font-family: inherit; font-size: 15px; color: #1b3a2b; padding: 8px 6px; }
-    .sgo { flex: 0 0 auto; width: 40px; height: 40px; border-radius: 50%; border: 0; background: #0f6b4a; color: #fff; font-size: 17px; }
-    .mic { flex: 0 0 auto; border: 0; background: none; font-size: 19px; color: #0f6b4a; padding: 4px 6px; }
+    .sb { display: flex; align-items: center; gap: 6px; background: #fff; border-radius: 40px; padding: 5px 8px; box-shadow: 0 6px 18px rgba(0,60,30,0.18); margin-top: -28px; position: relative; z-index: 3; }
+    .sb input { flex: 1 1 auto; width: 0; min-width: 0; border: 0; outline: 0; background: none; font-family: inherit; font-size: 15px; color: #1b3a2b; padding: 6px 6px; }
+    .sgo { flex: 0 0 auto; width: 38px; height: 38px; border-radius: 50%; border: 0; background: #0f6b4a; color: #fff; font-size: 16px; }
+    .mic { flex: 0 0 auto; border: 0; background: none; font-size: 18px; color: #0f6b4a; padding: 4px 6px; }
 
-    .hgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-    .hc { position: relative; min-width: 0; min-height: 132px; background: linear-gradient(160deg, #fff, #eaf6ee); border-radius: 20px; padding: 12px 12px 46px; box-shadow: 0 4px 12px rgba(0,60,30,0.12); border: 1px solid #d3e8da; }
-    .hc .ic { position: absolute; left: 10px; top: 8px; font-size: 34px; line-height: 1; }
-    .hc .tt { font-size: 18px; font-weight: 700; color: #0b4d34; line-height: 1.9; padding-left: 42px; }
-    .hc .ds { font-size: 12px; color: #4a6b5b; line-height: 1.9; margin-top: 2px; }
-    .hc .go { position: absolute; left: 12px; bottom: 12px; width: 30px; height: 30px; border-radius: 50%; background: #0f6b4a; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+    .hgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .hc { min-width: 0; display: flex; flex-direction: column; background: linear-gradient(160deg, #fff, #eaf6ee); border-radius: 18px; padding: 8px 12px; box-shadow: 0 4px 12px rgba(0,60,30,0.12); border: 1px solid #d3e8da; }
+    .hc .tt { font-size: 17px; font-weight: 700; color: #0b4d34; line-height: 1.8; }
+    .hc .ds { font-size: 11.5px; color: #4a6b5b; line-height: 1.8; flex: 1; }
+    .hc .ft { display: flex; justify-content: space-between; align-items: center; margin-top: 2px; }
+    .hc .ic { font-size: 24px; line-height: 1; }
+    .hc .go { width: 26px; height: 26px; border-radius: 50%; background: #0f6b4a; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 14px; }
 
-    .quote { position: relative; margin-top: 6px; background: linear-gradient(150deg, #0b5b3c, #08402b); border: 2px solid #d9b44a; border-radius: 22px; padding: 38px 16px 14px; text-align: center; color: #fff; box-shadow: 0 6px 16px rgba(0,60,30,0.25); }
-    .qlabel { position: absolute; top: -2px; right: 18px; background: linear-gradient(#f6dc83, #d9b44a); color: #4a3200; font-weight: 700; font-size: 14px; padding: 2px 16px; border-radius: 0 0 14px 14px; line-height: 2; }
-    .qtext { font-size: 18px; line-height: 2.2; }
-    .qheart { color: #f2cf6b; margin-top: 2px; }
+    .quote { position: relative; margin-top: 2px; background: linear-gradient(150deg, #0b5b3c, #08402b); border: 2px solid #d9b44a; border-radius: 20px; padding: 30px 14px 8px; text-align: center; color: #fff; box-shadow: 0 6px 16px rgba(0,60,30,0.25); }
+    .qlabel { position: absolute; top: -2px; right: 18px; background: linear-gradient(#f6dc83, #d9b44a); color: #4a3200; font-weight: 700; font-size: 13px; padding: 0 14px; border-radius: 0 0 14px 14px; line-height: 2; }
+    .qtext { font-size: 17px; line-height: 2; }
+    .qheart { color: #f2cf6b; font-size: 14px; line-height: 1.6; }
 
     .qa { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
-    .qb { min-width: 0; background: linear-gradient(160deg, #fff, #eaf6ee); border: 1px solid #d3e8da; border-radius: 16px; padding: 10px 2px; text-align: center; font-size: 11px; line-height: 1.9; color: #0b4d34; box-shadow: 0 3px 8px rgba(0,60,30,0.1); }
-    .qb span { display: block; font-size: 24px; line-height: 1.4; }
+    .qb { min-width: 0; background: linear-gradient(160deg, #fff, #eaf6ee); border: 1px solid #d3e8da; border-radius: 14px; padding: 6px 2px; text-align: center; font-size: 11px; line-height: 1.7; color: #0b4d34; box-shadow: 0 3px 8px rgba(0,60,30,0.1); }
+    .qb span { display: block; font-size: 21px; line-height: 1.3; }
 
-    #nav { position: fixed; left: 0; right: 0; bottom: 0; width: 100%; z-index: 15; display: flex; background: linear-gradient(#0f6b4a, #0a4a31); border-radius: 24px 24px 0 0; padding: 8px 6px calc(8px + env(safe-area-inset-bottom)); box-shadow: 0 -4px 14px rgba(0,0,0,0.25); }
-    #nav button { flex: 1 1 0; min-width: 0; background: none; border: 0; color: #cfe8da; font-family: inherit; font-size: 12px; line-height: 1.7; padding: 2px 0; opacity: 0.85; }
-    #nav button span { display: block; font-size: 22px; line-height: 1.3; }
+    #nav { position: fixed; left: 0; right: 0; bottom: 0; width: 100%; z-index: 15; display: flex; background: linear-gradient(#0f6b4a, #0a4a31); border-radius: 20px 20px 0 0; padding: 5px 6px calc(5px + env(safe-area-inset-bottom)); box-shadow: 0 -4px 14px rgba(0,0,0,0.25); }
+    #nav button { flex: 1 1 0; min-width: 0; background: none; border: 0; color: #cfe8da; font-family: inherit; font-size: 11px; line-height: 1.6; padding: 2px 0; opacity: 0.85; }
+    #nav button span { display: block; font-size: 20px; line-height: 1.3; }
     #nav button.on { color: #7dffb4; opacity: 1; }
 
     body.dark #app { padding: 10px 8px 24px; gap: 10px; }
@@ -148,10 +150,10 @@
       "مسکرا کر ملنا بھی نیکی ہے۔"
     ];
     const META = {
-      poetry: { title: "شاعری", icon: "✍️", desc: "اسلامی، محبت بھری اور سبق آموز شاعری" },
-      names: { title: "اسلامی نام", icon: "📖", desc: "لڑکوں اور لڑکیوں کے نام اور معنی" },
-      info: { title: "اسلامی معلومات", icon: "🕌", desc: "سوالات، جوابات اور دلچسپ معلومات" },
-      stories: { title: "کہانیاں", icon: "📚", desc: "مختصر، دلچسپ اور سبق آموز کہانیاں" }
+      poetry: { title: "شاعری", icon: "✍️", desc: "اسلامی اور سبق آموز شاعری" },
+      names: { title: "اسلامی نام", icon: "📖", desc: "لڑکوں اور لڑکیوں کے نام" },
+      info: { title: "اسلامی معلومات", icon: "🕌", desc: "سوالات اور دلچسپ معلومات" },
+      stories: { title: "کہانیاں", icon: "📚", desc: "مختصر اور سبق آموز کہانیاں" }
     };
     const ORDER = ["poetry", "names", "info", "stories"];
     const MORE_TEXT = "<b>جلد آنے والے فیچرز</b><br>• روزانہ نوٹیفکیشن<br>• اسلامی معلومات<br>• مزید نام، شاعری اور کہانیاں";
@@ -224,7 +226,7 @@
 
     document.getElementById("mShare").onclick = shareApp;
     document.getElementById("mAbout").onclick = () => {
-      showModal("<b>میری اسلامی ایپ</b><br>اسلامی نام، شاعری اور کہانیاں<br>ورژن 1.3");
+      showModal("<b>میری اسلامی ایپ</b><br>اسلامی نام، شاعری اور کہانیاں<br>ورژن 1.4");
     };
 
     function loadNames() {
@@ -280,10 +282,9 @@
         "<div class='hgrid'>" +
           ORDER.map(k =>
             "<div class='hc' data-k='" + k + "'>" +
-              "<div class='ic'>" + META[k].icon + "</div>" +
               "<div class='tt'>" + META[k].title + "</div>" +
               "<div class='ds'>" + META[k].desc + "</div>" +
-              "<div class='go'>←</div>" +
+              "<div class='ft'><span class='ic'>" + META[k].icon + "</span><span class='go'>←</span></div>" +
             "</div>"
           ).join("") +
         "</div>" +
