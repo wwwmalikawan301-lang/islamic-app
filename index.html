@@ -10,25 +10,70 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; }
-    body { margin: 0; font-family: "Noto Nastaliq Urdu", sans-serif; background: #f3f7f4; color: #1b3a2b; }
-    header { background: #0f6b4a; color: white; padding: 22px 16px; text-align: center; position: relative; }
-    header h1 { margin: 0 0 4px; font-size: 24px; line-height: 1.9; }
-    header p { margin: 0; opacity: 0.85; line-height: 1.8; }
-    #back { display: none; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.2); color: white; border: 0; border-radius: 8px; padding: 8px 12px; font-size: 16px; font-family: inherit; }
-    #menuBtn { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.2); color: white; border: 0; border-radius: 8px; width: 40px; height: 40px; font-size: 24px; line-height: 1; font-family: sans-serif; }
-    #menu { display: none; position: absolute; left: 12px; top: 68px; background: white; color: #1b3a2b; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.25); min-width: 210px; z-index: 10; overflow: hidden; }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body { margin: 0; font-family: "Noto Nastaliq Urdu", sans-serif; background: #f3f7f4; color: #1b3a2b; padding-bottom: calc(78px + env(safe-area-inset-bottom)); }
+    body.home { background: linear-gradient(#eaf6ee, #d9eddf) fixed; }
+    body.dark { background: #0b1612; color: #e6efe9; }
+
+    #hdr { background: #0f6b4a; color: #fff; padding: 22px 16px; text-align: center; position: relative; overflow: hidden; }
+    #hdr h1 { margin: 0 0 4px; font-size: 24px; line-height: 1.9; position: relative; z-index: 2; }
+    #hdr p { margin: 0; opacity: 0.85; line-height: 1.8; position: relative; z-index: 2; }
+    #greet, .deco { display: none; }
+    #hdr.hero { background: radial-gradient(circle at 30% 20%, #17935f 0%, rgba(23,147,95,0) 45%), linear-gradient(160deg, #0b5b3c, #0d6f48 55%, #0a4a31); padding: 46px 16px 70px; border-radius: 0 0 36px 36px; }
+    #hdr.hero h1 { font-size: 40px; line-height: 1.7; margin-bottom: 0; }
+    #hdr.hero p { font-size: 24px; color: #f2cf6b; opacity: 1; font-weight: 700; }
+    #hdr.hero #greet { display: block; margin-top: 12px; font-size: 16px; line-height: 2; position: relative; z-index: 2; }
+    #hdr.hero .deco { display: block; position: absolute; z-index: 1; height: auto; }
+    .moon { top: 26px; left: 22%; width: 64px; filter: drop-shadow(0 0 10px rgba(247,224,140,0.7)); }
+    .mosque { left: 0; bottom: 18px; width: 40%; max-width: 170px; }
+    .lantern { width: 30px; filter: drop-shadow(0 0 8px rgba(247,224,140,0.8)); }
+    .lantern-l { left: 8px; top: 0; }
+    .lantern-r { right: 8px; top: 54px; }
+
+    #back { display: none; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.2); color: white; border: 0; border-radius: 8px; padding: 8px 12px; font-size: 16px; font-family: inherit; z-index: 3; }
+    #menuBtn { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.2); color: white; border: 0; border-radius: 8px; width: 40px; height: 40px; font-size: 24px; line-height: 1; font-family: sans-serif; z-index: 3; }
+    #hdr.hero #menuBtn { top: 40px; transform: none; }
+    #menu { display: none; position: absolute; left: 12px; top: 68px; background: white; color: #1b3a2b; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.25); min-width: 210px; z-index: 25; overflow: hidden; }
+    #hdr.hero #menu { top: 92px; }
     #menu.show { display: block; }
     #menu button { display: block; width: 100%; text-align: right; padding: 12px 16px; border: 0; background: none; font-family: inherit; font-size: 17px; color: inherit; line-height: 2; }
     #menu button + button { border-top: 1px solid #e3ece6; }
-    #modal { display: none; position: fixed; top: 0; right: 0; bottom: 0; left: 0; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 20; padding: 20px; }
+
+    #modal { display: none; position: fixed; top: 0; right: 0; bottom: 0; left: 0; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 30; padding: 20px; }
     #modal.show { display: flex; }
-    #modalBox { background: white; color: #1b3a2b; border-radius: 16px; padding: 20px; line-height: 2.2; max-width: 420px; text-align: center; font-size: 18px; }
+    #modalBox { background: white; color: #1b3a2b; border-radius: 16px; padding: 20px; line-height: 2.2; max-width: 420px; width: 100%; text-align: center; font-size: 18px; }
+    .mb { background: none; border: 0; font-size: 26px; padding: 4px 12px; }
+
     #app { padding: 16px; display: grid; gap: 14px; }
     .card { background: white; border-radius: 14px; padding: 16px 18px; font-size: 20px; line-height: 2; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
     .detail { background: white; border-radius: 14px; padding: 20px 18px; line-height: 2.4; font-size: 20px; white-space: pre-line; }
 
-    body.dark { background: #0b1612; color: #e6efe9; }
+    .sb { display: flex; align-items: center; gap: 8px; background: #fff; border-radius: 40px; padding: 6px 8px; box-shadow: 0 6px 18px rgba(0,60,30,0.18); margin-top: -34px; position: relative; z-index: 3; }
+    .sb input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; font-family: inherit; font-size: 16px; color: #1b3a2b; padding: 8px 6px; }
+    .sgo { width: 42px; height: 42px; border-radius: 50%; border: 0; background: #0f6b4a; color: #fff; font-size: 18px; }
+    .mic { border: 0; background: none; font-size: 20px; color: #0f6b4a; padding: 4px 8px; }
+
+    .hgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .hc { position: relative; min-height: 140px; background: linear-gradient(160deg, #fff, #eaf6ee); border-radius: 20px; padding: 14px 14px 46px; box-shadow: 0 4px 12px rgba(0,60,30,0.12); border: 1px solid #d3e8da; }
+    .hc .ic { position: absolute; left: 10px; top: 8px; font-size: 40px; line-height: 1; }
+    .hc .tt { font-size: 20px; font-weight: 700; color: #0b4d34; line-height: 1.9; }
+    .hc .ds { font-size: 12px; color: #4a6b5b; line-height: 1.9; margin-top: 2px; }
+    .hc .go { position: absolute; left: 12px; bottom: 12px; width: 30px; height: 30px; border-radius: 50%; background: #0f6b4a; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+
+    .quote { position: relative; margin-top: 6px; background: linear-gradient(150deg, #0b5b3c, #08402b); border: 2px solid #d9b44a; border-radius: 22px; padding: 38px 16px 14px; text-align: center; color: #fff; box-shadow: 0 6px 16px rgba(0,60,30,0.25); }
+    .qlabel { position: absolute; top: -2px; right: 18px; background: linear-gradient(#f6dc83, #d9b44a); color: #4a3200; font-weight: 700; font-size: 15px; padding: 2px 16px; border-radius: 0 0 14px 14px; line-height: 2; }
+    .qtext { font-size: 19px; line-height: 2.2; }
+    .qheart { color: #f2cf6b; margin-top: 2px; }
+
+    .qa { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .qb { background: linear-gradient(160deg, #fff, #eaf6ee); border: 1px solid #d3e8da; border-radius: 16px; padding: 10px 4px; text-align: center; font-size: 12px; line-height: 1.9; color: #0b4d34; box-shadow: 0 3px 8px rgba(0,60,30,0.1); }
+    .qb span { display: block; font-size: 26px; line-height: 1.4; }
+
+    #nav { position: fixed; left: 0; right: 0; bottom: 0; z-index: 15; display: flex; background: linear-gradient(#0f6b4a, #0a4a31); border-radius: 24px 24px 0 0; padding: 8px 6px calc(8px + env(safe-area-inset-bottom)); box-shadow: 0 -4px 14px rgba(0,0,0,0.25); }
+    #nav button { flex: 1; background: none; border: 0; color: #cfe8da; font-family: inherit; font-size: 12px; line-height: 1.7; padding: 2px 0; opacity: 0.85; }
+    #nav button span { display: block; font-size: 22px; line-height: 1.3; }
+    #nav button.on { color: #7dffb4; opacity: 1; }
+
     body.dark #app { padding: 10px 8px 24px; gap: 10px; }
     .panel { background: #12231c; border: 1px solid #23403a; border-radius: 14px; padding: 10px; display: grid; gap: 8px; }
     .two { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
@@ -53,44 +98,104 @@
     .empty { padding: 24px; text-align: center; color: #9bb3a8; font-size: 15px; line-height: 2; }
   </style>
 </head>
-<body>
-  <header>
+<body class="home">
+  <header id="hdr" class="hero">
+    <svg class="deco moon" viewBox="0 0 100 100"><defs><mask id="cm"><rect width="100" height="100" fill="#fff"/><circle cx="64" cy="38" r="34" fill="#000"/></mask></defs><circle cx="46" cy="52" r="38" fill="#f7e08c" mask="url(#cm)"/></svg>
+    <svg class="deco mosque" viewBox="0 0 200 110"><g fill="#0a4a31"><rect x="30" y="62" width="140" height="48"/><path d="M62 62a38 38 0 0 1 76 0z"/><rect x="98" y="14" width="4" height="12"/><circle cx="100" cy="12" r="3"/><rect x="8" y="40" width="14" height="70"/><path d="M8 40l7-22l7 22z"/><rect x="178" y="40" width="14" height="70"/><path d="M178 40l7-22l7 22z"/><path d="M36 62a14 14 0 0 1 28 0z"/><path d="M136 62a14 14 0 0 1 28 0z"/></g><g fill="#f7e08c" opacity="0.9"><rect x="92" y="78" width="16" height="32" rx="8"/><rect x="48" y="84" width="10" height="20" rx="5"/><rect x="142" y="84" width="10" height="20" rx="5"/></g></svg>
+    <svg class="deco lantern lantern-l" viewBox="0 0 40 90"><line x1="20" y1="0" x2="20" y2="16" stroke="#c9a23c" stroke-width="2"/><path d="M11 16h18l5 8H6z" fill="#c9a23c"/><rect x="9" y="24" width="22" height="40" rx="8" fill="#f7e08c"/><rect x="18" y="24" width="4" height="40" fill="#c9a23c" opacity="0.5"/><path d="M11 64h18l-4 12H15z" fill="#c9a23c"/></svg>
+    <svg class="deco lantern lantern-r" viewBox="0 0 40 90"><line x1="20" y1="0" x2="20" y2="16" stroke="#c9a23c" stroke-width="2"/><path d="M11 16h18l5 8H6z" fill="#c9a23c"/><rect x="9" y="24" width="22" height="40" rx="8" fill="#f7e08c"/><rect x="18" y="24" width="4" height="40" fill="#c9a23c" opacity="0.5"/><path d="M11 64h18l-4 12H15z" fill="#c9a23c"/></svg>
+
     <button id="back">واپس</button>
     <button id="menuBtn" aria-label="مینو">⋮</button>
     <div id="menu">
       <button id="mShare">📤 ایپ شیئر کریں</button>
       <button id="mAbout">ℹ️ ایپ کے بارے میں</button>
     </div>
-    <h1 id="title">السلام علیکم</h1>
-    <p id="sub">میری اسلامک ایپ</p>
+    <h1 id="title"></h1>
+    <p id="sub"></p>
+    <div id="greet"></div>
   </header>
+
   <div id="app"></div>
+
+  <nav id="nav">
+    <button data-t="home"><span>🏠</span>ہوم</button>
+    <button data-t="names"><span>📖</span>نام</button>
+    <button data-t="poetry"><span>✍️</span>شاعری</button>
+    <button data-t="stories"><span>📚</span>کہانیاں</button>
+    <button data-t="fav"><span>❤️</span>پسندیدہ</button>
+  </nav>
+
   <div id="modal"><div id="modalBox"></div></div>
 
   <script>
+    const APP_TITLE = "اسلامی نام";
+    const APP_SUB = "میری اسلامی ایپ";
+    const GREETING = "السلام علیکم! 💚 اللہ تعالیٰ آپ کے ساتھ ہو";
+    const QUOTES = [
+      "اللہ پر بھروسہ رکھو، وہ ہمیشہ بہتر کرتا ہے۔",
+      "اچھا اخلاق سب سے بڑی دولت ہے۔",
+      "سچ بولنے سے دل کو سکون ملتا ہے۔",
+      "شکر کرنے سے نعمتوں میں برکت ہوتی ہے۔",
+      "صبر کا پھل ہمیشہ میٹھا ہوتا ہے۔",
+      "ماں باپ کی خدمت سب سے بڑی نیکیوں میں سے ہے۔",
+      "مسکرا کر ملنا بھی نیکی ہے۔"
+    ];
+    const META = {
+      poetry: { title: "شاعری", icon: "✍️", desc: "اسلامی، محبت بھری اور سبق آموز شاعری" },
+      names: { title: "اسلامی نام", icon: "📖", desc: "لڑکوں اور لڑکیوں کے نام اور معنی" },
+      info: { title: "اسلامی معلومات", icon: "🕌", desc: "سوالات، جوابات اور دلچسپ معلومات" },
+      stories: { title: "کہانیاں", icon: "📚", desc: "مختصر، دلچسپ اور سبق آموز کہانیاں" }
+    };
+    const ORDER = ["poetry", "names", "info", "stories"];
+    const MORE_TEXT = "<b>جلد آنے والے فیچرز</b><br>• روزانہ نوٹیفکیشن<br>• اسلامی معلومات<br>• مزید نام، شاعری اور کہانیاں";
+    const PAGE = 100;
+
     let DATA = {};
     let NAMES = null;
-    const PAGE = 100;
 
     let FAV = [];
     try { FAV = JSON.parse(localStorage.getItem("fav_names") || "[]"); } catch (e) { FAV = []; }
     function saveFav() { try { localStorage.setItem("fav_names", JSON.stringify(FAV)); } catch (e) {} }
     const keyOf = x => x.n + "|" + x.e;
 
+    const hdr = document.getElementById("hdr");
     const app = document.getElementById("app");
     const back = document.getElementById("back");
     const title = document.getElementById("title");
     const sub = document.getElementById("sub");
+    const greet = document.getElementById("greet");
     const menuBtn = document.getElementById("menuBtn");
     const menu = document.getElementById("menu");
     const modal = document.getElementById("modal");
     const modalBox = document.getElementById("modalBox");
+    const nav = document.getElementById("nav");
 
     const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+    function dayNumber() {
+      const d = new Date();
+      return Math.floor(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) / 86400000);
+    }
+
+    function setMode(mode) {
+      document.body.className = mode;
+      hdr.classList.toggle("hero", mode === "home");
+    }
+
+    function setNav(t) {
+      nav.querySelectorAll("button").forEach(b => b.classList.toggle("on", b.dataset.t === t));
+    }
+
+    function showModal(html) {
+      modalBox.innerHTML = html;
+      modal.classList.add("show");
+    }
 
     menuBtn.onclick = e => { e.stopPropagation(); menu.classList.toggle("show"); };
     document.addEventListener("click", () => menu.classList.remove("show"));
     modal.onclick = () => modal.classList.remove("show");
+    modalBox.onclick = e => e.stopPropagation();
 
     function shareText(text, titleText) {
       if (navigator.share) {
@@ -100,63 +205,20 @@
       }
     }
 
-    document.getElementById("mShare").onclick = () => {
+    function shareApp() {
       const url = location.origin + location.pathname;
-      shareText("میری اسلامک ایپ: اسلامی نام، شاعری اور کہانیاں\n" + url, "میری اسلامک ایپ");
-    };
-
-    document.getElementById("mAbout").onclick = () => {
-      modalBox.innerHTML = "<b>میری اسلامک ایپ</b><br>اسلامی نام، شاعری اور کہانیاں<br>ورژن 1.1";
-      modal.classList.add("show");
-    };
+      shareText("میری اسلامی ایپ: اسلامی نام، شاعری اور کہانیاں\n" + url, "میری اسلامی ایپ");
+    }
 
     function shareName(x) {
       const url = location.origin + location.pathname;
-      shareText(x.n + " (" + x.e + ")\nمعنی: " + x.m + "\n\nمیری اسلامک ایپ:\n" + url, x.n);
+      shareText(x.n + " (" + x.e + ")\nمعنی: " + x.m + "\n\nمیری اسلامی ایپ:\n" + url, x.n);
     }
 
-    function setHead(t, s) {
-      title.textContent = t;
-      sub.textContent = s;
-      document.body.classList.remove("dark");
-    }
-
-    function home() {
-      setHead("السلام علیکم", "میری اسلامک ایپ");
-      back.style.display = "none";
-      app.innerHTML = "";
-      for (const key in DATA) {
-        const c = document.createElement("div");
-        c.className = "card";
-        c.textContent = DATA[key].icon + " " + DATA[key].title;
-        c.onclick = () => (key === "names" ? namesPage() : category(key));
-        app.appendChild(c);
-      }
-    }
-
-    function category(key) {
-      setHead(DATA[key].title, "");
-      back.style.display = "block";
-      back.onclick = home;
-      app.innerHTML = "";
-      DATA[key].items.forEach(item => {
-        const c = document.createElement("div");
-        c.className = "card";
-        c.textContent = item.t;
-        c.onclick = () => detail(key, item);
-        app.appendChild(c);
-      });
-    }
-
-    function detail(key, item) {
-      setHead(item.t, "");
-      back.onclick = () => category(key);
-      app.innerHTML = "";
-      const d = document.createElement("div");
-      d.className = "detail";
-      d.textContent = item.d;
-      app.appendChild(d);
-    }
+    document.getElementById("mShare").onclick = shareApp;
+    document.getElementById("mAbout").onclick = () => {
+      showModal("<b>میری اسلامی ایپ</b><br>اسلامی نام، شاعری اور کہانیاں<br>ورژن 1.2");
+    };
 
     function loadNames() {
       if (NAMES) return Promise.resolve(NAMES);
@@ -168,11 +230,157 @@
         });
     }
 
-    function namesPage() {
-      setHead(DATA.names ? DATA.names.title : "اسلامی نام", "");
-      document.body.classList.add("dark");
+    function todayName() {
+      loadNames()
+        .then(list => {
+          const x = list[dayNumber() % list.length];
+          const k = keyOf(x);
+          showModal(
+            "<div style='font-size:15px;color:#4a6b5b'>آج کا نام</div>" +
+            "<div style='font-size:34px;color:#0f6b4a;line-height:2'>" + esc(x.n) + "</div>" +
+            "<div style='font-family:Georgia,serif;color:#a07d12'>" + esc(x.e) + "</div>" +
+            "<div style='margin:6px 0 10px'>" + esc(x.m) + "</div>" +
+            "<div><button class='mb' id='tFav'>" + (FAV.includes(k) ? "❤️" : "🤍") + "</button><button class='mb' id='tSh'>📤</button></div>"
+          );
+          document.getElementById("tFav").onclick = e => {
+            const at = FAV.indexOf(k);
+            if (at >= 0) FAV.splice(at, 1); else FAV.push(k);
+            saveFav();
+            e.target.textContent = FAV.includes(k) ? "❤️" : "🤍";
+          };
+          document.getElementById("tSh").onclick = () => shareName(x);
+        })
+        .catch(() => showModal("نام لوڈ نہیں ہو سکا۔"));
+    }
+
+    function goSearch(q) { namesPage({ q: String(q || "").trim() }); }
+
+    function home() {
+      setMode("home");
+      title.textContent = APP_TITLE;
+      sub.textContent = APP_SUB;
+      greet.textContent = GREETING;
+      back.style.display = "none";
+      setNav("home");
+
+      const q = QUOTES[dayNumber() % QUOTES.length];
+      app.innerHTML =
+        "<div class='sb'>" +
+          "<button class='mic' id='hMic'>🎤</button>" +
+          "<input id='hSearch' type='search' placeholder='اپنا پسندیدہ نام تلاش کریں...'>" +
+          "<button class='sgo' id='hGo'>🔍</button>" +
+        "</div>" +
+        "<div class='hgrid'>" +
+          ORDER.map(k =>
+            "<div class='hc' data-k='" + k + "'>" +
+              "<div class='ic'>" + META[k].icon + "</div>" +
+              "<div class='tt'>" + META[k].title + "</div>" +
+              "<div class='ds'>" + META[k].desc + "</div>" +
+              "<div class='go'>←</div>" +
+            "</div>"
+          ).join("") +
+        "</div>" +
+        "<div class='quote'>" +
+          "<div class='qlabel'>آج کی خوبصورت بات</div>" +
+          "<div class='qtext'>" + esc(q) + "</div>" +
+          "<div class='qheart'>💛</div>" +
+        "</div>" +
+        "<div class='qa'>" +
+          "<div class='qb' data-a='more'><span>⭐</span>مزید فیچرز<br>دیکھیں</div>" +
+          "<div class='qb' data-a='today'><span>📅</span>آج کا نام<br>(روزانہ نیا نام)</div>" +
+          "<div class='qb' data-a='fav'><span>❤️</span>پسندیدہ<br>فہرست</div>" +
+          "<div class='qb' data-a='share'><span>📤</span>دوستوں کے ساتھ<br>شیئر کریں</div>" +
+        "</div>";
+
+      const hs = document.getElementById("hSearch");
+      document.getElementById("hGo").onclick = () => goSearch(hs.value);
+      hs.onkeydown = e => { if (e.key === "Enter") goSearch(hs.value); };
+
+      const mic = document.getElementById("hMic");
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SR) {
+        mic.style.display = "none";
+      } else {
+        mic.onclick = () => {
+          try {
+            const r = new SR();
+            r.lang = "ur-PK";
+            r.interimResults = false;
+            r.onresult = ev => { hs.value = ev.results[0][0].transcript; goSearch(hs.value); };
+            r.start();
+          } catch (e) {}
+        };
+      }
+    }
+
+    app.onclick = e => {
+      const hc = e.target.closest(".hc");
+      if (hc) { openCard(hc.dataset.k); return; }
+      const qb = e.target.closest(".qb");
+      if (qb) {
+        const a = qb.dataset.a;
+        if (a === "more") showModal(MORE_TEXT);
+        else if (a === "today") todayName();
+        else if (a === "fav") namesPage({ fav: true });
+        else if (a === "share") shareApp();
+      }
+    };
+
+    nav.onclick = e => {
+      const b = e.target.closest("button[data-t]");
+      if (!b) return;
+      const t = b.dataset.t;
+      if (t === "home") home();
+      else if (t === "names") namesPage();
+      else if (t === "fav") namesPage({ fav: true });
+      else openCard(t);
+    };
+
+    function openCard(k) {
+      if (k === "names") { namesPage(); return; }
+      if (DATA[k]) { category(k); return; }
+      showModal("<b>" + META[k].title + "</b><br>یہ حصہ جلد آ رہا ہے۔");
+    }
+
+    function category(key) {
+      const d = DATA[key];
+      if (!d) { openCard(key); return; }
+      setMode("inner");
+      title.textContent = d.title;
+      sub.textContent = "";
       back.style.display = "block";
       back.onclick = home;
+      setNav(key);
+      app.innerHTML = "";
+      d.items.forEach(item => {
+        const c = document.createElement("div");
+        c.className = "card";
+        c.textContent = item.t;
+        c.onclick = () => detail(key, item);
+        app.appendChild(c);
+      });
+    }
+
+    function detail(key, item) {
+      setMode("inner");
+      title.textContent = item.t;
+      sub.textContent = "";
+      back.onclick = () => category(key);
+      app.innerHTML = "";
+      const d = document.createElement("div");
+      d.className = "detail";
+      d.textContent = item.d;
+      app.appendChild(d);
+    }
+
+    function namesPage(opts) {
+      opts = opts || {};
+      setMode("dark");
+      title.textContent = opts.fav ? "پسندیدہ نام" : META.names.title;
+      sub.textContent = "";
+      back.style.display = "block";
+      back.onclick = home;
+      setNav(opts.fav ? "fav" : "names");
 
       app.innerHTML = `
         <div class="panel">
@@ -205,9 +413,15 @@
       const list = document.getElementById("list");
       const more = document.getElementById("more");
 
-      let onlyFav = false;
+      let onlyFav = !!opts.fav;
       let shown = PAGE;
       let current = [];
+
+      if (onlyFav) {
+        fFav.classList.add("on");
+        fFav.textContent = "❤️ پسندیدہ";
+      }
+      fSearch.value = opts.q || "";
 
       function render(reset) {
         if (reset) shown = PAGE;
@@ -300,4 +514,4 @@
     }
   </script>
 </body>
-  </html>
+</html>
