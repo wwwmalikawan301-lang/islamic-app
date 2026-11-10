@@ -18,7 +18,6 @@ window.addEventListener('appinstalled', function () { gtag('event', 'app_install
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* ===== DESIGN TOKENS ===== */
 :root {
   --primary: #075B43;
   --primary-light: #117A58;
@@ -69,24 +68,17 @@ body.theme-dark {
   --primary-gradient: linear-gradient(160deg, #0f5a41, #146B4F 55%, #0b4a36);
   --primary-gradient-hero: radial-gradient(circle at 30% 20%, #1a8f63 0%, rgba(26,143,99,0) 45%), linear-gradient(160deg, #0f5a41, #146B4F 55%, #0b4a36);
 }
-
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html { -webkit-text-size-adjust: 100%; }
 body {
-  margin: 0;
-  overflow-x: hidden;
-  overflow-wrap: break-word;
-  font-family: var(--font-urdu);
-  background: var(--bg);
-  color: var(--text);
-  padding-bottom: calc(70px + env(safe-area-inset-bottom));
-  min-height: 100vh;
+  margin: 0; overflow-x: hidden; overflow-wrap: break-word;
+  font-family: var(--font-urdu); background: var(--bg); color: var(--text);
+  padding-bottom: calc(70px + env(safe-area-inset-bottom)); min-height: 100vh;
   transition: background-color var(--t-med), color var(--t-med);
 }
 body.home { background: var(--bg-gradient-home); }
 body.dark { background: var(--dark-bg); color: var(--dark-text); }
 
-/* ===== HEADER ===== */
 #hdr { background: var(--primary); color: var(--text-on-primary); padding: 22px 16px; text-align: center; position: relative; }
 #hdr h1 { margin: 0 0 4px; font-size: 24px; line-height: 1.9; position: relative; z-index: 2; }
 #hdr p { margin: 0; opacity: 0.85; line-height: 1.8; position: relative; z-index: 2; }
@@ -122,185 +114,110 @@ body.dark { background: var(--dark-bg); color: var(--dark-text); }
 #menu button { display: block; width: 100%; text-align: right; padding: 12px 16px; border: 0; background: none; font-family: inherit; font-size: 17px; color: inherit; line-height: 2; }
 #menu button + button { border-top: 1px solid #e3ece6; }
 
-/* ===== MODAL ===== */
 #modal { display: none; position: fixed; top: 0; right: 0; bottom: 0; left: 0; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 30; padding: 20px; }
 #modal.show { display: flex; }
 #modalBox { background: var(--surface); color: var(--text); border-radius: var(--r-lg); padding: 20px; line-height: 2.2; max-width: 420px; width: 100%; text-align: center; font-size: 18px; }
 .mb { background: none; border: 0; font-size: 26px; padding: 4px 12px; }
 
-/* ===== APP ===== */
 #app { padding: 16px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
 body.home #app { padding: 0 14px 14px; gap: 10px; }
 #app > * { min-width: 0; max-width: 100%; }
 .card { background: var(--surface); border-radius: var(--r-lg); padding: 16px 18px; font-size: 20px; line-height: 2; box-shadow: var(--shadow-sm); }
 .detail { background: var(--surface); border-radius: var(--r-lg); padding: 20px 18px; line-height: 2.4; font-size: 20px; white-space: pre-line; }
 
-/* ===== SEARCH BAR (Step 3) ===== */
-.sb {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: var(--surface);
-  border-radius: var(--r-full);
-  padding: 6px 8px 6px 6px;
-  box-shadow: 0 8px 22px rgba(0,60,30,0.22), 0 2px 6px rgba(0,60,30,0.10);
-  margin-top: -30px;
-  position: relative;
-  z-index: 3;
-  border: 1.5px solid transparent;
-  transition: border-color var(--t-fast), box-shadow var(--t-fast), transform var(--t-fast);
-}
-.sb:focus-within {
-  border-color: var(--gold);
-  box-shadow: 0 8px 24px rgba(0,60,30,0.26), 0 0 0 3px rgba(229,193,91,0.18);
-}
-.sb input {
-  flex: 1 1 auto;
-  width: 0;
-  min-width: 0;
-  border: 0;
-  outline: 0;
-  background: none;
-  font-family: inherit;
-  font-size: 15px;
-  color: var(--text);
-  padding: 8px 6px;
-  line-height: 1.6;
-}
+.sb { display: flex; align-items: center; gap: 6px; background: var(--surface); border-radius: var(--r-full); padding: 6px 8px 6px 6px; box-shadow: 0 8px 22px rgba(0,60,30,0.22), 0 2px 6px rgba(0,60,30,0.10); margin-top: -30px; position: relative; z-index: 3; border: 1.5px solid transparent; transition: border-color var(--t-fast), box-shadow var(--t-fast); }
+.sb:focus-within { border-color: var(--gold); box-shadow: 0 8px 24px rgba(0,60,30,0.26), 0 0 0 3px rgba(229,193,91,0.18); }
+.sb input { flex: 1 1 auto; width: 0; min-width: 0; border: 0; outline: 0; background: none; font-family: inherit; font-size: 15px; color: var(--text); padding: 8px 6px; line-height: 1.6; }
 .sb input::placeholder { color: var(--text-secondary); opacity: 0.75; }
 .sb input::-webkit-search-cancel-button { display: none; }
-.sgo {
-  flex: 0 0 auto;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  border: 0;
-  background: var(--primary);
-  color: var(--text-on-primary);
-  font-size: 17px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform var(--t-fast), background var(--t-fast);
-  box-shadow: 0 3px 8px rgba(0,60,30,0.25);
-}
+.sgo { flex: 0 0 auto; width: 42px; height: 42px; border-radius: 50%; border: 0; background: var(--primary); color: var(--text-on-primary); font-size: 17px; display: flex; align-items: center; justify-content: center; transition: transform var(--t-fast), background var(--t-fast); box-shadow: 0 3px 8px rgba(0,60,30,0.25); }
 .sgo:active { transform: scale(0.92); background: var(--primary-deep); }
-.mic {
-  flex: 0 0 auto;
-  border: 0;
-  background: none;
-  font-size: 18px;
-  color: var(--primary);
-  padding: 6px 8px;
-  border-radius: 50%;
-  transition: background var(--t-fast);
-}
+.mic { flex: 0 0 auto; border: 0; background: none; font-size: 18px; color: var(--primary); padding: 6px 8px; border-radius: 50%; transition: background var(--t-fast); }
 .mic:active { background: rgba(15,107,74,0.1); }
-.clear-sb {
-  flex: 0 0 auto;
-  border: 0;
-  background: none;
-  color: var(--text-secondary);
-  font-size: 18px;
-  padding: 6px 8px;
-  border-radius: 50%;
-  display: none;
-  transition: background var(--t-fast);
-}
+.clear-sb { flex: 0 0 auto; border: 0; background: none; color: var(--text-secondary); font-size: 18px; padding: 6px 8px; border-radius: 50%; display: none; transition: background var(--t-fast); }
 .clear-sb.show { display: block; }
 .clear-sb:active { background: rgba(0,0,0,0.06); }
 
-/* ===== HOME CARDS (Step 3) ===== */
 .hgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-.hc {
-  min-width: 0;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  background: linear-gradient(160deg, var(--surface) 0%, var(--surface-tint) 100%);
-  border-radius: 18px;
-  padding: 14px 14px 12px;
-  box-shadow: 0 4px 14px rgba(0,60,30,0.10), 0 1px 3px rgba(0,60,30,0.06);
-  border: 1px solid var(--surface-border);
-  transition: transform var(--t-fast), box-shadow var(--t-fast);
-  cursor: pointer;
-  overflow: hidden;
-  animation: cardIn 400ms ease both;
-}
+.hc { min-width: 0; position: relative; display: flex; flex-direction: column; background: linear-gradient(160deg, var(--surface) 0%, var(--surface-tint) 100%); border-radius: 18px; padding: 14px 14px 12px; box-shadow: 0 4px 14px rgba(0,60,30,0.10), 0 1px 3px rgba(0,60,30,0.06); border: 1px solid var(--surface-border); transition: transform var(--t-fast), box-shadow var(--t-fast); cursor: pointer; overflow: hidden; animation: cardIn 400ms ease both; }
 .hc:nth-child(1) { animation-delay: 40ms; }
 .hc:nth-child(2) { animation-delay: 80ms; }
 .hc:nth-child(3) { animation-delay: 120ms; }
 .hc:nth-child(4) { animation-delay: 160ms; }
 @keyframes cardIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 .hc:active { transform: scale(0.97); box-shadow: 0 2px 8px rgba(0,60,30,0.14); }
-.hc::before {
+.hc::before { content: ""; position: absolute; top: 0; left: 0; width: 34px; height: 34px; background: linear-gradient(135deg, transparent 50%, rgba(229,193,91,0.28) 50%); border-radius: 0 0 0 100%; pointer-events: none; }
+.hc .ic-svg { width: 34px; height: 34px; margin-bottom: 6px; display: block; }
+.hc .tt { font-size: 16px; font-weight: 700; color: var(--primary-deep); line-height: 1.8; margin-bottom: 2px; }
+.hc .ds { font-size: 11.5px; color: var(--text-soft); line-height: 1.8; flex: 1; margin-bottom: 4px; }
+.hc .ft { display: flex; justify-content: space-between; align-items: center; margin-top: 2px; }
+.hc .go { width: 28px; height: 28px; border-radius: 50%; background: var(--gold-gradient); color: #4a3200; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; box-shadow: 0 2px 6px rgba(160,125,18,0.35); }
+
+/* ===== QUOTE (Step 4) ===== */
+.quote {
+  position: relative;
+  margin-top: 4px;
+  background: var(--primary-gradient);
+  border: 2px solid var(--gold);
+  border-radius: var(--r-xl);
+  padding: 32px 16px 14px;
+  text-align: center;
+  color: #fff;
+  box-shadow: 0 10px 28px rgba(0,40,20,0.28);
+  overflow: hidden;
+}
+.quote::after {
   content: "";
   position: absolute;
-  top: 0; left: 0;
-  width: 34px;
-  height: 34px;
-  background: linear-gradient(135deg, transparent 50%, rgba(229,193,91,0.28) 50%);
-  border-radius: 0 0 0 100%;
+  bottom: -60px;
+  left: -60px;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(229,193,91,0.18) 0%, transparent 70%);
   pointer-events: none;
 }
-.hc .ic-svg {
-  width: 34px;
-  height: 34px;
-  margin-bottom: 6px;
-  display: block;
-}
-.hc .tt {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--primary-deep);
-  line-height: 1.8;
-  margin-bottom: 2px;
-}
-.hc .ds {
-  font-size: 11.5px;
-  color: var(--text-soft);
-  line-height: 1.8;
+.qlabel { position: absolute; top: -2px; right: 18px; background: linear-gradient(var(--gold-light), var(--gold)); color: #4a3200; font-weight: 700; font-size: 13px; padding: 0 14px; border-radius: 0 0 var(--r-md) var(--r-md); line-height: 2; box-shadow: 0 3px 8px rgba(0,0,0,0.2); }
+.qtext { font-size: 18px; line-height: 2.1; padding: 0 4px 12px; font-weight: 500; }
+.qline { width: 70px; height: 2px; margin: 0 auto 10px; background: var(--gold-gradient); border-radius: 2px; opacity: 0.85; }
+.qref { font-size: 12px; color: var(--gold-light); opacity: 0.9; margin-bottom: 10px; line-height: 1.8; }
+.qactions { display: flex; justify-content: center; gap: 8px; margin-top: 4px; }
+.qactions button {
   flex: 1;
-  margin-bottom: 4px;
-}
-.hc .ft {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 2px;
-}
-.hc .go {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: var(--gold-gradient);
-  color: #4a3200;
+  max-width: 110px;
+  background: rgba(255,255,255,0.14);
+  border: 1px solid rgba(255,255,255,0.24);
+  color: #fff;
+  border-radius: var(--r-full);
+  padding: 7px 6px;
+  font-family: inherit;
+  font-size: 12.5px;
+  line-height: 1.6;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 15px;
-  font-weight: 700;
-  box-shadow: 0 2px 6px rgba(160,125,18,0.35);
+  gap: 4px;
+  transition: background var(--t-fast), transform var(--t-fast);
 }
-
-/* ===== QUOTE ===== */
-.quote { position: relative; margin-top: 2px; background: var(--primary-gradient); border: 2px solid var(--gold); border-radius: var(--r-xl); padding: 30px 14px 8px; text-align: center; color: #fff; box-shadow: var(--shadow-lg); }
-.qlabel { position: absolute; top: -2px; right: 18px; background: linear-gradient(var(--gold-light), var(--gold)); color: #4a3200; font-weight: 700; font-size: 13px; padding: 0 14px; border-radius: 0 0 var(--r-md) var(--r-md); line-height: 2; }
-.qtext { font-size: 17px; line-height: 2; }
-.qheart { color: var(--gold-light); font-size: 14px; line-height: 1.6; }
+.qactions button:active { background: rgba(255,255,255,0.28); transform: scale(0.95); }
+.qactions button.on {
+  background: var(--gold-gradient);
+  color: #4a3200;
+  border-color: var(--gold);
+  font-weight: 700;
+}
 
 /* ===== QUICK ACTIONS ===== */
 .qa { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
-.qb { min-width: 0; background: linear-gradient(160deg, var(--surface), var(--surface-tint)); border: 1px solid var(--surface-border); border-radius: var(--r-md); padding: 6px 2px; text-align: center; font-size: 10.5px; line-height: 1.7; color: var(--primary-deep); box-shadow: var(--shadow-sm); }
+.qb { min-width: 0; background: linear-gradient(160deg, var(--surface), var(--surface-tint)); border: 1px solid var(--surface-border); border-radius: var(--r-md); padding: 6px 2px; text-align: center; font-size: 10.5px; line-height: 1.7; color: var(--primary-deep); box-shadow: var(--shadow-sm); cursor: pointer; transition: transform var(--t-fast); }
+.qb:active { transform: scale(0.94); }
 .qb span { display: block; font-size: 20px; line-height: 1.3; }
 
-/* ===== BOTTOM NAV ===== */
 #nav { position: fixed; left: 0; right: 0; bottom: 0; width: 100%; z-index: 15; display: flex; background: linear-gradient(var(--primary), var(--primary-deep)); border-radius: var(--r-xl) var(--r-xl) 0 0; padding: 5px 6px calc(5px + env(safe-area-inset-bottom)); box-shadow: 0 -4px 14px rgba(0,0,0,0.25); }
 #nav button { flex: 1 1 0; min-width: 0; background: none; border: 0; color: #cfe8da; font-family: inherit; font-size: 11px; line-height: 1.6; padding: 2px 0; opacity: 0.85; }
 #nav button span { display: block; font-size: 20px; line-height: 1.3; }
 #nav button.on { color: #7dffb4; opacity: 1; }
 
-/* ===== NAMES PAGE ===== */
 body.dark #app { padding: 10px 8px 24px; gap: 10px; }
 .panel { background: var(--dark-panel); border: 1px solid var(--dark-border); border-radius: var(--r-lg); padding: 10px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
 .two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
@@ -324,17 +241,35 @@ body.dark #app { padding: 10px 8px 24px; gap: 10px; }
 .more { display: none; width: 100%; padding: 10px; font-size: 15px; font-family: inherit; background: var(--dark-panel); color: var(--dark-name); border: 1px solid var(--dark-border-2); border-radius: var(--r-md); }
 .empty { padding: 24px; text-align: center; color: var(--dark-text-muted); font-size: 15px; line-height: 2; }
 
-/* ===== UTILS ===== */
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes slideUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 .fade-in { animation: fadeIn var(--t-med) both; }
 .slide-up { animation: slideUp var(--t-med) both; }
 
+.toast {
+  position: fixed;
+  bottom: calc(84px + env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(6,60,40,0.96);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: var(--r-full);
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.6;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms ease, transform 200ms ease;
+  z-index: 100;
+  white-space: nowrap;
+  max-width: 90vw;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
-  }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
 </style>
 </head>
@@ -365,6 +300,7 @@ body.dark #app { padding: 10px 8px 24px; gap: 10px; }
 <button data-t="fav"><span>❤️</span>پسندیدہ</button>
 </nav>
 <div id="modal"><div id="modalBox"></div></div>
+<div id="toast" class="toast"></div>
 <script>
 const APP_TITLE = "اسلامی نام";
 const APP_SUB = "میری اسلامی ایپ";
@@ -396,8 +332,11 @@ const PAGE = 100;
 let DATA = {};
 let NAMES = null;
 let FAV = [];
+let FAVQ = [];
 try { FAV = JSON.parse(localStorage.getItem("fav_names") || "[]"); } catch (e) { FAV = []; }
+try { FAVQ = JSON.parse(localStorage.getItem("fav_quotes") || "[]"); } catch (e) { FAVQ = []; }
 function saveFav() { try { localStorage.setItem("fav_names", JSON.stringify(FAV)); } catch (e) {} }
+function saveFavQ() { try { localStorage.setItem("fav_quotes", JSON.stringify(FAVQ)); } catch (e) {} }
 const keyOf = x => x.n + "|" + x.e;
 const hdr = document.getElementById("hdr");
 const app = document.getElementById("app");
@@ -410,7 +349,36 @@ const menu = document.getElementById("menu");
 const modal = document.getElementById("modal");
 const modalBox = document.getElementById("modalBox");
 const nav = document.getElementById("nav");
+const toast = document.getElementById("toast");
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+function showToast(msg) {
+  toast.textContent = msg;
+  toast.classList.add("show");
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(() => toast.classList.remove("show"), 2000);
+}
+
+function copyText(text) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    return navigator.clipboard.writeText(text).catch(() => fallbackCopy(text));
+  }
+  return Promise.resolve(fallbackCopy(text));
+}
+function fallbackCopy(text) {
+  try {
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    document.body.removeChild(ta);
+    return true;
+  } catch (e) { return false; }
+}
+
 function dayNumber() { const d = new Date(); return Math.floor(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) / 86400000); }
 function setMode(mode) { document.body.className = mode; hdr.classList.toggle("hero", mode === "home"); window.scrollTo(0, 0); }
 function setNav(t) { nav.querySelectorAll("button").forEach(b => b.classList.toggle("on", b.dataset.t === t)); }
@@ -420,272 +388,305 @@ document.addEventListener("click", () => menu.classList.remove("show"));
 modal.onclick = () => modal.classList.remove("show");
 modalBox.onclick = e => e.stopPropagation();
 function shareText(text, titleText) {
-if (navigator.share) { navigator.share({ title: titleText, text: text }).catch(() => {}); }
-else { window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank"); }
+  if (navigator.share) { navigator.share({ title: titleText, text: text }).catch(() => {}); }
+  else { window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank"); }
 }
 function shareApp() {
-const url = location.origin + location.pathname;
-shareText("میری اسلامی ایپ: اسلامی نام، شاعری اور کہانیاں\n" + url, "میری اسلامی ایپ");
+  const url = location.origin + location.pathname;
+  shareText("میری اسلامی ایپ: اسلامی نام، شاعری اور کہانیاں\n" + url, "میری اسلامی ایپ");
 }
 function shareName(x) {
-const url = location.origin + location.pathname;
-shareText(x.n + " (" + x.e + ")\nمعنی: " + x.m + "\n\nمیری اسلامی ایپ:\n" + url, x.n);
+  const url = location.origin + location.pathname;
+  shareText(x.n + " (" + x.e + ")\nمعنی: " + x.m + "\n\nمیری اسلامی ایپ:\n" + url, x.n);
+}
+function shareQuote(q) {
+  const url = location.origin + location.pathname;
+  shareText("آج کی خوبصورت بات:\n\n\"" + q + "\"\n\nمیری اسلامی ایپ:\n" + url, "آج کی خوبصورت بات");
 }
 document.getElementById("mShare").onclick = shareApp;
 document.getElementById("mAbout").onclick = () => { showModal("<b>میری اسلامی ایپ</b><br>اسلامی نام، شاعری اور کہانیاں<br>ورژن 1.7"); };
+
 function loadNames() {
-if (NAMES) return Promise.resolve(NAMES);
-return fetch("names.json", { cache: "no-store" })
-.then(r => r.json())
-.then(j => { NAMES = j.sort((a, b) => a.n.localeCompare(b.n, "ur")); return NAMES; });
+  if (NAMES) return Promise.resolve(NAMES);
+  return fetch("names.json", { cache: "no-store" })
+    .then(r => r.json())
+    .then(j => { NAMES = j.sort((a, b) => a.n.localeCompare(b.n, "ur")); return NAMES; });
 }
 function todayName() {
-loadNames()
-.then(list => {
-const x = list[dayNumber() % list.length];
-const k = keyOf(x);
-showModal(
-"<div style='font-size:15px;color:#4a6b5b'>آج کا نام</div>" +
-"<div style='font-size:34px;color:#0f6b4a;line-height:2'>" + esc(x.n) + "</div>" +
-"<div style='font-family:Georgia,serif;color:#a07d12'>" + esc(x.e) + "</div>" +
-"<div style='margin:6px 0 10px'>" + esc(x.m) + "</div>" +
-"<div><button class='mb' id='tFav'>" + (FAV.includes(k) ? "❤️" : "🤍") + "</button><button class='mb' id='tSh'>📤</button></div>"
-);
-document.getElementById("tFav").onclick = e => { const at = FAV.indexOf(k); if (at >= 0) FAV.splice(at, 1); else FAV.push(k); saveFav(); e.target.textContent = FAV.includes(k) ? "❤️" : "🤍"; };
-document.getElementById("tSh").onclick = () => shareName(x);
-})
-.catch(() => showModal("نام لوڈ نہیں ہو سکا۔"));
+  loadNames().then(list => {
+    const x = list[dayNumber() % list.length];
+    const k = keyOf(x);
+    showModal(
+      "<div style='font-size:15px;color:#4a6b5b'>آج کا نام</div>" +
+      "<div style='font-size:34px;color:#0f6b4a;line-height:2'>" + esc(x.n) + "</div>" +
+      "<div style='font-family:Georgia,serif;color:#a07d12'>" + esc(x.e) + "</div>" +
+      "<div style='margin:6px 0 10px'>" + esc(x.m) + "</div>" +
+      "<div><button class='mb' id='tFav'>" + (FAV.includes(k) ? "❤️" : "🤍") + "</button><button class='mb' id='tSh'>📤</button></div>"
+    );
+    document.getElementById("tFav").onclick = e => { const at = FAV.indexOf(k); if (at >= 0) FAV.splice(at, 1); else FAV.push(k); saveFav(); e.target.textContent = FAV.includes(k) ? "❤️" : "🤍"; };
+    document.getElementById("tSh").onclick = () => shareName(x);
+  }).catch(() => showModal("نام لوڈ نہیں ہو سکا۔"));
 }
 function goSearch(q) { namesPage({ q: String(q || "").trim() }); }
+
 function home() {
-setMode("home");
-title.textContent = APP_TITLE;
-sub.textContent = APP_SUB;
-greet.textContent = GREETING;
-back.style.display = "none";
-setNav("home");
-const q = QUOTES[dayNumber() % QUOTES.length];
-app.innerHTML =
-"<div class='sb'>" +
-"<button class='mic' id='hMic'>🎤</button>" +
-"<input id='hSearch' type='search' placeholder='اپنا پسندیدہ نام تلاش کریں...'>" +
-"<button class='clear-sb' id='hClear' aria-label='صاف کریں'>✕</button>" +
-"<button class='sgo' id='hGo' aria-label='تلاش'>🔍</button>" +
-"</div>" +
-"<div class='hgrid'>" +
-ORDER.map(k => "<div class='hc' data-k='" + k + "'>" +
-ICON_SVG[k] +
-"<div class='tt'>" + META[k].title + "</div>" +
-"<div class='ds'>" + META[k].desc + "</div>" +
-"<div class='ft'><span class='go'>←</span></div>" +
-"</div>").join("") +
-"</div>" +
-"<div class='quote'>" +
-"<div class='qlabel'>آج کی خوبصورت بات</div>" +
-"<div class='qtext'>" + esc(q) + "</div>" +
-"<div class='qheart'>💛</div>" +
-"</div>" +
-"<div class='qa'>" +
-"<div class='qb' data-a='more'><span>⭐</span>مزید فیچرز<br>دیکھیں</div>" +
-"<div class='qb' data-a='today'><span>📅</span>آج کا نام<br>(روزانہ نیا)</div>" +
-"<div class='qb' data-a='tasbeeh'><span>📿</span>تسبیح<br>شمار</div>" +
-"<div class='qb' data-a='fav'><span>❤️</span>پسندیدہ<br>فہرست</div>" +
-"<div class='qb' data-a='share'><span>📤</span>دوستوں کو<br>شیئر کریں</div>" +
-"</div>";
-const hs = document.getElementById("hSearch");
-const hClear = document.getElementById("hClear");
-function updateClear() { hClear.classList.toggle("show", hs.value.length > 0); }
-hs.addEventListener("input", updateClear);
-hClear.onclick = () => { hs.value = ""; updateClear(); hs.focus(); };
-document.getElementById("hGo").onclick = () => goSearch(hs.value);
-hs.onkeydown = e => { if (e.key === "Enter") goSearch(hs.value); };
-const mic = document.getElementById("hMic");
-const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-if (!SR) { mic.style.display = "none"; }
-else {
-mic.onclick = () => {
-try {
-const r = new SR();
-r.lang = "ur-PK";
-r.interimResults = false;
-r.onresult = ev => { hs.value = ev.results[0][0].transcript; updateClear(); goSearch(hs.value); };
-r.start();
-} catch (e) {}
-};
+  setMode("home");
+  title.textContent = APP_TITLE;
+  sub.textContent = APP_SUB;
+  greet.textContent = GREETING;
+  back.style.display = "none";
+  setNav("home");
+  const todayQ = QUOTES[dayNumber() % QUOTES.length];
+  const qKey = "Q:" + todayQ;
+  const isFavQ = FAVQ.includes(qKey);
+
+  app.innerHTML =
+    "<div class='sb'>" +
+    "<button class='mic' id='hMic'>🎤</button>" +
+    "<input id='hSearch' type='search' placeholder='اپنا پسندیدہ نام تلاش کریں...'>" +
+    "<button class='clear-sb' id='hClear' aria-label='صاف کریں'>✕</button>" +
+    "<button class='sgo' id='hGo' aria-label='تلاش'>🔍</button>" +
+    "</div>" +
+    "<div class='hgrid'>" +
+    ORDER.map(k => "<div class='hc' data-k='" + k + "'>" +
+      ICON_SVG[k] +
+      "<div class='tt'>" + META[k].title + "</div>" +
+      "<div class='ds'>" + META[k].desc + "</div>" +
+      "<div class='ft'><span class='go'>←</span></div>" +
+      "</div>").join("") +
+    "</div>" +
+    "<div class='quote'>" +
+    "<div class='qlabel'>آج کی خوبصورت بات</div>" +
+    "<div class='qtext' id='qText'>" + esc(todayQ) + "</div>" +
+    "<div class='qline'></div>" +
+    "<div class='qactions'>" +
+    "<button id='qShare'>📤 شیئر</button>" +
+    "<button id='qCopy'>📋 کاپی</button>" +
+    "<button id='qFav' class='" + (isFavQ ? "on" : "") + "'>" + (isFavQ ? "❤️ پسندیدہ" : "🤍 پسندیدہ") + "</button>" +
+    "</div>" +
+    "</div>" +
+    "<div class='qa'>" +
+    "<div class='qb' data-a='more'><span>⭐</span>مزید فیچرز<br>دیکھیں</div>" +
+    "<div class='qb' data-a='today'><span>📅</span>آج کا نام<br>(روزانہ نیا)</div>" +
+    "<div class='qb' data-a='tasbeeh'><span>📿</span>تسبیح<br>شمار</div>" +
+    "<div class='qb' data-a='fav'><span>❤️</span>پسندیدہ<br>فہرست</div>" +
+    "<div class='qb' data-a='share'><span>📤</span>دوستوں کو<br>شیئر کریں</div>" +
+    "</div>";
+
+  const hs = document.getElementById("hSearch");
+  const hClear = document.getElementById("hClear");
+  function updateClear() { hClear.classList.toggle("show", hs.value.length > 0); }
+  hs.addEventListener("input", updateClear);
+  hClear.onclick = () => { hs.value = ""; updateClear(); hs.focus(); };
+  document.getElementById("hGo").onclick = () => goSearch(hs.value);
+  hs.onkeydown = e => { if (e.key === "Enter") goSearch(hs.value); };
+  const mic = document.getElementById("hMic");
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) { mic.style.display = "none"; }
+  else {
+    mic.onclick = () => {
+      try {
+        const r = new SR();
+        r.lang = "ur-PK";
+        r.interimResults = false;
+        r.onresult = ev => { hs.value = ev.results[0][0].transcript; updateClear(); goSearch(hs.value); };
+        r.start();
+      } catch (e) {}
+    };
+  }
+
+  // Quote actions
+  document.getElementById("qShare").onclick = () => shareQuote(todayQ);
+  document.getElementById("qCopy").onclick = () => {
+    copyText(todayQ + "\n\n— میری اسلامی ایپ");
+    showToast("📋 کاپی ہو گیا");
+  };
+  const qFavBtn = document.getElementById("qFav");
+  qFavBtn.onclick = () => {
+    const at = FAVQ.indexOf(qKey);
+    if (at >= 0) {
+      FAVQ.splice(at, 1);
+      qFavBtn.classList.remove("on");
+      qFavBtn.innerHTML = "🤍 پسندیدہ";
+      showToast("پسندیدہ سے ہٹا دیا");
+    } else {
+      FAVQ.push(qKey);
+      qFavBtn.classList.add("on");
+      qFavBtn.innerHTML = "❤️ پسندیدہ";
+      showToast("❤️ پسندیدہ میں محفوظ");
+    }
+    saveFavQ();
+  };
 }
-}
+
 app.onclick = e => {
-const hc = e.target.closest(".hc");
-if (hc) { openCard(hc.dataset.k); return; }
-const qb = e.target.closest(".qb");
-if (qb) {
-const a = qb.dataset.a;
-if (a === "more") showModal(MORE_TEXT);
-else if (a === "today") todayName();
-else if (a === "tasbeeh") location.href = "tasbeeh.html";
-else if (a === "fav") namesPage({ fav: true });
-else if (a === "share") shareApp();
-}
+  const hc = e.target.closest(".hc");
+  if (hc) { openCard(hc.dataset.k); return; }
+  const qb = e.target.closest(".qb");
+  if (qb) {
+    const a = qb.dataset.a;
+    if (a === "more") showModal(MORE_TEXT);
+    else if (a === "today") todayName();
+    else if (a === "tasbeeh") location.href = "tasbeeh.html";
+    else if (a === "fav") namesPage({ fav: true });
+    else if (a === "share") shareApp();
+  }
 };
 nav.onclick = e => {
-const b = e.target.closest("button[data-t]");
-if (!b) return;
-const t = b.dataset.t;
-if (t === "home") home();
-else if (t === "names") namesPage();
-else if (t === "fav") namesPage({ fav: true });
-else openCard(t);
+  const b = e.target.closest("button[data-t]");
+  if (!b) return;
+  const t = b.dataset.t;
+  if (t === "home") home();
+  else if (t === "names") namesPage();
+  else if (t === "fav") namesPage({ fav: true });
+  else openCard(t);
 };
 function openCard(k) {
-if (k === "names") { namesPage(); return; }
-if (DATA[k]) { category(k); return; }
-showModal("<b>" + META[k].title + "</b><br>یہ حصہ جلد آ رہا ہے۔");
+  if (k === "names") { namesPage(); return; }
+  if (DATA[k]) { category(k); return; }
+  showModal("<b>" + META[k].title + "</b><br>یہ حصہ جلد آ رہا ہے۔");
 }
 function category(key) {
-const d = DATA[key];
-if (!d) { openCard(key); return; }
-setMode("inner");
-title.textContent = d.title;
-sub.textContent = "";
-back.style.display = "block";
-back.onclick = home;
-setNav(key);
-app.innerHTML = "";
-d.items.forEach(item => {
-const c = document.createElement("div");
-c.className = "card";
-c.textContent = item.t;
-c.onclick = () => detail(key, item);
-app.appendChild(c);
-});
+  const d = DATA[key];
+  if (!d) { openCard(key); return; }
+  setMode("inner");
+  title.textContent = d.title;
+  sub.textContent = "";
+  back.style.display = "block";
+  back.onclick = home;
+  setNav(key);
+  app.innerHTML = "";
+  d.items.forEach(item => {
+    const c = document.createElement("div");
+    c.className = "card";
+    c.textContent = item.t;
+    c.onclick = () => detail(key, item);
+    app.appendChild(c);
+  });
 }
 function detail(key, item) {
-setMode("inner");
-title.textContent = item.t;
-sub.textContent = "";
-back.onclick = () => category(key);
-app.innerHTML = "";
-const d = document.createElement("div");
-d.className = "detail";
-d.textContent = item.d;
-app.appendChild(d);
+  setMode("inner");
+  title.textContent = item.t;
+  sub.textContent = "";
+  back.onclick = () => category(key);
+  app.innerHTML = "";
+  const d = document.createElement("div");
+  d.className = "detail";
+  d.textContent = item.d;
+  app.appendChild(d);
 }
 function namesPage(opts) {
-opts = opts || {};
-setMode("dark");
-title.textContent = opts.fav ? "پسندیدہ نام" : META.names.title;
-sub.textContent = "";
-back.style.display = "block";
-back.onclick = home;
-setNav(opts.fav ? "fav" : "names");
-app.innerHTML = `
-<div class="panel">
-<div class="two">
-<select id="fLetter"><option value="">حرف (سب)</option></select>
-<select id="fGender">
-<option value="">جنس (سب)</option>
-<option value="لڑکا">لڑکا</option>
-<option value="لڑکی">لڑکی</option>
-</select>
-</div>
-<div class="srch">
-<input id="fSearch" type="search" placeholder="نام یا معنی تلاش کریں">
-<button id="fBtn">🔍</button>
-</div>
-</div>
-<div class="bar">
-<span class="count" id="count">لوڈ ہو رہا ہے...</span>
-<button class="chip" id="fFav">🤍 پسندیدہ</button>
-</div>
-<div class="list" id="list"></div>
-<button class="more" id="more"></button>`;
-const fLetter = document.getElementById("fLetter");
-const fGender = document.getElementById("fGender");
-const fSearch = document.getElementById("fSearch");
-const fBtn = document.getElementById("fBtn");
-const fFav = document.getElementById("fFav");
-const count = document.getElementById("count");
-const list = document.getElementById("list");
-const more = document.getElementById("more");
-let onlyFav = !!opts.fav;
-let shown = PAGE;
-let current = [];
-if (onlyFav) { fFav.classList.add("on"); fFav.textContent = "❤️ پسندیدہ"; }
-fSearch.value = opts.q || "";
-function render(reset) {
-if (reset) shown = PAGE;
-const L = fLetter.value;
-const G = fGender.value;
-const Q = fSearch.value.trim().toLowerCase();
-current = NAMES.filter(x =>
-(!onlyFav || FAV.includes(keyOf(x))) &&
-(!L || x.n.charAt(0) === L) &&
-(!G || x.g === G) &&
-(!Q || x.n.includes(Q) || x.e.toLowerCase().includes(Q) || x.m.includes(Q))
-);
-count.textContent = current.length + " نام";
-if (!current.length) {
-list.innerHTML = "<div class='empty'>" + (onlyFav ? "ابھی کوئی پسندیدہ نام نہیں۔ کسی نام کے ساتھ 🤍 دبائیں۔" : "کوئی نام نہیں ملا۔") + "</div>";
-} else {
-list.innerHTML = current.slice(0, shown).map((x, i) =>
-"<div class='r'>" +
-"<div class='nm'>" + esc(x.n) + "</div>" +
-"<div class='en'>" + esc(x.e) + "</div>" +
-"<div class='mn'>" + esc(x.m) + "</div>" +
-"<div class='ac'>" +
-"<button data-a='fav' data-i='" + i + "'>" + (FAV.includes(keyOf(x)) ? "❤️" : "🤍") + "</button>" +
-"<button data-a='share' data-i='" + i + "'>📤</button>" +
-"</div>" +
-"</div>"
-).join("");
-}
-if (current.length > shown) { more.style.display = "block"; more.textContent = "مزید دکھائیں (" + (current.length - shown) + " باقی)"; }
-else { more.style.display = "none"; }
-}
-list.onclick = e => {
-const b = e.target.closest("button[data-a]");
-if (!b) return;
-const x = current[Number(b.dataset.i)];
-if (!x) return;
-if (b.dataset.a === "share") { shareName(x); }
-else {
-const k = keyOf(x);
-const at = FAV.indexOf(k);
-if (at >= 0) FAV.splice(at, 1); else FAV.push(k);
-saveFav();
-if (onlyFav) render(false);
-else b.textContent = FAV.includes(k) ? "❤️" : "🤍";
-}
-};
-more.onclick = () => { shown += PAGE; render(false); };
-fFav.onclick = () => {
-onlyFav = !onlyFav;
-fFav.classList.toggle("on", onlyFav);
-fFav.textContent = (onlyFav ? "❤️" : "🤍") + " پسندیدہ";
-render(true);
-};
-loadNames()
-.then(names => {
-const letters = [...new Set(names.map(x => x.n.charAt(0)))].sort((a, b) => a.localeCompare(b, "ur"));
-fLetter.innerHTML = '<option value="">حرف (سب)</option>' + letters.map(l => '<option value="' + esc(l) + '">' + esc(l) + '</option>').join("");
-fLetter.onchange = () => render(true);
-fGender.onchange = () => render(true);
-fSearch.oninput = () => render(true);
-fBtn.onclick = () => render(true);
-render(true);
-})
-.catch(() => { count.textContent = "names.json لوڈ نہیں ہوئی۔ فائل میں کوئی غلطی ہو سکتی ہے۔"; });
+  opts = opts || {};
+  setMode("dark");
+  title.textContent = opts.fav ? "پسندیدہ نام" : META.names.title;
+  sub.textContent = "";
+  back.style.display = "block";
+  back.onclick = home;
+  setNav(opts.fav ? "fav" : "names");
+  app.innerHTML = `
+    <div class="panel">
+      <div class="two">
+        <select id="fLetter"><option value="">حرف (سب)</option></select>
+        <select id="fGender">
+          <option value="">جنس (سب)</option>
+          <option value="لڑکا">لڑکا</option>
+          <option value="لڑکی">لڑکی</option>
+        </select>
+      </div>
+      <div class="srch">
+        <input id="fSearch" type="search" placeholder="نام یا معنی تلاش کریں">
+        <button id="fBtn">🔍</button>
+      </div>
+    </div>
+    <div class="bar">
+      <span class="count" id="count">لوڈ ہو رہا ہے...</span>
+      <button class="chip" id="fFav">🤍 پسندیدہ</button>
+    </div>
+    <div class="list" id="list"></div>
+    <button class="more" id="more"></button>`;
+  const fLetter = document.getElementById("fLetter");
+  const fGender = document.getElementById("fGender");
+  const fSearch = document.getElementById("fSearch");
+  const fBtn = document.getElementById("fBtn");
+  const fFav = document.getElementById("fFav");
+  const count = document.getElementById("count");
+  const list = document.getElementById("list");
+  const more = document.getElementById("more");
+  let onlyFav = !!opts.fav;
+  let shown = PAGE;
+  let current = [];
+  if (onlyFav) { fFav.classList.add("on"); fFav.textContent = "❤️ پسندیدہ"; }
+  fSearch.value = opts.q || "";
+  function render(reset) {
+    if (reset) shown = PAGE;
+    const L = fLetter.value;
+    const G = fGender.value;
+    const Q = fSearch.value.trim().toLowerCase();
+    current = NAMES.filter(x =>
+      (!onlyFav || FAV.includes(keyOf(x))) &&
+      (!L || x.n.charAt(0) === L) &&
+      (!G || x.g === G) &&
+      (!Q || x.n.includes(Q) || x.e.toLowerCase().includes(Q) || x.m.includes(Q))
+    );
+    count.textContent = current.length + " نام";
+    if (!current.length) {
+      list.innerHTML = "<div class='empty'>" + (onlyFav ? "ابھی کوئی پسندیدہ نام نہیں۔ کسی نام کے ساتھ 🤍 دبائیں۔" : "کوئی نام نہیں ملا۔") + "</div>";
+    } else {
+      list.innerHTML = current.slice(0, shown).map((x, i) =>
+        "<div class='r'>" +
+        "<div class='nm'>" + esc(x.n) + "</div>" +
+        "<div class='en'>" + esc(x.e) + "</div>" +
+        "<div class='mn'>" + esc(x.m) + "</div>" +
+        "<div class='ac'>" +
+        "<button data-a='fav' data-i='" + i + "'>" + (FAV.includes(keyOf(x)) ? "❤️" : "🤍") + "</button>" +
+        "<button data-a='share' data-i='" + i + "'>📤</button>" +
+        "</div>" +
+        "</div>"
+      ).join("");
+    }
+    if (current.length > shown) { more.style.display = "block"; more.textContent = "مزید دکھائیں (" + (current.length - shown) + " باقی)"; }
+    else { more.style.display = "none"; }
+  }
+  list.onclick = e => {
+    const b = e.target.closest("button[data-a]");
+    if (!b) return;
+    const x = current[Number(b.dataset.i)];
+    if (!x) return;
+    if (b.dataset.a === "share") { shareName(x); }
+    else {
+      const k = keyOf(x);
+      const at = FAV.indexOf(k);
+      if (at >= 0) FAV.splice(at, 1); else FAV.push(k);
+      saveFav();
+      if (onlyFav) render(false);
+      else b.textContent = FAV.includes(k) ? "❤️" : "🤍";
+    }
+  };
+  more.onclick = () => { shown += PAGE; render(false); };
+  fFav.onclick = () => {
+    onlyFav = !onlyFav;
+    fFav.classList.toggle("on", onlyFav);
+    fFav.textContent = (onlyFav ? "❤️" : "🤍") + " پسندیدہ";
+    render(true);
+  };
+  loadNames().then(names => {
+    const letters = [...new Set(names.map(x => x.n.charAt(0)))].sort((a, b) => a.localeCompare(b, "ur"));
+    fLetter.innerHTML = '<option value="">حرف (سب)</option>' + letters.map(l => '<option value="' + esc(l) + '">' + esc(l) + '</option>').join("");
+    fLetter.onchange = () => render(true);
+    fGender.onchange = () => render(true);
+    fSearch.oninput = () => render(true);
+    fBtn.onclick = () => render(true);
+    render(true);
+  }).catch(() => { count.textContent = "names.json لوڈ نہیں ہوئی۔ فائل میں کوئی غلطی ہو سکتی ہے۔"; });
 }
 Promise.all([
-fetch("data.json", { cache: "no-store" }).then(r => r.json()),
-fetch("quotes.json", { cache: "no-store" }).then(r => r.json()).catch(() => null)
-])
-.then(res => {
-DATA = res[0];
-if (Array.isArray(res[1]) && res[1].length) QUOTES = res[1];
-home();
-})
-.catch(() => { app.innerHTML = "<div class='card'>Data load nahi hua. data.json mein koi ghalti ho sakti hai.</div>"; });
+  fetch("data.json", { cache: "no-store" }).then(r => r.json()),
+  fetch("quotes.json", { cache: "no-store" }).then(r => r.json()).catch(() => null)
+]).then(res => {
+  DATA = res[0];
+  if (Array.isArray(res[1]) && res[1].length) QUOTES = res[1];
+  home();
+}).catch(() => { app.innerHTML = "<div class='card'>Data load nahi hua. data.json mein koi ghalti ho sakti hai.</div>"; });
 if ("serviceWorker" in navigator) { navigator.serviceWorker.register("sw.js"); }
 </script>
 </body>
