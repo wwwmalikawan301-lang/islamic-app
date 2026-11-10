@@ -18,35 +18,27 @@ window.addEventListener('appinstalled', function () { gtag('event', 'app_install
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* ===== DESIGN TOKENS (Step 1 foundation) ===== */
+/* ===== DESIGN TOKENS ===== */
 :root {
-  /* Colors - Primary */
   --primary: #075B43;
   --primary-light: #117A58;
   --primary-deep: #064B38;
   --primary-gradient: linear-gradient(160deg, #0b5b3c, #0d6f48 55%, #0a4a31);
   --primary-gradient-hero: radial-gradient(circle at 30% 20%, #17935f 0%, rgba(23,147,95,0) 45%), linear-gradient(160deg, #0b5b3c, #0d6f48 55%, #0a4a31);
-
-  /* Colors - Accent */
   --gold: #E5C15B;
   --gold-light: #f2cf6b;
   --gold-dark: #a07d12;
-
-  /* Colors - Backgrounds */
+  --gold-gradient: linear-gradient(135deg, #f6dc83, #d9b44a 50%, #f2cf6b);
   --bg: #EFF8F2;
   --bg-soft: #EAF5EE;
   --bg-gradient-home: linear-gradient(#eaf6ee, #d9eddf);
   --surface: #FFFFFF;
   --surface-tint: #eaf6ee;
   --surface-border: #d3e8da;
-
-  /* Colors - Text */
   --text: #123F32;
   --text-secondary: #64756C;
   --text-soft: #4a6b5b;
   --text-on-primary: #ffffff;
-
-  /* Colors - Dark mode page (names) */
   --dark-bg: #0b1612;
   --dark-panel: #12231c;
   --dark-panel-2: #0f1c17;
@@ -57,50 +49,22 @@ window.addEventListener('appinstalled', function () { gtag('event', 'app_install
   --dark-text-muted: #9bb3a8;
   --dark-name: #6fd3aa;
   --dark-english: #d4b84a;
-
-  /* Spacing (8-point) */
-  --s1: 4px;
-  --s2: 8px;
-  --s3: 12px;
-  --s4: 16px;
-  --s5: 20px;
-  --s6: 24px;
-  --s8: 32px;
-
-  /* Radii */
-  --r-sm: 8px;
-  --r-md: 12px;
-  --r-lg: 16px;
-  --r-xl: 20px;
-  --r-full: 999px;
-
-  /* Shadows */
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 20px; --s6: 24px; --s8: 32px;
+  --r-sm: 8px; --r-md: 12px; --r-lg: 16px; --r-xl: 20px; --r-full: 999px;
   --shadow-sm: 0 2px 6px rgba(0,60,30,0.08);
   --shadow-md: 0 4px 12px rgba(0,60,30,0.12);
   --shadow-lg: 0 6px 18px rgba(0,60,30,0.18);
   --shadow-xl: 0 10px 30px rgba(0,0,0,0.35);
-
-  /* Motion */
   --t-fast: 150ms ease;
   --t-med: 220ms ease;
   --t-slow: 320ms ease;
-
-  /* Typography */
   --font-urdu: "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", serif;
   --font-num: Georgia, "Times New Roman", serif;
 }
-
-/* Dark mode (Step 9 will activate via .theme-dark class) */
 body.theme-dark {
-  --bg: #101A16;
-  --bg-soft: #14211B;
-  --bg-gradient-home: linear-gradient(#101A16, #0d1512);
-  --surface: #1C2B24;
-  --surface-tint: #1C2B24;
-  --surface-border: #2a4038;
-  --text: #F5F7F5;
-  --text-secondary: #B6C4BC;
-  --text-soft: #a8bcb2;
+  --bg: #101A16; --bg-soft: #14211B; --bg-gradient-home: linear-gradient(#101A16, #0d1512);
+  --surface: #1C2B24; --surface-tint: #1C2B24; --surface-border: #2a4038;
+  --text: #F5F7F5; --text-secondary: #B6C4BC; --text-soft: #a8bcb2;
   --primary: #146B4F;
   --primary-gradient: linear-gradient(160deg, #0f5a41, #146B4F 55%, #0b4a36);
   --primary-gradient-hero: radial-gradient(circle at 30% 20%, #1a8f63 0%, rgba(26,143,99,0) 45%), linear-gradient(160deg, #0f5a41, #146B4F 55%, #0b4a36);
@@ -121,35 +85,178 @@ body {
   transition: background-color var(--t-med), color var(--t-med);
 }
 body.home { background: var(--bg-gradient-home); }
-body.dark {
-  background: var(--dark-bg);
-  color: var(--dark-text);
-}
+body.dark { background: var(--dark-bg); color: var(--dark-text); }
 
-/* ===== HEADER (kept as-is for Step 1) ===== */
-#hdr { background: var(--primary); color: var(--text-on-primary); padding: 22px 16px; text-align: center; position: relative; }
+/* ===== HEADER (Step 2: Premium) ===== */
+#hdr {
+  background: var(--primary);
+  color: var(--text-on-primary);
+  padding: 22px 16px;
+  text-align: center;
+  position: relative;
+}
 #hdr h1 { margin: 0 0 4px; font-size: 24px; line-height: 1.9; position: relative; z-index: 2; }
 #hdr p { margin: 0; opacity: 0.85; line-height: 1.8; position: relative; z-index: 2; }
 #greet { display: none; }
-.decos { display: none; position: absolute; top: 0; right: 0; bottom: 0; left: 0; overflow: hidden; pointer-events: none; z-index: 1; }
+.decos {
+  display: none;
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
 .deco { position: absolute; height: auto; }
-#hdr.hero { background: var(--primary-gradient-hero); padding: 30px 16px 54px; border-radius: 0 0 30px 30px; }
-#hdr.hero .decos { display: block; border-radius: 0 0 30px 30px; }
-#hdr.hero h1 { font-size: 30px; line-height: 1.6; margin-bottom: 0; }
-#hdr.hero p { font-size: 19px; line-height: 1.7; color: var(--gold-light); opacity: 1; font-weight: 700; }
-#hdr.hero #greet { display: block; margin-top: 6px; font-size: 14px; line-height: 1.9; position: relative; z-index: 2; }
-.moon { top: 20px; left: 24%; width: 44px; filter: drop-shadow(0 0 10px rgba(247,224,140,0.7)); }
-.mosque { left: 0; bottom: 12px; width: 32%; max-width: 130px; }
-.lantern { width: 24px; filter: drop-shadow(0 0 8px rgba(247,224,140,0.8)); }
-.lantern-l { left: 62px; top: 0; }
-.lantern-r { right: 10px; top: 30px; }
-#back { display: none; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.2); color: white; border: 0; border-radius: var(--r-sm); padding: 8px 12px; font-size: 16px; font-family: inherit; z-index: 3; }
-#menuBtn { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.2); color: white; border: 0; border-radius: var(--r-sm); width: 40px; height: 40px; font-size: 24px; line-height: 1; font-family: sans-serif; z-index: 3; }
-#hdr.hero #menuBtn { top: 24px; transform: none; }
-#menu { display: none; position: absolute; left: 12px; top: 68px; background: var(--surface); color: var(--text); border-radius: var(--r-md); box-shadow: var(--shadow-lg); min-width: 210px; z-index: 25; overflow: hidden; }
-#hdr.hero #menu { top: 74px; }
+
+#hdr.hero {
+  background: var(--primary-gradient-hero);
+  padding: 34px 18px 58px;
+  border-radius: 0 0 32px 32px;
+  box-shadow: 0 8px 28px rgba(0,40,20,0.28);
+  animation: hdrIn 500ms ease both;
+  overflow: hidden;
+}
+#hdr.hero .decos { display: block; border-radius: 0 0 32px 32px; }
+#hdr.hero h1 {
+  font-size: 34px;
+  line-height: 1.5;
+  margin-bottom: 2px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.35);
+  background: linear-gradient(180deg, #ffffff 0%, #ffe98e 55%, #d9b44a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+#hdr.hero p {
+  font-size: 19px;
+  line-height: 1.7;
+  color: var(--gold-light);
+  opacity: 1;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+#hdr.hero #greet {
+  display: block;
+  margin-top: 10px;
+  padding-top: 8px;
+  font-size: 14px;
+  line-height: 1.9;
+  color: #e9f7ee;
+  position: relative;
+  z-index: 2;
+}
+#hdr.hero #greet::before {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 2px;
+  margin: 0 auto 6px;
+  background: var(--gold-gradient);
+  border-radius: 2px;
+  opacity: 0.85;
+}
+
+/* Decorations with subtle motion */
+.moon {
+  top: 22px;
+  left: 24%;
+  width: 46px;
+  filter: drop-shadow(0 0 12px rgba(247,224,140,0.85));
+  animation: moonGlow 4s ease-in-out infinite;
+}
+.mosque {
+  left: 0;
+  bottom: 10px;
+  width: 34%;
+  max-width: 140px;
+  opacity: 0.9;
+}
+.lantern {
+  width: 26px;
+  filter: drop-shadow(0 0 10px rgba(247,224,140,0.85));
+  transform-origin: 50% 0;
+  animation: swing 5s ease-in-out infinite;
+}
+.lantern-l { left: 56px; top: 0; animation-delay: 0s; }
+.lantern-r { right: 10px; top: 30px; animation-delay: 1.2s; }
+
+@keyframes swing {
+  0%, 100% { transform: rotate(-4deg); }
+  50%      { transform: rotate(4deg); }
+}
+@keyframes moonGlow {
+  0%, 100% { filter: drop-shadow(0 0 10px rgba(247,224,140,0.7)); }
+  50%      { filter: drop-shadow(0 0 18px rgba(247,224,140,1)); }
+}
+@keyframes hdrIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Menu / Back buttons (premium circular) */
+#back, #menuBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.28);
+  color: white;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  font-family: inherit;
+  font-size: 18px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--t-fast), transform var(--t-fast);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+#back { display: none; right: 14px; padding: 0; }
+#menuBtn { left: 14px; font-size: 26px; line-height: 1; padding: 0 0 6px 0; font-family: sans-serif; }
+#back:active, #menuBtn:active { background: rgba(255,255,255,0.32); transform: translateY(-50%) scale(0.94); }
+#hdr.hero #menuBtn { top: 26px; transform: none; }
+#hdr.hero #menuBtn:active { transform: scale(0.94); }
+#hdr.hero #back { top: 26px; transform: none; }
+#hdr.hero #back:active { transform: scale(0.94); }
+
+/* Menu dropdown */
+#menu {
+  display: none;
+  position: absolute;
+  left: 14px;
+  top: 78px;
+  background: var(--surface);
+  color: var(--text);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-lg);
+  min-width: 220px;
+  z-index: 25;
+  overflow: hidden;
+  animation: menuIn 180ms ease both;
+}
+@keyframes menuIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: none; }
+}
+#hdr.hero #menu { top: 82px; }
 #menu.show { display: block; }
-#menu button { display: block; width: 100%; text-align: right; padding: 12px 16px; border: 0; background: none; font-family: inherit; font-size: 17px; color: inherit; line-height: 2; }
+#menu button {
+  display: block;
+  width: 100%;
+  text-align: right;
+  padding: 12px 16px;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  font-size: 17px;
+  color: inherit;
+  line-height: 2;
+}
 #menu button + button { border-top: 1px solid #e3ece6; }
 
 /* ===== MODAL ===== */
@@ -165,7 +272,7 @@ body.home #app { padding: 0 14px 14px; gap: 10px; }
 .card { background: var(--surface); border-radius: var(--r-lg); padding: 16px 18px; font-size: 20px; line-height: 2; box-shadow: var(--shadow-sm); }
 .detail { background: var(--surface); border-radius: var(--r-lg); padding: 20px 18px; line-height: 2.4; font-size: 20px; white-space: pre-line; }
 
-/* ===== SEARCH BAR ===== */
+/* ===== SEARCH ===== */
 .sb { display: flex; align-items: center; gap: 6px; background: var(--surface); border-radius: 40px; padding: 5px 8px; box-shadow: var(--shadow-lg); margin-top: -28px; position: relative; z-index: 3; }
 .sb input { flex: 1 1 auto; width: 0; min-width: 0; border: 0; outline: 0; background: none; font-family: inherit; font-size: 15px; color: var(--text); padding: 6px 6px; }
 .sgo { flex: 0 0 auto; width: 38px; height: 38px; border-radius: 50%; border: 0; background: var(--primary); color: var(--text-on-primary); font-size: 16px; }
@@ -197,7 +304,7 @@ body.home #app { padding: 0 14px 14px; gap: 10px; }
 #nav button span { display: block; font-size: 20px; line-height: 1.3; }
 #nav button.on { color: #7dffb4; opacity: 1; }
 
-/* ===== NAMES PAGE (dark) ===== */
+/* ===== NAMES PAGE ===== */
 body.dark #app { padding: 10px 8px 24px; gap: 10px; }
 .panel { background: var(--dark-panel); border: 1px solid var(--dark-border); border-radius: var(--r-lg); padding: 10px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
 .two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
@@ -221,7 +328,7 @@ body.dark #app { padding: 10px 8px 24px; gap: 10px; }
 .more { display: none; width: 100%; padding: 10px; font-size: 15px; font-family: inherit; background: var(--dark-panel); color: var(--dark-name); border: 1px solid var(--dark-border-2); border-radius: var(--r-md); }
 .empty { padding: 24px; text-align: center; color: var(--dark-text-muted); font-size: 15px; line-height: 2; }
 
-/* ===== UTILS (Step 1: animations helpers) ===== */
+/* ===== UTILS ===== */
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes slideUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 .fade-in { animation: fadeIn var(--t-med) both; }
@@ -342,236 +449,4 @@ showModal(
 "<div style='margin:6px 0 10px'>" + esc(x.m) + "</div>" +
 "<div><button class='mb' id='tFav'>" + (FAV.includes(k) ? "❤️" : "🤍") + "</button><button class='mb' id='tSh'>📤</button></div>"
 );
-document.getElementById("tFav").onclick = e => { const at = FAV.indexOf(k); if (at >= 0) FAV.splice(at, 1); else FAV.push(k); saveFav(); e.target.textContent = FAV.includes(k) ? "❤️" : "🤍"; };
-document.getElementById("tSh").onclick = () => shareName(x);
-})
-.catch(() => showModal("نام لوڈ نہیں ہو سکا۔"));
-}
-function goSearch(q) { namesPage({ q: String(q || "").trim() }); }
-function home() {
-setMode("home");
-title.textContent = APP_TITLE;
-sub.textContent = APP_SUB;
-greet.textContent = GREETING;
-back.style.display = "none";
-setNav("home");
-const q = QUOTES[dayNumber() % QUOTES.length];
-app.innerHTML =
-"<div class='sb'>" +
-"<button class='mic' id='hMic'>🎤</button>" +
-"<input id='hSearch' type='search' placeholder='اپنا پسندیدہ نام تلاش کریں...'>" +
-"<button class='sgo' id='hGo'>🔍</button>" +
-"</div>" +
-"<div class='hgrid'>" +
-ORDER.map(k => "<div class='hc' data-k='" + k + "'>" +
-"<div class='tt'>" + META[k].title + "</div>" +
-"<div class='ds'>" + META[k].desc + "</div>" +
-"<div class='ft'><span class='ic'>" + META[k].icon + "</span><span class='go'>←</span></div>" +
-"</div>").join("") +
-"</div>" +
-"<div class='quote'>" +
-"<div class='qlabel'>آج کی خوبصورت بات</div>" +
-"<div class='qtext'>" + esc(q) + "</div>" +
-"<div class='qheart'>💛</div>" +
-"</div>" +
-"<div class='qa'>" +
-"<div class='qb' data-a='more'><span>⭐</span>مزید فیچرز<br>دیکھیں</div>" +
-"<div class='qb' data-a='today'><span>📅</span>آج کا نام<br>(روزانہ نیا)</div>" +
-"<div class='qb' data-a='tasbeeh'><span>📿</span>تسبیح<br>شمار</div>" +
-"<div class='qb' data-a='fav'><span>❤️</span>پسندیدہ<br>فہرست</div>" +
-"<div class='qb' data-a='share'><span>📤</span>دوستوں کو<br>شیئر کریں</div>" +
-"</div>";
-const hs = document.getElementById("hSearch");
-document.getElementById("hGo").onclick = () => goSearch(hs.value);
-hs.onkeydown = e => { if (e.key === "Enter") goSearch(hs.value); };
-const mic = document.getElementById("hMic");
-const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-if (!SR) { mic.style.display = "none"; }
-else {
-mic.onclick = () => {
-try {
-const r = new SR();
-r.lang = "ur-PK";
-r.interimResults = false;
-r.onresult = ev => { hs.value = ev.results[0][0].transcript; goSearch(hs.value); };
-r.start();
-} catch (e) {}
-};
-}
-}
-app.onclick = e => {
-const hc = e.target.closest(".hc");
-if (hc) { openCard(hc.dataset.k); return; }
-const qb = e.target.closest(".qb");
-if (qb) {
-const a = qb.dataset.a;
-if (a === "more") showModal(MORE_TEXT);
-else if (a === "today") todayName();
-else if (a === "tasbeeh") location.href = "tasbeeh.html";
-else if (a === "fav") namesPage({ fav: true });
-else if (a === "share") shareApp();
-}
-};
-nav.onclick = e => {
-const b = e.target.closest("button[data-t]");
-if (!b) return;
-const t = b.dataset.t;
-if (t === "home") home();
-else if (t === "names") namesPage();
-else if (t === "fav") namesPage({ fav: true });
-else openCard(t);
-};
-function openCard(k) {
-if (k === "names") { namesPage(); return; }
-if (DATA[k]) { category(k); return; }
-showModal("<b>" + META[k].title + "</b><br>یہ حصہ جلد آ رہا ہے۔");
-}
-function category(key) {
-const d = DATA[key];
-if (!d) { openCard(key); return; }
-setMode("inner");
-title.textContent = d.title;
-sub.textContent = "";
-back.style.display = "block";
-back.onclick = home;
-setNav(key);
-app.innerHTML = "";
-d.items.forEach(item => {
-const c = document.createElement("div");
-c.className = "card";
-c.textContent = item.t;
-c.onclick = () => detail(key, item);
-app.appendChild(c);
-});
-}
-function detail(key, item) {
-setMode("inner");
-title.textContent = item.t;
-sub.textContent = "";
-back.onclick = () => category(key);
-app.innerHTML = "";
-const d = document.createElement("div");
-d.className = "detail";
-d.textContent = item.d;
-app.appendChild(d);
-}
-function namesPage(opts) {
-opts = opts || {};
-setMode("dark");
-title.textContent = opts.fav ? "پسندیدہ نام" : META.names.title;
-sub.textContent = "";
-back.style.display = "block";
-back.onclick = home;
-setNav(opts.fav ? "fav" : "names");
-app.innerHTML = `
-<div class="panel">
-<div class="two">
-<select id="fLetter"><option value="">حرف (سب)</option></select>
-<select id="fGender">
-<option value="">جنس (سب)</option>
-<option value="لڑکا">لڑکا</option>
-<option value="لڑکی">لڑکی</option>
-</select>
-</div>
-<div class="srch">
-<input id="fSearch" type="search" placeholder="نام یا معنی تلاش کریں">
-<button id="fBtn">🔍</button>
-</div>
-</div>
-<div class="bar">
-<span class="count" id="count">لوڈ ہو رہا ہے...</span>
-<button class="chip" id="fFav">🤍 پسندیدہ</button>
-</div>
-<div class="list" id="list"></div>
-<button class="more" id="more"></button>`;
-const fLetter = document.getElementById("fLetter");
-const fGender = document.getElementById("fGender");
-const fSearch = document.getElementById("fSearch");
-const fBtn = document.getElementById("fBtn");
-const fFav = document.getElementById("fFav");
-const count = document.getElementById("count");
-const list = document.getElementById("list");
-const more = document.getElementById("more");
-let onlyFav = !!opts.fav;
-let shown = PAGE;
-let current = [];
-if (onlyFav) { fFav.classList.add("on"); fFav.textContent = "❤️ پسندیدہ"; }
-fSearch.value = opts.q || "";
-function render(reset) {
-if (reset) shown = PAGE;
-const L = fLetter.value;
-const G = fGender.value;
-const Q = fSearch.value.trim().toLowerCase();
-current = NAMES.filter(x =>
-(!onlyFav || FAV.includes(keyOf(x))) &&
-(!L || x.n.charAt(0) === L) &&
-(!G || x.g === G) &&
-(!Q || x.n.includes(Q) || x.e.toLowerCase().includes(Q) || x.m.includes(Q))
-);
-count.textContent = current.length + " نام";
-if (!current.length) {
-list.innerHTML = "<div class='empty'>" + (onlyFav ? "ابھی کوئی پسندیدہ نام نہیں۔ کسی نام کے ساتھ 🤍 دبائیں۔" : "کوئی نام نہیں ملا۔") + "</div>";
-} else {
-list.innerHTML = current.slice(0, shown).map((x, i) =>
-"<div class='r'>" +
-"<div class='nm'>" + esc(x.n) + "</div>" +
-"<div class='en'>" + esc(x.e) + "</div>" +
-"<div class='mn'>" + esc(x.m) + "</div>" +
-"<div class='ac'>" +
-"<button data-a='fav' data-i='" + i + "'>" + (FAV.includes(keyOf(x)) ? "❤️" : "🤍") + "</button>" +
-"<button data-a='share' data-i='" + i + "'>📤</button>" +
-"</div>" +
-"</div>"
-).join("");
-}
-if (current.length > shown) { more.style.display = "block"; more.textContent = "مزید دکھائیں (" + (current.length - shown) + " باقی)"; }
-else { more.style.display = "none"; }
-}
-list.onclick = e => {
-const b = e.target.closest("button[data-a]");
-if (!b) return;
-const x = current[Number(b.dataset.i)];
-if (!x) return;
-if (b.dataset.a === "share") { shareName(x); }
-else {
-const k = keyOf(x);
-const at = FAV.indexOf(k);
-if (at >= 0) FAV.splice(at, 1); else FAV.push(k);
-saveFav();
-if (onlyFav) render(false);
-else b.textContent = FAV.includes(k) ? "❤️" : "🤍";
-}
-};
-more.onclick = () => { shown += PAGE; render(false); };
-fFav.onclick = () => {
-onlyFav = !onlyFav;
-fFav.classList.toggle("on", onlyFav);
-fFav.textContent = (onlyFav ? "❤️" : "🤍") + " پسندیدہ";
-render(true);
-};
-loadNames()
-.then(names => {
-const letters = [...new Set(names.map(x => x.n.charAt(0)))].sort((a, b) => a.localeCompare(b, "ur"));
-fLetter.innerHTML = '<option value="">حرف (سب)</option>' + letters.map(l => '<option value="' + esc(l) + '">' + esc(l) + '</option>').join("");
-fLetter.onchange = () => render(true);
-fGender.onchange = () => render(true);
-fSearch.oninput = () => render(true);
-fBtn.onclick = () => render(true);
-render(true);
-})
-.catch(() => { count.textContent = "names.json لوڈ نہیں ہوئی۔ فائل میں کوئی غلطی ہو سکتی ہے۔"; });
-}
-Promise.all([
-fetch("data.json", { cache: "no-store" }).then(r => r.json()),
-fetch("quotes.json", { cache: "no-store" }).then(r => r.json()).catch(() => null)
-])
-.then(res => {
-DATA = res[0];
-if (Array.isArray(res[1]) && res[1].length) QUOTES = res[1];
-home();
-})
-.catch(() => { app.innerHTML = "<div class='card'>Data load nahi hua. data.json mein koi ghalti ho sakti hai.</div>"; });
-if ("serviceWorker" in navigator) { navigator.serviceWorker.register("sw.js"); }
-</script>
-</body>
-</html>
+document.getElementById("tFav").onclick = e => { const at = FAV
