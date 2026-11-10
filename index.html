@@ -29,7 +29,6 @@ window.addEventListener('appinstalled', function () { gtag('event', 'app_install
   --gold-dark: #a07d12;
   --gold-gradient: linear-gradient(135deg, #f6dc83, #d9b44a 50%, #f2cf6b);
   --bg: #EFF8F2;
-  --bg-soft: #EAF5EE;
   --bg-gradient-home: linear-gradient(#eaf6ee, #d9eddf);
   --surface: #FFFFFF;
   --surface-tint: #eaf6ee;
@@ -48,20 +47,19 @@ window.addEventListener('appinstalled', function () { gtag('event', 'app_install
   --dark-text-muted: #9bb3a8;
   --dark-name: #6fd3aa;
   --dark-english: #d4b84a;
-  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 20px; --s6: 24px; --s8: 32px;
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 20px; --s6: 24px;
   --r-sm: 8px; --r-md: 12px; --r-lg: 16px; --r-xl: 20px; --r-full: 999px;
   --shadow-sm: 0 2px 6px rgba(0,60,30,0.08);
   --shadow-md: 0 4px 12px rgba(0,60,30,0.12);
   --shadow-lg: 0 6px 18px rgba(0,60,30,0.18);
-  --shadow-xl: 0 10px 30px rgba(0,0,0,0.35);
   --t-fast: 150ms ease;
   --t-med: 220ms ease;
-  --t-slow: 320ms ease;
   --font-urdu: "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", serif;
   --font-num: Georgia, "Times New Roman", serif;
+  --font-scale: 1;
 }
 body.theme-dark {
-  --bg: #101A16; --bg-soft: #14211B; --bg-gradient-home: linear-gradient(#101A16, #0d1512);
+  --bg: #101A16; --bg-gradient-home: linear-gradient(#101A16, #0d1512);
   --surface: #1C2B24; --surface-tint: #1C2B24; --surface-border: #2a4038;
   --text: #F5F7F5; --text-secondary: #B6C4BC; --text-soft: #a8bcb2;
   --primary: #146B4F;
@@ -73,12 +71,14 @@ html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0; overflow-x: hidden; overflow-wrap: break-word;
   font-family: var(--font-urdu); background: var(--bg); color: var(--text);
-  padding-bottom: calc(70px + env(safe-area-inset-bottom)); min-height: 100vh;
+  padding-bottom: calc(78px + env(safe-area-inset-bottom)); min-height: 100vh;
+  font-size: calc(16px * var(--font-scale));
   transition: background-color var(--t-med), color var(--t-med);
 }
 body.home { background: var(--bg-gradient-home); }
 body.dark { background: var(--dark-bg); color: var(--dark-text); }
 
+/* HEADER */
 #hdr { background: var(--primary); color: var(--text-on-primary); padding: 22px 16px; text-align: center; position: relative; }
 #hdr h1 { margin: 0 0 4px; font-size: 24px; line-height: 1.9; position: relative; z-index: 2; }
 #hdr p { margin: 0; opacity: 0.85; line-height: 1.8; position: relative; z-index: 2; }
@@ -88,7 +88,7 @@ body.dark { background: var(--dark-bg); color: var(--dark-text); }
 #hdr.hero { background: var(--primary-gradient-hero); padding: 34px 18px 58px; border-radius: 0 0 32px 32px; box-shadow: 0 8px 28px rgba(0,40,20,0.28); animation: hdrIn 500ms ease both; overflow: hidden; }
 #hdr.hero .decos { display: block; border-radius: 0 0 32px 32px; }
 #hdr.hero h1 { font-size: 34px; line-height: 1.5; margin-bottom: 2px; font-weight: 700; letter-spacing: 0.5px; text-shadow: 0 2px 10px rgba(0,0,0,0.35); background: linear-gradient(180deg, #ffffff 0%, #ffe98e 55%, #d9b44a 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-#hdr.hero p { font-size: 19px; line-height: 1.7; color: var(--gold-light); opacity: 1; font-weight: 700; letter-spacing: 0.3px; }
+#hdr.hero p { font-size: 19px; line-height: 1.7; color: var(--gold-light); opacity: 1; font-weight: 700; }
 #hdr.hero #greet { display: block; margin-top: 10px; padding-top: 8px; font-size: 14px; line-height: 1.9; color: #e9f7ee; position: relative; z-index: 2; }
 #hdr.hero #greet::before { content: ""; display: block; width: 60px; height: 2px; margin: 0 auto 6px; background: var(--gold-gradient); border-radius: 2px; opacity: 0.85; }
 .moon { top: 22px; left: 24%; width: 46px; filter: drop-shadow(0 0 12px rgba(247,224,140,0.85)); animation: moonGlow 4s ease-in-out infinite; }
@@ -99,125 +99,131 @@ body.dark { background: var(--dark-bg); color: var(--dark-text); }
 @keyframes swing { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
 @keyframes moonGlow { 0%, 100% { filter: drop-shadow(0 0 10px rgba(247,224,140,0.7)); } 50% { filter: drop-shadow(0 0 18px rgba(247,224,140,1)); } }
 @keyframes hdrIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+
+/* BACK & MENU */
 #back, #menuBtn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.28); color: white; width: 42px; height: 42px; border-radius: 50%; font-family: inherit; font-size: 18px; z-index: 3; display: flex; align-items: center; justify-content: center; transition: background var(--t-fast), transform var(--t-fast); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
 #back { display: none; right: 14px; padding: 0; }
+#back svg { width: 22px; height: 22px; }
 #menuBtn { left: 14px; font-size: 26px; line-height: 1; padding: 0 0 6px 0; font-family: sans-serif; }
 #back:active, #menuBtn:active { background: rgba(255,255,255,0.32); transform: translateY(-50%) scale(0.94); }
 #hdr.hero #menuBtn { top: 26px; transform: none; }
 #hdr.hero #menuBtn:active { transform: scale(0.94); }
 #hdr.hero #back { top: 26px; transform: none; }
 #hdr.hero #back:active { transform: scale(0.94); }
-#menu { display: none; position: absolute; left: 14px; top: 78px; background: var(--surface); color: var(--text); border-radius: var(--r-md); box-shadow: var(--shadow-lg); min-width: 220px; z-index: 25; overflow: hidden; animation: menuIn 180ms ease both; }
+
+#menu { display: none; position: absolute; left: 14px; top: 78px; background: var(--surface); color: var(--text); border-radius: var(--r-md); box-shadow: var(--shadow-lg); min-width: 230px; z-index: 25; overflow: hidden; animation: menuIn 180ms ease both; }
 @keyframes menuIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
 #hdr.hero #menu { top: 82px; }
 #menu.show { display: block; }
-#menu button { display: block; width: 100%; text-align: right; padding: 12px 16px; border: 0; background: none; font-family: inherit; font-size: 17px; color: inherit; line-height: 2; }
-#menu button + button { border-top: 1px solid #e3ece6; }
+#menu button { display: flex; align-items: center; gap: 10px; width: 100%; text-align: right; padding: 12px 16px; border: 0; background: none; font-family: inherit; font-size: 17px; color: inherit; line-height: 2; }
+#menu button + button { border-top: 1px solid rgba(0,0,0,0.06); }
+body.theme-dark #menu button + button { border-top-color: rgba(255,255,255,0.08); }
 
-#modal { display: none; position: fixed; top: 0; right: 0; bottom: 0; left: 0; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 30; padding: 20px; }
+/* MODAL */
+#modal { display: none; position: fixed; top: 0; right: 0; bottom: 0; left: 0; background: rgba(0,0,0,0.55); align-items: center; justify-content: center; z-index: 30; padding: 20px; }
 #modal.show { display: flex; }
-#modalBox { background: var(--surface); color: var(--text); border-radius: var(--r-lg); padding: 20px; line-height: 2.2; max-width: 420px; width: 100%; text-align: center; font-size: 18px; }
+#modalBox { background: var(--surface); color: var(--text); border-radius: var(--r-lg); padding: 20px; line-height: 2.2; max-width: 460px; width: 100%; text-align: center; font-size: 18px; max-height: 85vh; overflow-y: auto; animation: menuIn 200ms ease both; }
 .mb { background: none; border: 0; font-size: 26px; padding: 4px 12px; }
 
+/* APP */
 #app { padding: 16px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
-body.home #app { padding: 0 14px 14px; gap: 10px; }
+body.home #app { padding: 0 14px 14px; gap: 12px; }
 #app > * { min-width: 0; max-width: 100%; }
-.card { background: var(--surface); border-radius: var(--r-lg); padding: 16px 18px; font-size: 20px; line-height: 2; box-shadow: var(--shadow-sm); }
-.detail { background: var(--surface); border-radius: var(--r-lg); padding: 20px 18px; line-height: 2.4; font-size: 20px; white-space: pre-line; }
+.card { background: var(--surface); border-radius: var(--r-lg); padding: 16px 18px; font-size: calc(18px * var(--font-scale)); line-height: 2; box-shadow: var(--shadow-sm); cursor: pointer; transition: transform var(--t-fast), box-shadow var(--t-fast); }
+.card:active { transform: scale(0.98); box-shadow: var(--shadow-md); }
+.detail { background: var(--surface); border-radius: var(--r-lg); padding: 20px 18px; line-height: 2.4; font-size: calc(18px * var(--font-scale)); white-space: pre-line; }
 
+/* SEARCH */
 .sb { display: flex; align-items: center; gap: 6px; background: var(--surface); border-radius: var(--r-full); padding: 6px 8px 6px 6px; box-shadow: 0 8px 22px rgba(0,60,30,0.22), 0 2px 6px rgba(0,60,30,0.10); margin-top: -30px; position: relative; z-index: 3; border: 1.5px solid transparent; transition: border-color var(--t-fast), box-shadow var(--t-fast); }
 .sb:focus-within { border-color: var(--gold); box-shadow: 0 8px 24px rgba(0,60,30,0.26), 0 0 0 3px rgba(229,193,91,0.18); }
 .sb input { flex: 1 1 auto; width: 0; min-width: 0; border: 0; outline: 0; background: none; font-family: inherit; font-size: 15px; color: var(--text); padding: 8px 6px; line-height: 1.6; }
 .sb input::placeholder { color: var(--text-secondary); opacity: 0.75; }
 .sb input::-webkit-search-cancel-button { display: none; }
-.sgo { flex: 0 0 auto; width: 42px; height: 42px; border-radius: 50%; border: 0; background: var(--primary); color: var(--text-on-primary); font-size: 17px; display: flex; align-items: center; justify-content: center; transition: transform var(--t-fast), background var(--t-fast); box-shadow: 0 3px 8px rgba(0,60,30,0.25); }
-.sgo:active { transform: scale(0.92); background: var(--primary-deep); }
-.mic { flex: 0 0 auto; border: 0; background: none; font-size: 18px; color: var(--primary); padding: 6px 8px; border-radius: 50%; transition: background var(--t-fast); }
-.mic:active { background: rgba(15,107,74,0.1); }
-.clear-sb { flex: 0 0 auto; border: 0; background: none; color: var(--text-secondary); font-size: 18px; padding: 6px 8px; border-radius: 50%; display: none; transition: background var(--t-fast); }
+.sgo { flex: 0 0 auto; width: 42px; height: 42px; border-radius: 50%; border: 0; background: var(--primary); color: var(--text-on-primary); font-size: 17px; display: flex; align-items: center; justify-content: center; transition: transform var(--t-fast); box-shadow: 0 3px 8px rgba(0,60,30,0.25); }
+.sgo:active { transform: scale(0.92); }
+.mic { flex: 0 0 auto; border: 0; background: none; font-size: 18px; color: var(--primary); padding: 6px 8px; border-radius: 50%; }
+.clear-sb { flex: 0 0 auto; border: 0; background: none; color: var(--text-secondary); font-size: 18px; padding: 6px 8px; border-radius: 50%; display: none; }
 .clear-sb.show { display: block; }
-.clear-sb:active { background: rgba(0,0,0,0.06); }
 
+/* HOME CARDS */
 .hgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-.hc { min-width: 0; position: relative; display: flex; flex-direction: column; background: linear-gradient(160deg, var(--surface) 0%, var(--surface-tint) 100%); border-radius: 18px; padding: 14px 14px 12px; box-shadow: 0 4px 14px rgba(0,60,30,0.10), 0 1px 3px rgba(0,60,30,0.06); border: 1px solid var(--surface-border); transition: transform var(--t-fast), box-shadow var(--t-fast); cursor: pointer; overflow: hidden; animation: cardIn 400ms ease both; }
+.hc { min-width: 0; position: relative; display: flex; flex-direction: column; background: linear-gradient(160deg, var(--surface) 0%, var(--surface-tint) 100%); border-radius: 18px; padding: 14px 14px 12px; box-shadow: 0 4px 14px rgba(0,60,30,0.10); border: 1px solid var(--surface-border); transition: transform var(--t-fast); cursor: pointer; overflow: hidden; animation: cardIn 400ms ease both; }
 .hc:nth-child(1) { animation-delay: 40ms; }
 .hc:nth-child(2) { animation-delay: 80ms; }
 .hc:nth-child(3) { animation-delay: 120ms; }
 .hc:nth-child(4) { animation-delay: 160ms; }
 @keyframes cardIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-.hc:active { transform: scale(0.97); box-shadow: 0 2px 8px rgba(0,60,30,0.14); }
+.hc:active { transform: scale(0.97); }
 .hc::before { content: ""; position: absolute; top: 0; left: 0; width: 34px; height: 34px; background: linear-gradient(135deg, transparent 50%, rgba(229,193,91,0.28) 50%); border-radius: 0 0 0 100%; pointer-events: none; }
 .hc .ic-svg { width: 34px; height: 34px; margin-bottom: 6px; display: block; }
 .hc .tt { font-size: 16px; font-weight: 700; color: var(--primary-deep); line-height: 1.8; margin-bottom: 2px; }
+body.theme-dark .hc .tt { color: var(--primary-light); }
 .hc .ds { font-size: 11.5px; color: var(--text-soft); line-height: 1.8; flex: 1; margin-bottom: 4px; }
-.hc .ft { display: flex; justify-content: space-between; align-items: center; margin-top: 2px; }
+.hc .ft { display: flex; justify-content: flex-end; align-items: center; margin-top: 2px; }
 .hc .go { width: 28px; height: 28px; border-radius: 50%; background: var(--gold-gradient); color: #4a3200; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; box-shadow: 0 2px 6px rgba(160,125,18,0.35); }
 
-/* ===== QUOTE (Step 4) ===== */
-.quote {
-  position: relative;
-  margin-top: 4px;
-  background: var(--primary-gradient);
-  border: 2px solid var(--gold);
-  border-radius: var(--r-xl);
-  padding: 32px 16px 14px;
-  text-align: center;
-  color: #fff;
-  box-shadow: 0 10px 28px rgba(0,40,20,0.28);
-  overflow: hidden;
-}
-.quote::after {
-  content: "";
-  position: absolute;
-  bottom: -60px;
-  left: -60px;
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(229,193,91,0.18) 0%, transparent 70%);
-  pointer-events: none;
-}
+/* QUOTE */
+.quote { position: relative; margin-top: 4px; background: var(--primary-gradient); border: 2px solid var(--gold); border-radius: var(--r-xl); padding: 32px 16px 14px; text-align: center; color: #fff; box-shadow: 0 10px 28px rgba(0,40,20,0.28); overflow: hidden; }
+.quote::after { content: ""; position: absolute; bottom: -60px; left: -60px; width: 140px; height: 140px; border-radius: 50%; background: radial-gradient(circle, rgba(229,193,91,0.18) 0%, transparent 70%); pointer-events: none; }
 .qlabel { position: absolute; top: -2px; right: 18px; background: linear-gradient(var(--gold-light), var(--gold)); color: #4a3200; font-weight: 700; font-size: 13px; padding: 0 14px; border-radius: 0 0 var(--r-md) var(--r-md); line-height: 2; box-shadow: 0 3px 8px rgba(0,0,0,0.2); }
-.qtext { font-size: 18px; line-height: 2.1; padding: 0 4px 12px; font-weight: 500; }
+.qtext { font-size: calc(17px * var(--font-scale)); line-height: 2.1; padding: 0 4px 12px; font-weight: 500; }
 .qline { width: 70px; height: 2px; margin: 0 auto 10px; background: var(--gold-gradient); border-radius: 2px; opacity: 0.85; }
-.qref { font-size: 12px; color: var(--gold-light); opacity: 0.9; margin-bottom: 10px; line-height: 1.8; }
 .qactions { display: flex; justify-content: center; gap: 8px; margin-top: 4px; }
-.qactions button {
-  flex: 1;
-  max-width: 110px;
-  background: rgba(255,255,255,0.14);
-  border: 1px solid rgba(255,255,255,0.24);
-  color: #fff;
-  border-radius: var(--r-full);
-  padding: 7px 6px;
-  font-family: inherit;
-  font-size: 12.5px;
-  line-height: 1.6;
+.qactions button { flex: 1; max-width: 110px; background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.24); color: #fff; border-radius: var(--r-full); padding: 7px 6px; font-family: inherit; font-size: 12.5px; line-height: 1.6; display: flex; align-items: center; justify-content: center; gap: 4px; transition: background var(--t-fast), transform var(--t-fast); }
+.qactions button:active { background: rgba(255,255,255,0.28); transform: scale(0.95); }
+.qactions button.on { background: var(--gold-gradient); color: #4a3200; border-color: var(--gold); font-weight: 700; }
+
+/* QUICK SHORTCUTS (horizontal scroll) */
+.shortcuts {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 4px 2px 8px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.shortcuts::-webkit-scrollbar { display: none; }
+.sc {
+  flex: 0 0 auto;
+  min-width: 92px;
+  background: linear-gradient(160deg, var(--surface), var(--surface-tint));
+  border: 1px solid var(--surface-border);
+  border-radius: var(--r-lg);
+  padding: 12px 10px 10px;
+  text-align: center;
+  font-size: 11.5px;
+  line-height: 1.7;
+  color: var(--primary-deep);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: transform var(--t-fast), box-shadow var(--t-fast);
+}
+body.theme-dark .sc { color: var(--text); }
+.sc:active { transform: scale(0.95); box-shadow: var(--shadow-md); }
+.sc .sc-ic {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  transition: background var(--t-fast), transform var(--t-fast);
+  width: 38px;
+  height: 38px;
+  margin: 0 auto 6px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(15,107,74,0.12), rgba(229,193,91,0.18));
+  font-size: 20px;
+  line-height: 1;
 }
-.qactions button:active { background: rgba(255,255,255,0.28); transform: scale(0.95); }
-.qactions button.on {
-  background: var(--gold-gradient);
-  color: #4a3200;
-  border-color: var(--gold);
-  font-weight: 700;
-}
+.sc .sc-label { font-weight: 600; }
 
-/* ===== QUICK ACTIONS ===== */
-.qa { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
-.qb { min-width: 0; background: linear-gradient(160deg, var(--surface), var(--surface-tint)); border: 1px solid var(--surface-border); border-radius: var(--r-md); padding: 6px 2px; text-align: center; font-size: 10.5px; line-height: 1.7; color: var(--primary-deep); box-shadow: var(--shadow-sm); cursor: pointer; transition: transform var(--t-fast); }
-.qb:active { transform: scale(0.94); }
-.qb span { display: block; font-size: 20px; line-height: 1.3; }
+/* BOTTOM NAV */
+#nav { position: fixed; left: 0; right: 0; bottom: 0; width: 100%; z-index: 15; display: flex; background: linear-gradient(var(--primary), var(--primary-deep)); border-radius: var(--r-xl) var(--r-xl) 0 0; padding: 6px 4px calc(6px + env(safe-area-inset-bottom)); box-shadow: 0 -4px 14px rgba(0,0,0,0.25); }
+#nav button { flex: 1 1 0; min-width: 0; background: none; border: 0; color: #cfe8da; font-family: inherit; font-size: 11px; line-height: 1.6; padding: 4px 2px 2px; opacity: 0.78; position: relative; transition: opacity var(--t-fast), color var(--t-fast); }
+#nav button span { display: block; font-size: 21px; line-height: 1.3; margin-bottom: 2px; transition: transform var(--t-fast); }
+#nav button.on { color: var(--gold-light); opacity: 1; }
+#nav button.on span { transform: translateY(-1px); }
+#nav button.on::before { content: ""; position: absolute; top: -6px; left: 50%; transform: translateX(-50%); width: 22px; height: 3px; background: var(--gold-gradient); border-radius: 3px; box-shadow: 0 2px 6px rgba(229,193,91,0.6); }
 
-#nav { position: fixed; left: 0; right: 0; bottom: 0; width: 100%; z-index: 15; display: flex; background: linear-gradient(var(--primary), var(--primary-deep)); border-radius: var(--r-xl) var(--r-xl) 0 0; padding: 5px 6px calc(5px + env(safe-area-inset-bottom)); box-shadow: 0 -4px 14px rgba(0,0,0,0.25); }
-#nav button { flex: 1 1 0; min-width: 0; background: none; border: 0; color: #cfe8da; font-family: inherit; font-size: 11px; line-height: 1.6; padding: 2px 0; opacity: 0.85; }
-#nav button span { display: block; font-size: 20px; line-height: 1.3; }
-#nav button.on { color: #7dffb4; opacity: 1; }
-
+/* NAMES PAGE */
 body.dark #app { padding: 10px 8px 24px; gap: 10px; }
 .panel { background: var(--dark-panel); border: 1px solid var(--dark-border); border-radius: var(--r-lg); padding: 10px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
 .two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
@@ -230,42 +236,69 @@ body.dark #app { padding: 10px 8px 24px; gap: 10px; }
 .chip { background: var(--dark-panel); color: var(--dark-text); border: 1px solid var(--dark-border-2); border-radius: var(--r-full); padding: 4px 14px; font-size: 14px; font-family: inherit; }
 .chip.on { background: var(--dark-name); color: #0b2a1e; border-color: var(--dark-name); }
 .list { background: var(--dark-panel-2); border: 1px solid var(--dark-border); border-radius: var(--r-lg); overflow: hidden; }
-.r { display: grid; grid-template-columns: 27% 22% minmax(0, 1fr) 34px; gap: 6px; align-items: center; padding: 6px 8px; border-bottom: 1px solid #1c312a; }
+.r { display: grid; grid-template-columns: 27% 22% minmax(0, 1fr) 60px; gap: 6px; align-items: center; padding: 8px; border-bottom: 1px solid #1c312a; cursor: pointer; transition: background var(--t-fast); }
 .r:nth-child(even) { background: var(--dark-panel); }
 .r:last-child { border-bottom: 0; }
+.r:active { background: var(--dark-border); }
 .nm { color: var(--dark-name); font-size: 17px; line-height: 1.9; }
 .en { color: var(--dark-english); font-family: var(--font-num); font-size: 12px; text-align: center; line-height: 1.4; word-break: break-word; }
-.mn { color: var(--dark-text-soft); font-size: 13px; line-height: 1.9; }
-.ac { display: flex; flex-direction: column; align-items: center; gap: 2px; }
-.ac button { background: none; border: 0; padding: 2px; font-size: 16px; line-height: 1; }
+.mn { color: var(--dark-text-soft); font-size: 13px; line-height: 1.9; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.ac { display: flex; gap: 4px; align-items: center; justify-content: center; }
+.ac button { background: none; border: 0; padding: 4px; font-size: 16px; line-height: 1; }
 .more { display: none; width: 100%; padding: 10px; font-size: 15px; font-family: inherit; background: var(--dark-panel); color: var(--dark-name); border: 1px solid var(--dark-border-2); border-radius: var(--r-md); }
 .empty { padding: 24px; text-align: center; color: var(--dark-text-muted); font-size: 15px; line-height: 2; }
 
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes slideUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-.fade-in { animation: fadeIn var(--t-med) both; }
-.slide-up { animation: slideUp var(--t-med) both; }
-
-.toast {
-  position: fixed;
-  bottom: calc(84px + env(safe-area-inset-bottom));
-  left: 50%;
-  transform: translateX(-50%) translateY(20px);
-  background: rgba(6,60,40,0.96);
-  color: #fff;
-  padding: 10px 20px;
-  border-radius: var(--r-full);
-  font-family: inherit;
-  font-size: 14px;
-  line-height: 1.6;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.35);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 200ms ease, transform 200ms ease;
-  z-index: 100;
-  white-space: nowrap;
-  max-width: 90vw;
+/* SETTINGS / INNER PAGES */
+.settings-list { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; }
+.set-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--r-md);
+  padding: 14px 16px;
+  font-size: 16px;
+  line-height: 1.8;
+  cursor: pointer;
+  transition: transform var(--t-fast), background var(--t-fast);
 }
+.set-item:active { transform: scale(0.99); background: var(--surface-tint); }
+.set-item .set-label { display: flex; align-items: center; gap: 10px; color: var(--text); }
+.set-item .set-ic { font-size: 20px; line-height: 1; }
+.set-item .set-val { color: var(--text-secondary); font-size: 14px; }
+.set-item .set-arrow { color: var(--text-secondary); font-size: 20px; line-height: 1; }
+
+/* TOGGLE */
+.toggle { position: relative; width: 46px; height: 26px; flex: 0 0 auto; background: #cfd8d2; border-radius: var(--r-full); transition: background var(--t-med); cursor: pointer; }
+.toggle.on { background: var(--primary); }
+.toggle::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; background: white; border-radius: 50%; transition: transform var(--t-med); box-shadow: 0 1px 3px rgba(0,0,0,0.25); }
+.toggle.on::after { transform: translateX(20px); }
+
+/* FONT SIZE OPTIONS */
+.fs-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.fs-opt { background: var(--surface); border: 1px solid var(--surface-border); border-radius: var(--r-md); padding: 12px 8px; text-align: center; font-family: inherit; color: var(--text); cursor: pointer; transition: all var(--t-fast); }
+.fs-opt.on { background: var(--primary); color: #fff; border-color: var(--primary); }
+.fs-opt .fs-preview { font-weight: 700; line-height: 1.4; margin-bottom: 4px; }
+.fs-opt.fs-s .fs-preview { font-size: 14px; }
+.fs-opt.fs-m .fs-preview { font-size: 18px; }
+.fs-opt.fs-l .fs-preview { font-size: 22px; }
+.fs-opt .fs-label { font-size: 12px; line-height: 1.5; }
+
+/* DETAIL SCREEN */
+.name-detail { text-align: center; padding: 24px 18px; }
+.name-detail .nd-name { font-size: calc(38px * var(--font-scale)); color: var(--primary); font-weight: 700; line-height: 1.6; margin-bottom: 4px; }
+body.theme-dark .name-detail .nd-name { color: var(--dark-name); }
+.name-detail .nd-en { font-family: var(--font-num); color: var(--gold-dark); font-size: 18px; margin-bottom: 16px; }
+.name-detail .nd-meaning { font-size: calc(17px * var(--font-scale)); line-height: 2.2; color: var(--text); padding: 14px; background: var(--surface-tint); border-radius: var(--r-md); margin-bottom: 16px; }
+.name-detail .nd-gender { display: inline-block; background: var(--gold-gradient); color: #4a3200; padding: 4px 14px; border-radius: var(--r-full); font-size: 13px; font-weight: 700; margin-bottom: 16px; }
+.name-detail .nd-actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.name-detail .nd-actions button { background: var(--primary); color: #fff; border: 0; border-radius: var(--r-full); padding: 10px 20px; font-family: inherit; font-size: 14px; line-height: 1.6; display: inline-flex; align-items: center; gap: 6px; }
+.name-detail .nd-actions button.ghost { background: var(--surface-tint); color: var(--primary-deep); }
+
+/* TOAST */
+.toast { position: fixed; bottom: calc(92px + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%) translateY(20px); background: rgba(6,60,40,0.96); color: #fff; padding: 10px 20px; border-radius: var(--r-full); font-family: inherit; font-size: 14px; line-height: 1.6; box-shadow: 0 6px 20px rgba(0,0,0,0.35); opacity: 0; pointer-events: none; transition: opacity 200ms ease, transform 200ms ease; z-index: 100; white-space: nowrap; max-width: 90vw; }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
 @media (prefers-reduced-motion: reduce) {
@@ -281,10 +314,12 @@ body.dark #app { padding: 10px 8px 24px; gap: 10px; }
 <svg class="deco lantern lantern-l" viewBox="0 0 40 90"><line x1="20" y1="0" x2="20" y2="16" stroke="#c9a23c" stroke-width="2"/><path d="M11 16h18l5 8H6z" fill="#c9a23c"/><rect x="9" y="24" width="22" height="40" rx="8" fill="#f7e08c"/><rect x="18" y="24" width="4" height="40" fill="#c9a23c" opacity="0.5"/><path d="M11 64h18l-4 12H15z" fill="#c9a23c"/></svg>
 <svg class="deco lantern lantern-r" viewBox="0 0 40 90"><line x1="20" y1="0" x2="20" y2="16" stroke="#c9a23c" stroke-width="2"/><path d="M11 16h18l5 8H6z" fill="#c9a23c"/><rect x="9" y="24" width="22" height="40" rx="8" fill="#f7e08c"/><rect x="18" y="24" width="4" height="40" fill="#c9a23c" opacity="0.5"/><path d="M11 64h18l-4 12H15z" fill="#c9a23c"/></svg>
 </div>
-<button id="back">واپس</button>
+<button id="back" aria-label="واپس"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
 <button id="menuBtn" aria-label="مینو">⋮</button>
 <div id="menu">
 <button id="mShare">📤 ایپ شیئر کریں</button>
+<button id="mDark">🌙 ڈارک موڈ</button>
+<button id="mSettings">⚙️ سیٹنگز</button>
 <button id="mAbout">ℹ️ ایپ کے بارے میں</button>
 </div>
 <h1 id="title"></h1>
@@ -305,6 +340,8 @@ body.dark #app { padding: 10px 8px 24px; gap: 10px; }
 const APP_TITLE = "اسلامی نام";
 const APP_SUB = "میری اسلامی ایپ";
 const GREETING = "السلام علیکم! 💚 اللہ تعالیٰ آپ کے ساتھ ہو";
+const APP_VERSION = "1.8";
+
 let QUOTES = [
 "اللہ پر بھروسہ رکھو، وہ ہمیشہ بہتر کرتا ہے۔",
 "اچھا اخلاق سب سے بڑی دولت ہے۔",
@@ -314,29 +351,34 @@ let QUOTES = [
 "ماں باپ کی خدمت سب سے بڑی نیکیوں میں سے ہے۔",
 "مسکرا کر ملنا بھی نیکی ہے۔"
 ];
+
 const META = {
-poetry: { title: "شاعری", icon: "✍️", desc: "اسلامی اور سبق آموز شاعری" },
-names: { title: "اسلامی نام", icon: "📖", desc: "لڑکوں اور لڑکیوں کے نام" },
-info: { title: "اسلامی معلومات", icon: "🕌", desc: "سوالات اور دلچسپ معلومات" },
-stories: { title: "کہانیاں", icon: "📚", desc: "مختصر اور سبق آموز کہانیاں" }
+  poetry: { title: "شاعری", icon: "✍️", desc: "اسلامی اور سبق آموز شاعری" },
+  names: { title: "اسلامی نام", icon: "📖", desc: "لڑکوں اور لڑکیوں کے نام" },
+  info: { title: "اسلامی معلومات", icon: "🕌", desc: "سوالات اور دلچسپ معلومات" },
+  stories: { title: "کہانیاں", icon: "📚", desc: "مختصر اور سبق آموز کہانیاں" }
 };
+
 const ICON_SVG = {
-names: '<svg class="ic-svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="28" height="28" rx="6" fill="#0f6b4a" opacity="0.12"/><path d="M12 10v20c4-1 8-3 8-6V10c0 3-4 5-8 6z" fill="#0f6b4a"/><path d="M28 10v20c-4-1-8-3-8-6V10c0 3 4 5 8 6z" fill="#117a58"/><path d="M20 10v20" stroke="#e5c15b" stroke-width="1.5" stroke-linecap="round"/></svg>',
-poetry: '<svg class="ic-svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="28" height="28" rx="6" fill="#0f6b4a" opacity="0.12"/><path d="M27 11l-11 11-1 5 5-1 11-11z" fill="#0f6b4a"/><path d="M27 11l3 3" stroke="#e5c15b" stroke-width="1.6" stroke-linecap="round"/><path d="M11 29h6" stroke="#117a58" stroke-width="1.6" stroke-linecap="round"/></svg>',
-info: '<svg class="ic-svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="28" height="28" rx="6" fill="#0f6b4a" opacity="0.12"/><path d="M10 20c0-4 4-8 10-8s10 4 10 8-4 8-10 8c-2 0-3 0-5-1l-4 1 1-4c-1-1-2-2-2-4z" fill="#0f6b4a"/><path d="M20 18v6M20 15v.5" stroke="#e5c15b" stroke-width="2" stroke-linecap="round"/></svg>',
-stories: '<svg class="ic-svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="28" height="28" rx="6" fill="#0f6b4a" opacity="0.12"/><path d="M12 11h6c2 0 2 2 2 2v15c0-1-2-2-4-2h-4z" fill="#117a58"/><path d="M28 11h-6c-2 0-2 2-2 2v15c0-1 2-2 4-2h4z" fill="#0f6b4a"/><path d="M20 13v15" stroke="#e5c15b" stroke-width="1.4" stroke-linecap="round"/></svg>'
+  names: '<svg class="ic-svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="28" height="28" rx="6" fill="#0f6b4a" opacity="0.12"/><path d="M12 10v20c4-1 8-3 8-6V10c0 3-4 5-8 6z" fill="#0f6b4a"/><path d="M28 10v20c-4-1-8-3-8-6V10c0 3 4 5 8 6z" fill="#117a58"/><path d="M20 10v20" stroke="#e5c15b" stroke-width="1.5" stroke-linecap="round"/></svg>',
+  poetry: '<svg class="ic-svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="28" height="28" rx="6" fill="#0f6b4a" opacity="0.12"/><path d="M27 11l-11 11-1 5 5-1 11-11z" fill="#0f6b4a"/><path d="M27 11l3 3" stroke="#e5c15b" stroke-width="1.6" stroke-linecap="round"/><path d="M11 29h6" stroke="#117a58" stroke-width="1.6" stroke-linecap="round"/></svg>',
+  info: '<svg class="ic-svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="28" height="28" rx="6" fill="#0f6b4a" opacity="0.12"/><path d="M10 20c0-4 4-8 10-8s10 4 10 8-4 8-10 8c-2 0-3 0-5-1l-4 1 1-4c-1-1-2-2-2-4z" fill="#0f6b4a"/><path d="M20 18v6M20 15v.5" stroke="#e5c15b" stroke-width="2" stroke-linecap="round"/></svg>',
+  stories: '<svg class="ic-svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="28" height="28" rx="6" fill="#0f6b4a" opacity="0.12"/><path d="M12 11h6c2 0 2 2 2 2v15c0-1-2-2-4-2h-4z" fill="#117a58"/><path d="M28 11h-6c-2 0-2 2-2 2v15c0-1 2-2 4-2h4z" fill="#0f6b4a"/><path d="M20 13v15" stroke="#e5c15b" stroke-width="1.4" stroke-linecap="round"/></svg>'
 };
+
 const ORDER = ["poetry", "names", "info", "stories"];
-const MORE_TEXT = "<b>جلد آنے والے فیچرز</b><br>• روزانہ نوٹیفکیشن<br>• اسلامی معلومات<br>• مزید نام، شاعری اور کہانیاں";
 const PAGE = 100;
+
 let DATA = {};
 let NAMES = null;
 let FAV = [];
 let FAVQ = [];
 try { FAV = JSON.parse(localStorage.getItem("fav_names") || "[]"); } catch (e) { FAV = []; }
 try { FAVQ = JSON.parse(localStorage.getItem("fav_quotes") || "[]"); } catch (e) { FAVQ = []; }
+
 function saveFav() { try { localStorage.setItem("fav_names", JSON.stringify(FAV)); } catch (e) {} }
 function saveFavQ() { try { localStorage.setItem("fav_quotes", JSON.stringify(FAVQ)); } catch (e) {} }
+
 const keyOf = x => x.n + "|" + x.e;
 const hdr = document.getElementById("hdr");
 const app = document.getElementById("app");
@@ -358,7 +400,6 @@ function showToast(msg) {
   clearTimeout(showToast._t);
   showToast._t = setTimeout(() => toast.classList.remove("show"), 2000);
 }
-
 function copyText(text) {
   if (navigator.clipboard && navigator.clipboard.writeText) {
     return navigator.clipboard.writeText(text).catch(() => fallbackCopy(text));
@@ -380,13 +421,41 @@ function fallbackCopy(text) {
 }
 
 function dayNumber() { const d = new Date(); return Math.floor(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) / 86400000); }
-function setMode(mode) { document.body.className = mode; hdr.classList.toggle("hero", mode === "home"); window.scrollTo(0, 0); }
+
+function applyTheme() {
+  const dark = localStorage.getItem("theme") === "dark";
+  document.body.classList.toggle("theme-dark", dark);
+  const mDark = document.getElementById("mDark");
+  if (mDark) mDark.textContent = dark ? "☀️ لائٹ موڈ" : "🌙 ڈارک موڈ";
+}
+function applyFontScale() {
+  const s = parseFloat(localStorage.getItem("fontScale") || "1");
+  const v = isNaN(s) ? 1 : Math.max(0.85, Math.min(1.25, s));
+  document.documentElement.style.setProperty("--font-scale", v);
+}
+
+function setMode(mode) {
+  const dark = localStorage.getItem("theme") === "dark";
+  let cls = mode;
+  if (mode === "dark") {
+    cls = "dark";
+  } else if (dark) {
+    cls = mode + " theme-dark";
+  }
+  document.body.className = cls;
+  hdr.classList.toggle("hero", mode === "home");
+  window.scrollTo(0, 0);
+}
 function setNav(t) { nav.querySelectorAll("button").forEach(b => b.classList.toggle("on", b.dataset.t === t)); }
 function showModal(html) { modalBox.innerHTML = html; modal.classList.add("show"); }
+
 menuBtn.onclick = e => { e.stopPropagation(); menu.classList.toggle("show"); };
-document.addEventListener("click", () => menu.classList.remove("show"));
+document.addEventListener("click", e => {
+  if (!e.target.closest("#menu") && !e.target.closest("#menuBtn")) menu.classList.remove("show");
+});
 modal.onclick = () => modal.classList.remove("show");
 modalBox.onclick = e => e.stopPropagation();
+
 function shareText(text, titleText) {
   if (navigator.share) { navigator.share({ title: titleText, text: text }).catch(() => {}); }
   else { window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank"); }
@@ -403,8 +472,22 @@ function shareQuote(q) {
   const url = location.origin + location.pathname;
   shareText("آج کی خوبصورت بات:\n\n\"" + q + "\"\n\nمیری اسلامی ایپ:\n" + url, "آج کی خوبصورت بات");
 }
-document.getElementById("mShare").onclick = shareApp;
-document.getElementById("mAbout").onclick = () => { showModal("<b>میری اسلامی ایپ</b><br>اسلامی نام، شاعری اور کہانیاں<br>ورژن 1.7"); };
+
+document.getElementById("mShare").onclick = () => { menu.classList.remove("show"); shareApp(); };
+document.getElementById("mDark").onclick = () => {
+  const dark = localStorage.getItem("theme") === "dark";
+  localStorage.setItem("theme", dark ? "light" : "dark");
+  applyTheme();
+  const mode = document.body.classList.contains("dark") ? "dark" : (document.body.classList.contains("home") ? "home" : "inner");
+  setMode(mode);
+  menu.classList.remove("show");
+  showToast(dark ? "☀️ لائٹ موڈ" : "🌙 ڈارک موڈ");
+};
+document.getElementById("mSettings").onclick = () => { menu.classList.remove("show"); settingsPage(); };
+document.getElementById("mAbout").onclick = () => {
+  menu.classList.remove("show");
+  showModal("<b>میری اسلامی ایپ</b><br>اسلامی نام، شاعری اور کہانیاں<br>ورژن " + APP_VERSION + "<br><br><small style='color:#64756C'>یہ ایک مفت اسلامی ایپ ہے۔ اللہ قبول فرمائے۔</small>");
+};
 
 function loadNames() {
   if (NAMES) return Promise.resolve(NAMES);
@@ -444,8 +527,8 @@ function home() {
     "<div class='sb'>" +
     "<button class='mic' id='hMic'>🎤</button>" +
     "<input id='hSearch' type='search' placeholder='اپنا پسندیدہ نام تلاش کریں...'>" +
-    "<button class='clear-sb' id='hClear' aria-label='صاف کریں'>✕</button>" +
-    "<button class='sgo' id='hGo' aria-label='تلاش'>🔍</button>" +
+    "<button class='clear-sb' id='hClear'>✕</button>" +
+    "<button class='sgo' id='hGo'>🔍</button>" +
     "</div>" +
     "<div class='hgrid'>" +
     ORDER.map(k => "<div class='hc' data-k='" + k + "'>" +
@@ -465,12 +548,12 @@ function home() {
     "<button id='qFav' class='" + (isFavQ ? "on" : "") + "'>" + (isFavQ ? "❤️ پسندیدہ" : "🤍 پسندیدہ") + "</button>" +
     "</div>" +
     "</div>" +
-    "<div class='qa'>" +
-    "<div class='qb' data-a='more'><span>⭐</span>مزید فیچرز<br>دیکھیں</div>" +
-    "<div class='qb' data-a='today'><span>📅</span>آج کا نام<br>(روزانہ نیا)</div>" +
-    "<div class='qb' data-a='tasbeeh'><span>📿</span>تسبیح<br>شمار</div>" +
-    "<div class='qb' data-a='fav'><span>❤️</span>پسندیدہ<br>فہرست</div>" +
-    "<div class='qb' data-a='share'><span>📤</span>دوستوں کو<br>شیئر کریں</div>" +
+    "<div class='shortcuts'>" +
+    "<div class='sc' data-a='share'><div class='sc-ic'>📤</div><div class='sc-label'>شیئر کریں</div></div>" +
+    "<div class='sc' data-a='fav'><div class='sc-ic'>❤️</div><div class='sc-label'>پسندیدہ</div></div>" +
+    "<div class='sc' data-a='today'><div class='sc-ic'>📅</div><div class='sc-label'>آج کا نام</div></div>" +
+    "<div class='sc' data-a='tasbeeh'><div class='sc-ic'>📿</div><div class='sc-label'>تسبیح</div></div>" +
+    "<div class='sc' data-a='more'><div class='sc-ic'>⭐</div><div class='sc-label'>مزید</div></div>" +
     "</div>";
 
   const hs = document.getElementById("hSearch");
@@ -495,7 +578,6 @@ function home() {
     };
   }
 
-  // Quote actions
   document.getElementById("qShare").onclick = () => shareQuote(todayQ);
   document.getElementById("qCopy").onclick = () => {
     copyText(todayQ + "\n\n— میری اسلامی ایپ");
@@ -522,14 +604,14 @@ function home() {
 app.onclick = e => {
   const hc = e.target.closest(".hc");
   if (hc) { openCard(hc.dataset.k); return; }
-  const qb = e.target.closest(".qb");
-  if (qb) {
-    const a = qb.dataset.a;
-    if (a === "more") showModal(MORE_TEXT);
+  const sc = e.target.closest(".sc");
+  if (sc) {
+    const a = sc.dataset.a;
+    if (a === "share") shareApp();
+    else if (a === "fav") namesPage({ fav: true });
     else if (a === "today") todayName();
     else if (a === "tasbeeh") location.href = "tasbeeh.html";
-    else if (a === "fav") namesPage({ fav: true });
-    else if (a === "share") shareApp();
+    else if (a === "more") showModal("<b>جلد آنے والے فیچرز</b><br>• روزانہ نوٹیفکیشن<br>• اسلامی معلومات<br>• مزید نام، شاعری اور کہانیاں");
   }
 };
 nav.onclick = e => {
@@ -546,16 +628,21 @@ function openCard(k) {
   if (DATA[k]) { category(k); return; }
   showModal("<b>" + META[k].title + "</b><br>یہ حصہ جلد آ رہا ہے۔");
 }
+
 function category(key) {
   const d = DATA[key];
   if (!d) { openCard(key); return; }
   setMode("inner");
   title.textContent = d.title;
   sub.textContent = "";
-  back.style.display = "block";
+  back.style.display = "flex";
   back.onclick = home;
   setNav(key);
   app.innerHTML = "";
+  if (!d.items || !d.items.length) {
+    app.innerHTML = "<div class='card' style='text-align:center;color:var(--text-secondary)'>یہاں ابھی کچھ نہیں۔ جلد اضافہ ہوگا۔</div>";
+    return;
+  }
   d.items.forEach(item => {
     const c = document.createElement("div");
     c.className = "card";
@@ -574,13 +661,23 @@ function detail(key, item) {
   d.className = "detail";
   d.textContent = item.d;
   app.appendChild(d);
+  const actions = document.createElement("div");
+  actions.style.cssText = "display:flex;gap:8px;margin-top:12px;justify-content:center;flex-wrap:wrap";
+  actions.innerHTML =
+    "<button class='qs' style='background:var(--primary);color:#fff;border:0;border-radius:999px;padding:10px 18px;font-family:inherit;font-size:14px;display:inline-flex;align-items:center;gap:6px'>📤 شیئر</button>" +
+    "<button class='qc' style='background:var(--surface-tint);color:var(--primary-deep);border:0;border-radius:999px;padding:10px 18px;font-family:inherit;font-size:14px;display:inline-flex;align-items:center;gap:6px'>📋 کاپی</button>";
+  app.appendChild(actions);
+  const textShare = item.t + "\n\n" + item.d + "\n\n— میری اسلامی ایپ";
+  actions.querySelector(".qs").onclick = () => shareText(textShare, item.t);
+  actions.querySelector(".qc").onclick = () => { copyText(textShare); showToast("📋 کاپی ہو گیا"); };
 }
+
 function namesPage(opts) {
   opts = opts || {};
   setMode("dark");
   title.textContent = opts.fav ? "پسندیدہ نام" : META.names.title;
   sub.textContent = "";
-  back.style.display = "block";
+  back.style.display = "flex";
   back.onclick = home;
   setNav(opts.fav ? "fav" : "names");
   app.innerHTML = `
@@ -633,7 +730,7 @@ function namesPage(opts) {
       list.innerHTML = "<div class='empty'>" + (onlyFav ? "ابھی کوئی پسندیدہ نام نہیں۔ کسی نام کے ساتھ 🤍 دبائیں۔" : "کوئی نام نہیں ملا۔") + "</div>";
     } else {
       list.innerHTML = current.slice(0, shown).map((x, i) =>
-        "<div class='r'>" +
+        "<div class='r' data-idx='" + i + "'>" +
         "<div class='nm'>" + esc(x.n) + "</div>" +
         "<div class='en'>" + esc(x.e) + "</div>" +
         "<div class='mn'>" + esc(x.m) + "</div>" +
@@ -648,18 +745,25 @@ function namesPage(opts) {
     else { more.style.display = "none"; }
   }
   list.onclick = e => {
-    const b = e.target.closest("button[data-a]");
-    if (!b) return;
-    const x = current[Number(b.dataset.i)];
-    if (!x) return;
-    if (b.dataset.a === "share") { shareName(x); }
-    else {
-      const k = keyOf(x);
-      const at = FAV.indexOf(k);
-      if (at >= 0) FAV.splice(at, 1); else FAV.push(k);
-      saveFav();
-      if (onlyFav) render(false);
-      else b.textContent = FAV.includes(k) ? "❤️" : "🤍";
+    const btn = e.target.closest("button[data-a]");
+    if (btn) {
+      const x = current[Number(btn.dataset.i)];
+      if (!x) return;
+      if (btn.dataset.a === "share") { shareName(x); }
+      else {
+        const k = keyOf(x);
+        const at = FAV.indexOf(k);
+        if (at >= 0) FAV.splice(at, 1); else FAV.push(k);
+        saveFav();
+        if (onlyFav) render(false);
+        else btn.textContent = FAV.includes(k) ? "❤️" : "🤍";
+      }
+      return;
+    }
+    const row = e.target.closest(".r");
+    if (row) {
+      const x = current[Number(row.dataset.idx)];
+      if (x) nameDetailPage(x);
     }
   };
   more.onclick = () => { shown += PAGE; render(false); };
@@ -679,6 +783,132 @@ function namesPage(opts) {
     render(true);
   }).catch(() => { count.textContent = "names.json لوڈ نہیں ہوئی۔ فائل میں کوئی غلطی ہو سکتی ہے۔"; });
 }
+
+function nameDetailPage(x) {
+  setMode("inner");
+  title.textContent = x.n;
+  sub.textContent = "";
+  back.style.display = "flex";
+  back.onclick = () => namesPage();
+  setNav("names");
+  const k = keyOf(x);
+  const isFav = FAV.includes(k);
+  app.innerHTML = `
+    <div class="name-detail">
+      <div class="nd-name">${esc(x.n)}</div>
+      <div class="nd-en">${esc(x.e)}</div>
+      <div class="nd-gender">${esc(x.g)}</div>
+      <div class="nd-meaning">${esc(x.m)}</div>
+      <div class="nd-actions">
+        <button id="ndFav">${isFav ? "❤️ پسندیدہ" : "🤍 پسندیدہ"}</button>
+        <button id="ndCopy" class="ghost">📋 کاپی</button>
+        <button id="ndShare" class="ghost">📤 شیئر</button>
+      </div>
+    </div>`;
+  document.getElementById("ndFav").onclick = () => {
+    const at = FAV.indexOf(k);
+    const btn = document.getElementById("ndFav");
+    if (at >= 0) { FAV.splice(at, 1); btn.textContent = "🤍 پسندیدہ"; showToast("پسندیدہ سے ہٹا دیا"); }
+    else { FAV.push(k); btn.textContent = "❤️ پسندیدہ"; showToast("❤️ پسندیدہ میں محفوظ"); }
+    saveFav();
+  };
+  document.getElementById("ndCopy").onclick = () => {
+    copyText(x.n + " (" + x.e + ")\nمعنی: " + x.m);
+    showToast("📋 کاپی ہو گیا");
+  };
+  document.getElementById("ndShare").onclick = () => shareName(x);
+}
+
+function settingsPage() {
+  setMode("inner");
+  title.textContent = "سیٹنگز";
+  sub.textContent = "";
+  back.style.display = "flex";
+  back.onclick = home;
+  setNav("");
+  const dark = localStorage.getItem("theme") === "dark";
+  const fs = parseFloat(localStorage.getItem("fontScale") || "1");
+  const fsClass = fs >= 1.15 ? "large" : (fs <= 0.9 ? "small" : "medium");
+
+  app.innerHTML = `
+    <div class="settings-list">
+      <div class="set-item" id="sAbout">
+        <div class="set-label"><span class="set-ic">ℹ️</span><span>ایپ کے بارے میں</span></div>
+        <div class="set-arrow">‹</div>
+      </div>
+      <div class="set-item" id="sShare">
+        <div class="set-label"><span class="set-ic">📤</span><span>ایپ شیئر کریں</span></div>
+        <div class="set-arrow">‹</div>
+      </div>
+      <div class="set-item" id="sDark">
+        <div class="set-label"><span class="set-ic">🌙</span><span>ڈارک موڈ</span></div>
+        <div class="toggle ${dark ? "on" : ""}" id="sDarkToggle"></div>
+      </div>
+      <div class="set-item" style="flex-direction:column;align-items:stretch;cursor:default">
+        <div class="set-label" style="margin-bottom:8px"><span class="set-ic">🔤</span><span>فونٹ سائز</span></div>
+        <div class="fs-row">
+          <button class="fs-opt fs-s ${fsClass === "small" ? "on" : ""}" data-fs="0.88">
+            <div class="fs-preview">آ</div>
+            <div class="fs-label">چھوٹا</div>
+          </button>
+          <button class="fs-opt fs-m ${fsClass === "medium" ? "on" : ""}" data-fs="1">
+            <div class="fs-preview">آ</div>
+            <div class="fs-label">درمیانہ</div>
+          </button>
+          <button class="fs-opt fs-l ${fsClass === "large" ? "on" : ""}" data-fs="1.18">
+            <div class="fs-preview">آ</div>
+            <div class="fs-label">بڑا</div>
+          </button>
+        </div>
+      </div>
+      <div class="set-item" id="sPrivacy">
+        <div class="set-label"><span class="set-ic">🔒</span><span>پرائیویسی پالیسی</span></div>
+        <div class="set-arrow">‹</div>
+      </div>
+      <div class="set-item" id="sTerms">
+        <div class="set-label"><span class="set-ic">📄</span><span>استعمال کی شرائط</span></div>
+        <div class="set-arrow">‹</div>
+      </div>
+      <div class="set-item" id="sFeedback">
+        <div class="set-label"><span class="set-ic">✉️</span><span>فیڈبیک</span></div>
+        <div class="set-arrow">‹</div>
+      </div>
+      <div class="set-item" id="sRate">
+        <div class="set-label"><span class="set-ic">⭐</span><span>ایپ ریٹنگ</span></div>
+        <div class="set-val">جلد آ رہا ہے</div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById("sAbout").onclick = () => showModal("<b>میری اسلامی ایپ</b><br>اسلامی نام، شاعری اور کہانیاں<br>ورژن " + APP_VERSION + "<br><br><small style='color:#64756C'>یہ ایک مفت اسلامی ایپ ہے۔ اللہ قبول فرمائے۔</small>");
+  document.getElementById("sShare").onclick = () => shareApp();
+  document.getElementById("sDark").onclick = () => {
+    const wasDark = localStorage.getItem("theme") === "dark";
+    localStorage.setItem("theme", wasDark ? "light" : "dark");
+    applyTheme();
+    document.getElementById("sDarkToggle").classList.toggle("on", !wasDark);
+    setMode("inner");
+    title.textContent = "سیٹنگز";
+  };
+  document.querySelectorAll(".fs-opt").forEach(b => {
+    b.onclick = () => {
+      const v = parseFloat(b.dataset.fs);
+      localStorage.setItem("fontScale", String(v));
+      document.documentElement.style.setProperty("--font-scale", v);
+      document.querySelectorAll(".fs-opt").forEach(x => x.classList.remove("on"));
+      b.classList.add("on");
+      showToast("فونٹ سائز تبدیل ہو گیا");
+    };
+  });
+  document.getElementById("sPrivacy").onclick = () => showModal("<b>پرائیویسی پالیسی</b><br><br><small style='text-align:right;display:block;line-height:2'>یہ ایپ آپ کی ذاتی معلومات جمع نہیں کرتی۔ آپ کے پسندیدہ نام اور سیٹنگز صرف آپ کے فون میں محفوظ ہوتے ہیں۔ ہم Google Analytics استعمال کرتے ہیں جو گمنام استعمال کی معلومات جمع کرتا ہے (کس صفحے پر کتنے لوگ آئے)۔ کوئی ذاتی معلومات نہیں بھیجی جاتی۔</small>");
+  document.getElementById("sTerms").onclick = () => showModal("<b>استعمال کی شرائط</b><br><br><small style='text-align:right;display:block;line-height:2'>یہ ایپ مفت ہے۔ اسلامی نام اور معنی مشہور کتابوں سے لیے گئے ہیں، لیکن کسی بھی نام کے معنی کی حتمی تصدیق کے لیے کسی مستند عالم سے رجوع کریں۔ ایپ میں موجود مواد اپنی جگہ، لیکن مذہبی معاملات میں علمائے کرام کی رائے افضل ہے۔</small>");
+  document.getElementById("sFeedback").onclick = () => {
+    window.location.href = "mailto:?subject=" + encodeURIComponent("میری اسلامی ایپ - فیڈبیک") + "&body=" + encodeURIComponent("السلام علیکم،\n\nمیری رائے:\n\n");
+  };
+  document.getElementById("sRate").onclick = () => showToast("Play Store پر آنے کے بعد ریٹنگ ممکن ہوگی");
+}
+applyTheme();
+applyFontScale();
 Promise.all([
   fetch("data.json", { cache: "no-store" }).then(r => r.json()),
   fetch("quotes.json", { cache: "no-store" }).then(r => r.json()).catch(() => null)
