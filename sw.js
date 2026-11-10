@@ -1,4 +1,4 @@
-const CACHE = "islamic-app-v5";
+const CACHE = "islamic-app-v6";
 const FILES = ["./", "./index.html", "./data.json", "./names.json", "./manifest.json", "./icon-192.png", "./icon-512.png", "./tasbeeh.html"];
 
 self.addEventListener("install", e => {
