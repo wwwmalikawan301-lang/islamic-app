@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ڈیجیٹل تسبیح</title>
+<meta name="theme-color" content="#0f6b4a">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: "Noto Nastaliq Urdu", sans-serif;
+  background: radial-gradient(circle at 30% 20%, #17935f 0%, rgba(23,147,95,0) 45%),
+              linear-gradient(160deg, #0b5b3c, #0d6f48 55%, #0a4a31);
+  color: #fff;
+  min-height: 100vh;
+  padding: 14px 14px calc(24px + env(safe-area-inset-bottom));
+  overflow-x: hidden;
+  overflow-wrap: break-word;
+}
+#hdr {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+#back {
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+  border: 0;
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-size: 16px;
+  font-family: inherit;
+}
+#hdr h1 {
+  font-size: 20px;
+  margin: 0;
+  font-weight: 700;
+  color: #f2cf6b;
+  line-height: 1.8;
+}
+#historyBtn {
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+  border: 0;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 20px;
+}
+.zikrBox {
+  background: rgba(0,0,0,0.25);
+  border: 1px solid rgba(242,207,107,0.5);
+  border-radius: 16px;
+  padding: 10px 14px;
+  text-align: center;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+#zikr {
+  font-size: 22px;
+  color: #f2cf6b;
+  line-height: 2;
+  flex: 1 1 auto;
+  min-width: 0;
+  word-break: break-word;
+}
+#editZikr {
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+  border: 0;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 16px;
+  flex: 0 0 auto;
+}
+#countWrap {
+  text-align: center;
+  margin: 10px 0 20px;
+}
+#count {
+  font-family: Georgia, serif;
+  font-size: 72px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+  text-shadow: 0 4px 18px rgba(0,0,0,0.4);
+  word-break: break-all;
+}
+#target {
+  color: #cfe8da;
+  font-size: 15px;
+  margin-top: 6px;
+  line-height: 1.8;
+}
+#tapBtn {
+  display: block;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  margin: 0 auto 22px;
+  background: radial-gradient(circle at 30% 25%, #f7e08c, #d9b44a 70%, #a07d12);
+  border: 6px solid rgba(255,255,255,0.35);
+  color: #4a3200;
+  font-family: inherit;
+  font-size: 32px;
+  font-weight: 700;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4), inset 0 -6px 0 rgba(0,0,0,0.15);
+  cursor: pointer;
+  transition: transform 0.08s;
+  line-height: 1.4;
+}
+#tapBtn:active {
+  transform: scale(0.96);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.5), inset 0 -3px 0 rgba(0,0,0,0.2);
+}
+.controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.controls button {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 12px;
+  padding: 12px 8px;
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 1.8;
+}
+.controls button:active { background: rgba(255,255,255,0.28); }
+.controls button.gold {
+  background: linear-gradient(#f6dc83, #d9b44a);
+  color: #4a3200;
+  border-color: #a07d12;
+  font-weight: 700;
+}
+#undoBtn:disabled {
+  opacity: 0.4;
+}
+#totalInfo {
+  text-align: center;
+  color: #cfe8da;
+  font-size: 14px;
+  line-height: 1.9;
+  margin-top: 8px;
+}
+#overlay {
+  display: none;
+  position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background: rgba(0,0,0,0.6);
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  padding: 18px;
+}
+#overlay.show { display: flex; }
+#box {
+  background: #fff;
+  color: #1b3a2b;
+  border-radius: 16px;
+  padding: 20px 18px;
+  width: 100%;
+  max-width: 420px;
+  max-height: 80vh;
+  overflow-y: auto;
+  font-size: 16px;
+  line-height: 1.9;
+}
+#box h2 { margin: 0 0 12px; font-size: 19px; color: #0f6b4a; line-height: 1.8; }
+#box input[type="text"] {
+  width: 100%;
+  padding: 10px 12px;
+  font-family: inherit;
+  font-size: 17px;
+  border: 1px solid #cfe0d6;
+  border-radius: 10px;
+  outline: 0;
+  margin-bottom: 10px;
+}
+#box .row { display: flex; gap: 8px; margin-top: 10px; }
+#box button {
+  flex: 1;
+  padding: 10px;
+  font-family: inherit;
+  font-size: 16px;
+  border: 0;
+  border-radius: 10px;
+  background: #0f6b4a;
+  color: #fff;
+}
+#box button.ghost {
+  background: #e8f1eb;
+  color: #0b4d34;
+}
+#box button.danger {
+  background: #b23c3c;
+  color: #fff;
+}
+.histItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 0;
+  border-bottom: 1px solid #e3ece6;
+  font-size: 15px;
+}
+.histItem:last-child { border-bottom: 0; }
+.histItem .hZ { color: #0f6b4a; font-weight: 700; }
+.histItem .hC { color: #a07d12; font-family: Georgia, serif; font-size: 17px; }
+.histItem .hD { color: #6b8478; font-size: 12px; }
+.histEmpty { text-align: center; color: #6b8478; padding: 20px 0; }
+</style>
+</head>
+<body>
+<div id="hdr">
+  <button id="back">واپس</button>
+  <h1>ڈیجیٹل تسبیح</h1>
+  <button id="historyBtn" aria-label="تاریخ">📜</button>
+</div>
+
+<div class="zikrBox">
+  <div id="zikr">سبحان اللہ</div>
+  <button id="editZikr" aria-label="تبدیل">✏️</button>
+</div>
+
+<div id="countWrap">
+  <div id="count">0</div>
+  <div id="target">ہدف: 33</div>
+</div>
+
+<button id="tapBtn">گنیں<br>▲</button>
+
+<div class="controls">
+  <button id="resetBtn">🔄 ری سیٹ</button>
+  <button id="undoBtn" disabled>↩️ ان ڈو</button>
+  <button id="targetBtn">🎯 ہدف: 33</button>
+  <button id="saveHistBtn" class="gold">💾 تاریخ میں محفوظ</button>
+</div>
+
+<div id="totalInfo"></div>
+
+<div id="overlay">
+  <div id="box"></div>
+</div>
+
+<script>
+const K = {
+  zikr:   "tasbeeh_zikr",
+  count:  "tasbeeh_count",
+  target: "tasbeeh_target",
+  total:  "tasbeeh_total",
+  hist:   "tasbeeh_hist",
+  undo:   "tasbeeh_undo"
+};
+
+const DEFAULT_ZIKR = "سبحان اللہ";
+const ZIKR_OPTIONS = ["سبحان اللہ", "الحمد للہ", "اللہ اکبر", "لا الہٰ الا اللہ", "استغفر اللہ", "درود شریف", "لا حول ولا قوۃ"];
+
+let state = {
+  zikr:  DEFAULT_ZIKR,
+  count: 0,
+  target: 33,
+  total: 0,
+  hist: []
+};
+let undoStack = [];
+
+function load() {
+  try {
+    const z = localStorage.getItem(K.zikr);
+    if (z) state.zikr = z;
+    const c = parseInt(localStorage.getItem(K.count) || "0", 10);
+    if (!isNaN(c) && c >= 0) state.count = c;
+    const t = parseInt(localStorage.getItem(K.target) || "33", 10);
+    if (!isNaN(t) && t > 0) state.target = t;
+    const tot = parseInt(localStorage.getItem(K.total) || "0", 10);
+    if (!isNaN(tot) && tot >= 0) state.total = tot;
+    const h = localStorage.getItem(K.hist);
+    if (h) state.hist = JSON.parse(h) || [];
+    const u = localStorage.getItem(K.undo);
+    if (u) undoStack = JSON.parse(u) || [];
+  } catch (e) {}
+}
+function save() {
+  try {
+    localStorage.setItem(K.zikr, state.zikr);
+    localStorage.setItem(K.count, String(state.count));
+    localStorage.setItem(K.target, String(state.target));
+    localStorage.setItem(K.total, String(state.total));
+    localStorage.setItem(K.hist, JSON.stringify(state.hist));
+    localStorage.setItem(K.undo, JSON.stringify(undoStack.slice(-5)));
+  } catch (e) {}
+}
+
+const el = {
+  zikr: document.getElementById("zikr"),
+  editZikr: document.getElementById("editZikr"),
+  count: document.getElementById("count"),
+  target: document.getElementById("target"),
+  tap: document.getElementById("tapBtn"),
+  reset: document.getElementById("resetBtn"),
+  undo: document.getElementById("undoBtn"),
+  targetBtn: document.getElementById("targetBtn"),
+  saveHistBtn: document.getElementById("saveHistBtn"),
+  totalInfo: document.getElementById("totalInfo"),
+  back: document.getElementById("back"),
+  historyBtn: document.getElementById("historyBtn"),
+  overlay: document.getElementById("overlay"),
+  box: document.getElementById("box")
+};
+
+function render() {
+  el.zikr.textContent = state.zikr;
+  el.count.textContent = String(state.count);
+  el.target.textContent = "ہدف: " + state.target;
+  el.targetBtn.textContent = "🎯 ہدف: " + state.target;
+  el.undo.disabled = undoStack.length === 0;
+  if (state.total > 0) {
+    el.totalInfo.textContent = "کل مکمل دور: " + state.total + " | اب تک: " + (state.count) + " / " + state.target;
+  } else {
+    el.totalInfo.textContent = "";
+  }
+}
+
+function pushUndo(snapshot) {
+  undoStack.push(snapshot);
+  if (undoStack.length > 5) undoStack.shift();
+  save();
+}
+
+function vibrate(ms) {
+  if (navigator.vibrate) { try { navigator.vibrate(ms); } catch (e) {} }
+}
+
+function addOne() {
+  if (state.count >= 999999) {
+    vibrate([20,40,20]);
+    return;
+  }
+  state.count++;
+  vibrate(15);
+  if (state.count >= state.target && state.target > 0) {
+    state.count = 0;
+    state.total++;
+    vibrate([30,60,30,60,30]);
+  }
+  save();
+  render();
+}
+
+function reset() {
+  pushUndo({ count: state.count, total: state.total, zikr: state.zikr });
+  state.count = 0;
+  save();
+  render();
+}
+
+function undo() {
+  if (!undoStack.length) return;
+  const s = undoStack.pop();
+  state.count = s.count;
+  if (typeof s.total === "number") state.total = s.total;
+  if (s.zikr) state.zikr = s.zikr;
+  save();
+  render();
+}
+
+el.tap.onclick = addOne;
+el.reset.onclick = reset;
+el.undo.onclick = undo;
+
+function closeBox() { el.overlay.classList.remove("show"); }
+el.overlay.onclick = e => { if (e.target === el.overlay) closeBox(); };
+
+function openZikrEdit() {
+  el.box.innerHTML = `
+    <h2>ذکر تبدیل کریں</h2>
+    <input id="zInput" type="text" value="${state.zikr.replace(/"/g, "&quot;")}" maxlength="60" placeholder="اپنا ذکر لکھیں">
+    <div style="font-size:13px;color:#6b8478;margin-bottom:6px">یا نیچے سے چنیں:</div>
+    <div id="zOpts" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px"></div>
+    <div class="row">
+      <button class="ghost" id="zCancel">منسوخ</button>
+      <button id="zSave">محفوظ</button>
+    </div>`;
+  el.overlay.classList.add("show");
+  const zOpts = document.getElementById("zOpts");
+  ZIKR_OPTIONS.forEach(z => {
+    const b = document.createElement("button");
+    b.textContent = z;
+    b.className = "ghost";
+    b.style.flex = "0 0 auto";
+    b.style.fontSize = "14px";
+    b.style.padding = "6px 10px";
+    b.onclick = () => {
+      document.getElementById("zInput").value = z;
+    };
+    zOpts.appendChild(b);
+  });
+  document.getElementById("zCancel").onclick = closeBox;
+  document.getElementById("zSave").onclick = () => {
+    const v = document.getElementById("zInput").value.trim();
+    if (!v) { return; }
+    if (state.count > 0) {
+      pushUndo({ count: state.count, total: state.total, zikr: state.zikr });
+    }
+    state.zikr = v;
+    save();
+    render();
+    closeBox();
+  };
+}
+
+el.editZikr.onclick = openZikrEdit;
+
+function openTargetEdit() {
+  el.box.innerHTML = `
+    <h2>ہدف منتخب کریں</h2>
+    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:12px">
+      ${[33, 99, 100, 500, 1000, 0].map(t => `<button class="ghost" data-t="${t}">${t === 0 ? "غیر محدود" : t}</button>`).join("")}
+    </div>
+    <div style="font-size:13px;color:#6b8478;margin-bottom:6px">یا اپنا ہدف لکھیں (1 سے 999999):</div>
+    <input id="tInput" type="text" inputmode="numeric" value="${state.target}" placeholder="مثلاً 33">
+    <div class="row">
+      <button class="ghost" id="tCancel">منسوخ</button>
+      <button id="tSave">محفوظ</button>
+    </div>`;
+  el.overlay.classList.add("show");
+  el.box.querySelectorAll("button[data-t]").forEach(b => {
+    b.onclick = () => {
+      document.getElementById("tInput").value = b.dataset.t;
+    };
+  });
+  document.getElementById("tCancel").onclick = closeBox;
+  document.getElementById("tSave").onclick = () => {
+    const v = parseInt(document.getElementById("tInput").value, 10);
+    if (isNaN(v) || v < 0 || v > 999999) { return; }
+    state.target = v === 0 ? 999999 : v;
+    if (state.count > state.target) state.count = 0;
+    save();
+    render();
+    closeBox();
+  };
+}
+el.targetBtn.onclick = openTargetEdit;
+
+function saveToHistory() {
+  if (state.count <= 0 && state.total === 0) { return; }
+  const now = new Date();
+  const dateStr = now.toLocaleDateString("ur-PK") + " " + now.toLocaleTimeString("ur-PK", { hour: "2-digit", minute: "2-digit" });
+  const countToSave = state.count + (state.total * state.target);
+  if (countToSave <= 0) { return; }
+  state.hist.unshift({
+    z: state.zikr,
+    n: countToSave,
+    d: dateStr
+  });
+  if (state.hist.length > 100) state.hist.length = 100;
+  save();
+  el.box.innerHTML = "<h2>✓ محفوظ ہو گیا</h2><div style='text-align:center;padding:10px 0;color:#0f6b4a;font-size:17px'>" + state.zikr + " — " + countToSave + " مرتبہ</div><div class='row'><button id='okBtn'>ٹھیک ہے</button></div>";
+  el.overlay.classList.add("show");
+  document.getElementById("okBtn").onclick = closeBox;
+}
+el.saveHistBtn.onclick = saveToHistory;
+
+function openHistory() {
+  if (!state.hist.length) {
+    el.box.innerHTML = `<h2>تاریخ</h2><div class="histEmpty">ابھی کوئی تاریخ محفوظ نہیں۔<br>گنیں اور 💾 دبائیں۔</div><div class="row"><button class="ghost" id="hClose">بند کریں</button></div>`;
+    el.overlay.classList.add("show");
+    document.getElementById("hClose").onclick = closeBox;
+    return;
+  }
+  el.box.innerHTML = `
+    <h2>تاریخ (${state.hist.length})</h2>
+    <div id="hList"></div>
+    <div class="row">
+      <button class="ghost" id="hClose">بند کریں</button>
+      <button class="danger" id="hClear">🗑️ سب صاف کریں</button>
+    </div>`;
+  el.overlay.classList.add("show");
+  const hList = document.getElementById("hList");
+  state.hist.forEach((h, i) => {
+    const d = document.createElement("div");
+    d.className = "histItem";
+    d.innerHTML = "<div><div class='hZ'>" + escapeHtml(h.z) + "</div><div class='hD'>" + escapeHtml(h.d) + "</div></div><div style='display:flex;align-items:center;gap:8px'><span class='hC'>" + h.n + "</span><button data-i='" + i + "' style='background:transparent;border:0;color:#b23c3c;font-size:18px;padding:4px'>✖</button></div>";
+    hList.appendChild(d);
+  });
+  hList.onclick = e => {
+    const b = e.target.closest("button[data-i]");
+    if (!b) return;
+    const i = Number(b.dataset.i);
+    state.hist.splice(i, 1);
+    save();
+    openHistory();
+  };
+  document.getElementById("hClose").onclick = closeBox;
+  document.getElementById("hClear").onclick = () => {
+    el.box.innerHTML = `<h2>یقینی؟</h2><div style="text-align:center;color:#b23c3c;margin-bottom:10px">پوری تاریخ صاف ہو جائے گی۔</div><div class="row"><button class="ghost" id="cNo">نہیں</button><button class="danger" id="cYes">ہاں، صاف کریں</button></div>`;
+    document.getElementById("cNo").onclick = openHistory;
+    document.getElementById("cYes").onclick = () => {
+      state.hist = [];
+      save();
+      openHistory();
+    };
+  };
+}
+el.historyBtn.onclick = openHistory;
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+}
+
+el.back.onclick = () => {
+  if (history.length > 1) history.back();
+  else location.href = "index.html";
+};
+
+load();
+render();
+</script>
+</body>
+</html>
