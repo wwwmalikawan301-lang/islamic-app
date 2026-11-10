@@ -1,5 +1,5 @@
-const CACHE = "islamic-app-v4";
-const FILES = ["./", "./index.html", "./data.json", "./names.json", "./manifest.json", "./icon-192.png", "./icon-512.png"];
+const CACHE = "islamic-app-v5";
+const FILES = ["./", "./index.html", "./data.json", "./names.json", "./manifest.json", "./icon-192.png", "./icon-512.png", "./tasbeeh.html"];
 
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)));
