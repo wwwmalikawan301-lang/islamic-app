@@ -247,7 +247,7 @@ body {
   <button id="resetBtn">🔄 ری سیٹ</button>
   <button id="undoBtn" disabled>↩️ ان ڈو</button>
   <button id="targetBtn">🎯 ہدف: 33</button>
-  <button id="saveHistBtn" class="gold">💾 تاریخ میں محفوظ</button>
+  <button id="saveHistBtn" class="gold">💾 محفوظ کریں</button>
 </div>
 
 <div id="totalInfo"></div>
@@ -329,7 +329,7 @@ function render() {
   el.targetBtn.textContent = "🎯 ہدف: " + state.target;
   el.undo.disabled = undoStack.length === 0;
   if (state.total > 0) {
-    el.totalInfo.textContent = "کل مکمل دور: " + state.total + " | اب تک: " + (state.count) + " / " + state.target;
+    el.totalInfo.textContent = "مکمل دور: " + state.total + " | اس ذکر میں: " + (state.count) + " / " + state.target;
   } else {
     el.totalInfo.textContent = "";
   }
@@ -393,7 +393,7 @@ function openZikrEdit() {
     <div id="zOpts" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px"></div>
     <div class="row">
       <button class="ghost" id="zCancel">منسوخ</button>
-      <button id="zSave">محفوظ</button>
+      <button id="zSave">تبدیل کریں</button>
     </div>`;
   el.overlay.classList.add("show");
   const zOpts = document.getElementById("zOpts");
@@ -404,23 +404,57 @@ function openZikrEdit() {
     b.style.flex = "0 0 auto";
     b.style.fontSize = "14px";
     b.style.padding = "6px 10px";
-    b.onclick = () => {
-      document.getElementById("zInput").value = z;
-    };
+    b.onclick = () => { document.getElementById("zInput").value = z; };
     zOpts.appendChild(b);
   });
   document.getElementById("zCancel").onclick = closeBox;
   document.getElementById("zSave").onclick = () => {
     const v = document.getElementById("zInput").value.trim();
     if (!v) { return; }
-    if (state.count > 0) {
-      pushUndo({ count: state.count, total: state.total, zikr: state.zikr });
+    if (state.count > 0 || state.total > 0) {
+      el.box.innerHTML = `
+        <h2>موجودہ گنتی کا کیا کریں؟</h2>
+        <div style="text-align:center;color:#0f6b4a;font-size:17px;margin-bottom:10px">
+          "${escapeHtml(state.zikr)}" — ${state.count + (state.total * state.target)} مرتبہ
+        </div>
+        <div style="font-size:14px;color:#6b8478;margin-bottom:10px">نئے ذکر پر جانے سے پہلے:</div>
+        <div class="row">
+          <button class="ghost" id="zKeep">صرف تبدیل کریں</button>
+          <button id="zSaveHist">محفوظ کر کے تبدیل</button>
+        </div>
+        <div class="row">
+          <button class="ghost" id="zBack" style="background:#e8f1eb;color:#0b4d34">واپس</button>
+        </div>`;
+      document.getElementById("zKeep").onclick = () => {
+        applyZikr(v, false);
+      };
+      document.getElementById("zSaveHist").onclick = () => {
+        applyZikr(v, true);
+      };
+      document.getElementById("zBack").onclick = openZikrEdit;
+    } else {
+      applyZikr(v, false);
     }
-    state.zikr = v;
-    save();
-    render();
-    closeBox();
   };
+}
+
+function applyZikr(newZikr, doSave) {
+  if (doSave) {
+    const countToSave = state.count + (state.total * state.target);
+    if (countToSave > 0) {
+      const now = new Date();
+      const dateStr = now.toLocaleDateString("ur-PK") + " " + now.toLocaleTimeString("ur-PK", { hour: "2-digit", minute: "2-digit" });
+      state.hist.unshift({ z: state.zikr, n: countToSave, d: dateStr });
+      if (state.hist.length > 100) state.hist.length = 100;
+    }
+  }
+  state.zikr = newZikr;
+  state.count = 0;
+  state.total = 0;
+  pushUndo({ count: 0, total: 0, zikr: state.zikr });
+  save();
+  render();
+  closeBox();
 }
 
 el.editZikr.onclick = openZikrEdit;
@@ -439,9 +473,7 @@ function openTargetEdit() {
     </div>`;
   el.overlay.classList.add("show");
   el.box.querySelectorAll("button[data-t]").forEach(b => {
-    b.onclick = () => {
-      document.getElementById("tInput").value = b.dataset.t;
-    };
+    b.onclick = () => { document.getElementById("tInput").value = b.dataset.t; };
   });
   document.getElementById("tCancel").onclick = closeBox;
   document.getElementById("tSave").onclick = () => {
@@ -457,19 +489,23 @@ function openTargetEdit() {
 el.targetBtn.onclick = openTargetEdit;
 
 function saveToHistory() {
-  if (state.count <= 0 && state.total === 0) { return; }
+  const countToSave = state.count + (state.total * state.target);
+  if (countToSave <= 0) {
+    el.box.innerHTML = `<h2>کچھ نہیں</h2><div style="text-align:center;padding:10px 0;color:#6b8478">پہلے گنیں، پھر محفوظ کریں۔</div><div class="row"><button id="okBtn">ٹھیک ہے</button></div>`;
+    el.overlay.classList.add("show");
+    document.getElementById("okBtn").onclick = closeBox;
+    return;
+  }
   const now = new Date();
   const dateStr = now.toLocaleDateString("ur-PK") + " " + now.toLocaleTimeString("ur-PK", { hour: "2-digit", minute: "2-digit" });
-  const countToSave = state.count + (state.total * state.target);
-  if (countToSave <= 0) { return; }
-  state.hist.unshift({
-    z: state.zikr,
-    n: countToSave,
-    d: dateStr
-  });
+  pushUndo({ count: state.count, total: state.total, zikr: state.zikr });
+  state.hist.unshift({ z: state.zikr, n: countToSave, d: dateStr });
   if (state.hist.length > 100) state.hist.length = 100;
+  state.count = 0;
+  state.total = 0;
   save();
-  el.box.innerHTML = "<h2>✓ محفوظ ہو گیا</h2><div style='text-align:center;padding:10px 0;color:#0f6b4a;font-size:17px'>" + state.zikr + " — " + countToSave + " مرتبہ</div><div class='row'><button id='okBtn'>ٹھیک ہے</button></div>";
+  render();
+  el.box.innerHTML = "<h2>✓ محفوظ ہو گیا</h2><div style='text-align:center;padding:10px 0;color:#0f6b4a;font-size:17px'>" + escapeHtml(state.zikr) + " — " + countToSave + " مرتبہ</div><div style='text-align:center;color:#6b8478;font-size:13px;margin-bottom:6px'>گنتی صفر ہو گئی، نیا ذکر یا نئی گنتی شروع کریں</div><div class='row'><button id='okBtn'>ٹھیک ہے</button></div>";
   el.overlay.classList.add("show");
   document.getElementById("okBtn").onclick = closeBox;
 }
@@ -477,7 +513,7 @@ el.saveHistBtn.onclick = saveToHistory;
 
 function openHistory() {
   if (!state.hist.length) {
-    el.box.innerHTML = `<h2>تاریخ</h2><div class="histEmpty">ابھی کوئی تاریخ محفوظ نہیں۔<br>گنیں اور 💾 دبائیں۔</div><div class="row"><button class="ghost" id="hClose">بند کریں</button></div>`;
+    el.box.innerHTML = `<h2>تاریخ</h2><div class="histEmpty">ابھی کوئی تاریخ محفوظ نہیں۔<br>گنیں اور 💾 محفوظ دبائیں۔</div><div class="row"><button class="ghost" id="hClose">بند کریں</button></div>`;
     el.overlay.classList.add("show");
     document.getElementById("hClose").onclick = closeBox;
     return;
