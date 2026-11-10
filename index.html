@@ -449,4 +449,236 @@ showModal(
 "<div style='margin:6px 0 10px'>" + esc(x.m) + "</div>" +
 "<div><button class='mb' id='tFav'>" + (FAV.includes(k) ? "❤️" : "🤍") + "</button><button class='mb' id='tSh'>📤</button></div>"
 );
-document.getElementById("tFav").onclick = e => { const at = FAV
+document.getElementById("tFav").onclick = e => { const at = FAV.indexOf(k); if (at >= 0) FAV.splice(at, 1); else FAV.push(k); saveFav(); e.target.textContent = FAV.includes(k) ? "❤️" : "🤍"; };
+document.getElementById("tSh").onclick = () => shareName(x);
+})
+.catch(() => showModal("نام لوڈ نہیں ہو سکا۔"));
+}
+function goSearch(q) { namesPage({ q: String(q || "").trim() }); }
+function home() {
+setMode("home");
+title.textContent = APP_TITLE;
+sub.textContent = APP_SUB;
+greet.textContent = GREETING;
+back.style.display = "none";
+setNav("home");
+const q = QUOTES[dayNumber() % QUOTES.length];
+app.innerHTML =
+"<div class='sb'>" +
+"<button class='mic' id='hMic'>🎤</button>" +
+"<input id='hSearch' type='search' placeholder='اپنا پسندیدہ نام تلاش کریں...'>" +
+"<button class='sgo' id='hGo'>🔍</button>" +
+"</div>" +
+"<div class='hgrid'>" +
+ORDER.map(k => "<div class='hc' data-k='" + k + "'>" +
+"<div class='tt'>" + META[k].title + "</div>" +
+"<div class='ds'>" + META[k].desc + "</div>" +
+"<div class='ft'><span class='ic'>" + META[k].icon + "</span><span class='go'>←</span></div>" +
+"</div>").join("") +
+"</div>" +
+"<div class='quote'>" +
+"<div class='qlabel'>آج کی خوبصورت بات</div>" +
+"<div class='qtext'>" + esc(q) + "</div>" +
+"<div class='qheart'>💛</div>" +
+"</div>" +
+"<div class='qa'>" +
+"<div class='qb' data-a='more'><span>⭐</span>مزید فیچرز<br>دیکھیں</div>" +
+"<div class='qb' data-a='today'><span>📅</span>آج کا نام<br>(روزانہ نیا)</div>" +
+"<div class='qb' data-a='tasbeeh'><span>📿</span>تسبیح<br>شمار</div>" +
+"<div class='qb' data-a='fav'><span>❤️</span>پسندیدہ<br>فہرست</div>" +
+"<div class='qb' data-a='share'><span>📤</span>دوستوں کو<br>شیئر کریں</div>" +
+"</div>";
+const hs = document.getElementById("hSearch");
+document.getElementById("hGo").onclick = () => goSearch(hs.value);
+hs.onkeydown = e => { if (e.key === "Enter") goSearch(hs.value); };
+const mic = document.getElementById("hMic");
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+if (!SR) { mic.style.display = "none"; }
+else {
+mic.onclick = () => {
+try {
+const r = new SR();
+r.lang = "ur-PK";
+r.interimResults = false;
+r.onresult = ev => { hs.value = ev.results[0][0].transcript; goSearch(hs.value); };
+r.start();
+} catch (e) {}
+};
+}
+}
+app.onclick = e => {
+const hc = e.target.closest(".hc");
+if (hc) { openCard(hc.dataset.k); return; }
+const qb = e.target.closest(".qb");
+if (qb) {
+const a = qb.dataset.a;
+if (a === "more") showModal(MORE_TEXT);
+else if (a === "today") todayName();
+else if (a === "tasbeeh") location.href = "tasbeeh.html";
+else if (a === "fav") namesPage({ fav: true });
+else if (a === "share") shareApp();
+}
+};
+nav.onclick = e => {
+const b = e.target.closest("button[data-t]");
+if (!b) return;
+const t = b.dataset.t;
+if (t === "home") home();
+else if (t === "names") namesPage();
+else if (t === "fav") namesPage({ fav: true });
+else openCard(t);
+};
+function openCard(k) {
+if (k === "names") { namesPage(); return; }
+if (DATA[k]) { category(k); return; }
+showModal("<b>" + META[k].title + "</b><br>یہ حصہ جلد آ رہا ہے۔");
+}
+function category(key) {
+const d = DATA[key];
+if (!d) { openCard(key); return; }
+setMode("inner");
+title.textContent = d.title;
+sub.textContent = "";
+back.style.display = "block";
+back.onclick = home;
+setNav(key);
+app.innerHTML = "";
+d.items.forEach(item => {
+const c = document.createElement("div");
+c.className = "card";
+c.textContent = item.t;
+c.onclick = () => detail(key, item);
+app.appendChild(c);
+});
+}
+function detail(key, item) {
+setMode("inner");
+title.textContent = item.t;
+sub.textContent = "";
+back.onclick = () => category(key);
+app.innerHTML = "";
+const d = document.createElement("div");
+d.className = "detail";
+d.textContent = item.d;
+app.appendChild(d);
+}
+function namesPage(opts) {
+opts = opts || {};
+setMode("dark");
+title.textContent = opts.fav ? "پسندیدہ نام" : META.names.title;
+sub.textContent = "";
+back.style.display = "block";
+back.onclick = home;
+setNav(opts.fav ? "fav" : "names");
+app.innerHTML = `
+<div class="panel">
+<div class="two">
+<select id="fLetter"><option value="">حرف (سب)</option></select>
+<select id="fGender">
+<option value="">جنس (سب)</option>
+<option value="لڑکا">لڑکا</option>
+<option value="لڑکی">لڑکی</option>
+</select>
+</div>
+<div class="srch">
+<input id="fSearch" type="search" placeholder="نام یا معنی تلاش کریں">
+<button id="fBtn">🔍</button>
+</div>
+</div>
+<div class="bar">
+<span class="count" id="count">لوڈ ہو رہا ہے...</span>
+<button class="chip" id="fFav">🤍 پسندیدہ</button>
+</div>
+<div class="list" id="list"></div>
+<button class="more" id="more"></button>`;
+const fLetter = document.getElementById("fLetter");
+const fGender = document.getElementById("fGender");
+const fSearch = document.getElementById("fSearch");
+const fBtn = document.getElementById("fBtn");
+const fFav = document.getElementById("fFav");
+const count = document.getElementById("count");
+const list = document.getElementById("list");
+const more = document.getElementById("more");
+let onlyFav = !!opts.fav;
+let shown = PAGE;
+let current = [];
+if (onlyFav) { fFav.classList.add("on"); fFav.textContent = "❤️ پسندیدہ"; }
+fSearch.value = opts.q || "";
+function render(reset) {
+if (reset) shown = PAGE;
+const L = fLetter.value;
+const G = fGender.value;
+const Q = fSearch.value.trim().toLowerCase();
+current = NAMES.filter(x =>
+(!onlyFav || FAV.includes(keyOf(x))) &&
+(!L || x.n.charAt(0) === L) &&
+(!G || x.g === G) &&
+(!Q || x.n.includes(Q) || x.e.toLowerCase().includes(Q) || x.m.includes(Q))
+);
+count.textContent = current.length + " نام";
+if (!current.length) {
+list.innerHTML = "<div class='empty'>" + (onlyFav ? "ابھی کوئی پسندیدہ نام نہیں۔ کسی نام کے ساتھ 🤍 دبائیں۔" : "کوئی نام نہیں ملا۔") + "</div>";
+} else {
+list.innerHTML = current.slice(0, shown).map((x, i) =>
+"<div class='r'>" +
+"<div class='nm'>" + esc(x.n) + "</div>" +
+"<div class='en'>" + esc(x.e) + "</div>" +
+"<div class='mn'>" + esc(x.m) + "</div>" +
+"<div class='ac'>" +
+"<button data-a='fav' data-i='" + i + "'>" + (FAV.includes(keyOf(x)) ? "❤️" : "🤍") + "</button>" +
+"<button data-a='share' data-i='" + i + "'>📤</button>" +
+"</div>" +
+"</div>"
+).join("");
+}
+if (current.length > shown) { more.style.display = "block"; more.textContent = "مزید دکھائیں (" + (current.length - shown) + " باقی)"; }
+else { more.style.display = "none"; }
+}
+list.onclick = e => {
+const b = e.target.closest("button[data-a]");
+if (!b) return;
+const x = current[Number(b.dataset.i)];
+if (!x) return;
+if (b.dataset.a === "share") { shareName(x); }
+else {
+const k = keyOf(x);
+const at = FAV.indexOf(k);
+if (at >= 0) FAV.splice(at, 1); else FAV.push(k);
+saveFav();
+if (onlyFav) render(false);
+else b.textContent = FAV.includes(k) ? "❤️" : "🤍";
+}
+};
+more.onclick = () => { shown += PAGE; render(false); };
+fFav.onclick = () => {
+onlyFav = !onlyFav;
+fFav.classList.toggle("on", onlyFav);
+fFav.textContent = (onlyFav ? "❤️" : "🤍") + " پسندیدہ";
+render(true);
+};
+loadNames()
+.then(names => {
+const letters = [...new Set(names.map(x => x.n.charAt(0)))].sort((a, b) => a.localeCompare(b, "ur"));
+fLetter.innerHTML = '<option value="">حرف (سب)</option>' + letters.map(l => '<option value="' + esc(l) + '">' + esc(l) + '</option>').join("");
+fLetter.onchange = () => render(true);
+fGender.onchange = () => render(true);
+fSearch.oninput = () => render(true);
+fBtn.onclick = () => render(true);
+render(true);
+})
+.catch(() => { count.textContent = "names.json لوڈ نہیں ہوئی۔ فائل میں کوئی غلطی ہو سکتی ہے۔"; });
+}
+Promise.all([
+fetch("data.json", { cache: "no-store" }).then(r => r.json()),
+fetch("quotes.json", { cache: "no-store" }).then(r => r.json()).catch(() => null)
+])
+.then(res => {
+DATA = res[0];
+if (Array.isArray(res[1]) && res[1].length) QUOTES = res[1];
+home();
+})
+.catch(() => { app.innerHTML = "<div class='card'>Data load nahi hua. data.json mein koi ghalti ho sakti hai.</div>"; });
+if ("serviceWorker" in navigator) { navigator.serviceWorker.register("sw.js"); }
+</script>
+</body>
+</html>
