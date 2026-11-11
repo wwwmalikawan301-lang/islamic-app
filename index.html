@@ -73,31 +73,31 @@ body {
 }
 body.dark { background: var(--dark-bg); color: var(--dark-text); }
 
-/* HEADER */
+/* ===== 1. HEADER (Fixed: Decorations moved back) ===== */
 #hdr { background: var(--primary); color: var(--text-on-primary); padding: 22px 16px; text-align: center; position: relative; }
 #hdr h1 { margin: 0 0 4px; font-size: 24px; line-height: 1.9; position: relative; z-index: 2; }
 #hdr p { margin: 0; opacity: 0.85; line-height: 1.8; position: relative; z-index: 2; }
 #greet { display: none; }
-.decos { display: none; position: absolute; top: 0; right: 0; bottom: 0; left: 0; overflow: hidden; pointer-events: none; z-index: 1; }
+.decos { display: none; position: absolute; top: 0; right: 0; bottom: 0; left: 0; overflow: hidden; pointer-events: none; z-index: 0; }
 .deco { position: absolute; height: auto; }
-#hdr.hero { background: var(--primary-gradient-hero); padding: 40px 16px 70px; border-radius: 0 0 36px 36px; box-shadow: 0 10px 30px rgba(0,40,20,0.25); overflow: hidden; }
+#hdr.hero { background: var(--primary-gradient-hero); padding: 42px 16px 65px; border-radius: 0 0 36px 36px; box-shadow: 0 10px 30px rgba(0,40,20,0.25); overflow: hidden; }
 #hdr.hero .decos { display: block; border-radius: 0 0 36px 36px; }
-#hdr.hero h1 { font-size: 34px; line-height: 1.4; margin-bottom: 0; font-weight: 700; color: var(--gold-light); text-shadow: 0 2px 10px rgba(0,0,0,0.4); }
-#hdr.hero p { font-size: 18px; line-height: 1.6; color: var(--gold-light); opacity: 1; font-weight: 700; }
-#hdr.hero #greet { display: block; margin-top: 12px; font-size: 14px; line-height: 1.9; color: #e9f7ee; position: relative; z-index: 2; }
+#hdr.hero h1 { font-size: 34px; line-height: 1.4; margin-bottom: 0; font-weight: 700; color: var(--gold-light); text-shadow: 0 2px 10px rgba(0,0,0,0.5); z-index: 5; }
+#hdr.hero p { font-size: 18px; line-height: 1.6; color: var(--gold-light); opacity: 1; font-weight: 700; z-index: 5; }
+#hdr.hero #greet { display: block; margin-top: 12px; font-size: 14px; line-height: 1.9; color: #e9f7ee; position: relative; z-index: 5; }
 #hdr.hero #greet::before { content: ""; display: block; width: 80px; height: 2px; margin: 0 auto 8px; background: var(--gold-gradient); border-radius: 2px; }
 
-.moon { top: 25px; left: 50%; transform: translateX(-50%); width: 60px; filter: drop-shadow(0 0 15px rgba(247,224,140,0.9)); animation: moonGlow 4s ease-in-out infinite; }
-.mosque { left: 0; bottom: 0; width: 100%; opacity: 0.4; }
-.lantern { width: 30px; filter: drop-shadow(0 0 12px rgba(247,224,140,0.9)); transform-origin: 50% 0; animation: swing 5s ease-in-out infinite; }
-.lantern-l { left: 20px; top: -10px; animation-delay: 0s; }
-.lantern-r { right: 20px; top: -10px; animation-delay: 1.2s; }
-.lantern-c1 { left: 35%; top: -15px; animation-delay: 0.5s; width: 22px; }
-.lantern-c2 { right: 35%; top: -15px; animation-delay: 0.8s; width: 22px; }
+.moon { top: 15px; left: 50%; transform: translateX(-50%); width: 60px; filter: drop-shadow(0 0 15px rgba(247,224,140,0.9)); animation: moonGlow 4s ease-in-out infinite; opacity: 0.3; z-index: 0; }
+.mosque { left: 0; bottom: 0; width: 100%; opacity: 0.4; z-index: 0; }
+.lantern { width: 30px; filter: drop-shadow(0 0 12px rgba(247,224,140,0.9)); transform-origin: 50% 0; animation: swing 5s ease-in-out infinite; opacity: 0.4; z-index: 0; }
+.lantern-l { left: 15px; top: -10px; animation-delay: 0s; }
+.lantern-r { right: 15px; top: -10px; animation-delay: 1.2s; }
+.lantern-c1 { left: 30%; top: -15px; animation-delay: 0.5s; width: 22px; }
+.lantern-c2 { right: 30%; top: -15px; animation-delay: 0.8s; width: 22px; }
 @keyframes swing { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
-@keyframes moonGlow { 0%, 100% { filter: drop-shadow(0 0 10px rgba(247,224,140,0.7)); } 50% { filter: drop-shadow(0 0 20px rgba(247,224,140,1)); } }
+@keyframes moonGlow { 0%, 100% { filter: drop-shadow(0 0 10px rgba(247,224,140,0.5)); } 50% { filter: drop-shadow(0 0 20px rgba(247,224,140,0.8)); } }
 
-#back, #menuBtn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; width: 44px; height: 44px; border-radius: 50%; font-family: inherit; font-size: 18px; z-index: 3; display: flex; align-items: center; justify-content: center; transition: background var(--t-fast), transform var(--t-fast); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+#back, #menuBtn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; width: 44px; height: 44px; border-radius: 50%; font-family: inherit; font-size: 18px; z-index: 10; display: flex; align-items: center; justify-content: center; transition: background var(--t-fast), transform var(--t-fast); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
 #back { display: none; right: 16px; padding: 0; }
 #back svg { width: 22px; height: 22px; }
 #menuBtn { left: 16px; font-size: 28px; line-height: 1; padding: 0 0 8px 0; font-family: sans-serif; }
@@ -107,62 +107,70 @@ body.dark { background: var(--dark-bg); color: var(--dark-text); }
 #hdr.hero #back { top: 30px; transform: none; }
 #hdr.hero #back:active { transform: scale(0.92); }
 
-#menu { display: none; position: absolute; left: 16px; top: 85px; background: var(--surface); color: var(--text); border-radius: var(--r-md); box-shadow: var(--shadow-lg); min-width: 230px; z-index: 25; overflow: hidden; animation: menuIn 180ms ease both; }
+/* ===== 3. MENU (Fixed: Small, Sleek, All options) ===== */
+#menu { display: none; position: absolute; left: 16px; top: 85px; background: var(--surface); color: var(--text); border-radius: var(--r-lg); box-shadow: 0 10px 30px rgba(0,0,0,0.15); min-width: 190px; z-index: 25; overflow: hidden; animation: menuIn 180ms ease both; border: 1px solid var(--surface-border); }
 @keyframes menuIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
 #hdr.hero #menu { top: 88px; }
 #menu.show { display: block; }
-#menu button { display: flex; align-items: center; gap: 12px; width: 100%; text-align: right; padding: 14px 18px; border: 0; background: none; font-family: inherit; font-size: 16px; color: inherit; line-height: 2; }
-#menu button + button { border-top: 1px solid rgba(0,0,0,0.06); }
+#menu button { display: flex; align-items: center; gap: 12px; width: 100%; text-align: right; padding: 12px 16px; border: 0; background: none; font-family: inherit; font-size: 15px; color: inherit; line-height: 1.8; font-weight: 500; }
+#menu button + button { border-top: 1px solid rgba(0,0,0,0.05); }
 body.theme-dark #menu button + button { border-top-color: rgba(255,255,255,0.08); }
 
 #modal { display: none; position: fixed; top: 0; right: 0; bottom: 0; left: 0; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; z-index: 30; padding: 20px; backdrop-filter: blur(2px); }
 #modal.show { display: flex; }
 #modalBox { background: var(--surface); color: var(--text); border-radius: var(--r-lg); padding: 24px; line-height: 2.2; max-width: 460px; width: 100%; text-align: center; font-size: 17px; max-height: 85vh; overflow-y: auto; animation: menuIn 200ms ease both; }
 .mb { background: none; border: 0; font-size: 26px; padding: 4px 12px; }
-.toast { position: fixed; bottom: calc(100px + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%) translateY(20px); background: rgba(6,60,40,0.96); color: #fff; padding: 12px 24px; border-radius: var(--r-full); font-family: inherit; font-size: 15px; line-height: 1.6; box-shadow: 0 6px 20px rgba(0,0,0,0.35); opacity: 0; pointer-events: none; transition: opacity 200ms ease, transform 200ms ease; z-index: 100; white-space: nowrap; }
+.toast { position: fixed; bottom: calc(100px + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%) translateY(20px); background: rgba(6,60,40,0.96); color: #fff; padding: 10px 20px; border-radius: var(--r-full); font-family: inherit; font-size: 14px; line-height: 1.6; box-shadow: 0 6px 20px rgba(0,0,0,0.35); opacity: 0; pointer-events: none; transition: opacity 200ms ease, transform 200ms ease; z-index: 100; white-space: nowrap; }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
 #app { padding: 16px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
-body.home #app { padding: 0 16px 20px; gap: 16px; }
+body.home #app { padding: 0 16px 20px; gap: 14px; }
 #app > * { min-width: 0; max-width: 100%; }
 
-/* SEARCH BAR */
-.sb { display: flex; align-items: center; gap: 8px; background: var(--surface); border-radius: var(--r-full); padding: 6px 8px; box-shadow: 0 8px 24px rgba(0,60,30,0.12); margin-top: -35px; position: relative; z-index: 3; border: 2px solid var(--gold); }
+.sb { display: flex; align-items: center; gap: 8px; background: var(--surface); border-radius: var(--r-full); padding: 6px 8px; box-shadow: 0 8px 24px rgba(0,60,30,0.12); margin-top: -35px; position: relative; z-index: 3; border: 1.5px solid var(--gold); }
 .sb input { flex: 1 1 auto; width: 0; min-width: 0; border: 0; outline: 0; background: none; font-family: inherit; font-size: 15px; color: var(--text); padding: 8px 6px; line-height: 1.6; text-align: right; }
 .sb input::placeholder { color: var(--text-secondary); opacity: 0.8; }
-.sgo { flex: 0 0 auto; width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--primary); color: var(--text-on-primary); font-size: 18px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+.sgo { flex: 0 0 auto; width: 42px; height: 42px; border-radius: 50%; border: 0; background: var(--primary); color: var(--text-on-primary); font-size: 18px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
 .mic { flex: 0 0 auto; border: 0; background: none; font-size: 20px; color: var(--primary); padding: 4px 8px; }
 .clear-sb { flex: 0 0 auto; border: 0; background: none; color: var(--text-secondary); font-size: 18px; padding: 4px 8px; display: none; }
 .clear-sb.show { display: block; }
 
-/* CATEGORY CARDS (3 items) */
-.hgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
-.hc { min-width: 0; position: relative; display: flex; flex-direction: column; background: var(--surface); border-radius: 20px; padding: 16px 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); border: 1.5px solid var(--gold); cursor: pointer; overflow: hidden; transition: transform 0.15s; }
+/* ===== 2. CATEGORY CARDS (Fixed: Sleek & Professional) ===== */
+.hgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.hc { min-width: 0; position: relative; display: flex; flex-direction: column; background: var(--surface); border-radius: 16px; padding: 12px 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); border: 1.5px solid var(--gold); cursor: pointer; overflow: hidden; transition: transform 0.15s; }
 .hc:active { transform: scale(0.96); }
-.hc .ic-svg { width: 36px; height: 36px; margin: 0 auto 6px; display: block; object-fit: contain; }
-.hc .tt { font-size: 16px; font-weight: 700; color: var(--primary-deep); line-height: 1.6; text-align: center; margin-bottom: 2px; }
-.hc .ds { font-size: 11.5px; color: var(--text-secondary); line-height: 1.6; text-align: center; flex: 1; }
-.hc .ft { display: flex; justify-content: center; align-items: center; margin-top: 8px; }
-.hc .go { width: 28px; height: 28px; border-radius: 50%; background: var(--gold-gradient); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; box-shadow: 0 2px 6px rgba(160,125,18,0.3); }
+.hc.full-width { grid-column: span 2; flex-direction: row; align-items: center; padding: 16px; gap: 16px; }
+.hc .ic-svg { width: 32px; height: 32px; margin: 0 auto 4px; display: block; object-fit: contain; }
+.hc.full-width .ic-svg { margin: 0; width: 40px; height: 40px; }
+.hc .card-content { display: flex; flex-direction: column; flex: 1; align-items: center; }
+.hc.full-width .card-content { align-items: flex-start; }
+.hc .tt { font-size: 15px; font-weight: 700; color: var(--primary-deep); line-height: 1.5; text-align: center; margin-bottom: 2px; }
+.hc.full-width .tt { font-size: 18px; text-align: right; }
+.hc .ds { font-size: 11px; color: var(--text-secondary); line-height: 1.5; text-align: center; }
+.hc.full-width .ds { font-size: 12.5px; text-align: right; }
+.hc .ft { margin-top: 8px; display: flex; justify-content: center; }
+.hc.full-width .ft { margin-top: 0; margin-left: auto; }
+.hc .go { width: 24px; height: 24px; border-radius: 50%; background: var(--gold-gradient); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; box-shadow: 0 2px 6px rgba(160,125,18,0.3); }
+.hc.full-width .go { width: 32px; height: 32px; font-size: 16px; }
 
-/* QUOTE CARD */
+/* ===== 5. QUOTE CARD (Fixed: Icons + Like) ===== */
 .quote { position: relative; background: var(--primary-gradient); border: 2px solid var(--gold); border-radius: 20px; padding: 32px 16px 16px; text-align: center; color: #fff; box-shadow: 0 8px 20px rgba(0,60,30,0.2); overflow: hidden; }
 .qlabel { position: absolute; top: -2px; right: 20px; background: var(--gold-gradient); color: #4a3200; font-weight: 700; font-size: 13px; padding: 2px 16px; border-radius: 0 0 12px 12px; line-height: 1.8; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
 .qtext { font-size: 17px; line-height: 2.2; padding: 0 4px 16px; font-weight: 500; }
 .qline { width: 80px; height: 2px; margin: 0 auto 12px; background: var(--gold-gradient); border-radius: 2px; opacity: 0.8; }
-.qactions { display: flex; justify-content: center; gap: 10px; }
-.qactions button { flex: 1; max-width: 110px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; border-radius: 20px; padding: 8px 6px; font-family: inherit; font-size: 12px; display: flex; align-items: center; justify-content: center; gap: 4px; }
+.qactions { display: flex; justify-content: center; gap: 12px; align-items: center; }
+.qactions button { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; border-radius: 50%; width: 42px; height: 42px; font-family: inherit; font-size: 18px; display: flex; align-items: center; justify-content: center; transition: transform 0.1s; }
+.qactions button:active { transform: scale(0.9); }
 .qactions button.on { background: var(--gold-gradient); color: #4a3200; border-color: var(--gold); font-weight: 700; }
 
-/* SHORTCUTS */
-.shortcuts { display: flex; gap: 10px; overflow-x: auto; overflow-y: hidden; padding: 4px 2px 8px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+/* ===== 4. SHORTCUTS (Fixed: Smaller & Sleek) ===== */
+.shortcuts { display: flex; gap: 8px; overflow-x: auto; overflow-y: hidden; padding: 4px 2px 8px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
 .shortcuts::-webkit-scrollbar { display: none; }
-.sc { flex: 0 0 auto; min-width: 85px; background: var(--surface); border: 1.5px solid var(--gold); border-radius: 16px; padding: 12px 8px 10px; text-align: center; font-size: 11.5px; line-height: 1.6; color: var(--primary-deep); box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: transform 0.15s; }
+.sc { flex: 0 0 auto; min-width: 75px; background: var(--surface); border: 1px solid var(--gold); border-radius: 14px; padding: 10px 6px 8px; text-align: center; font-size: 10.5px; line-height: 1.5; color: var(--primary-deep); box-shadow: 0 2px 6px rgba(0,0,0,0.04); transition: transform 0.15s; }
 .sc:active { transform: scale(0.94); }
-.sc .sc-ic { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; margin: 0 auto 6px; border-radius: 50%; background: var(--surface-tint); font-size: 16px; }
+.sc .sc-ic { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; margin: 0 auto 4px; border-radius: 50%; background: var(--surface-tint); font-size: 14px; }
 .sc .sc-label { font-weight: 700; }
 
-/* BOTTOM NAV (4 items now) */
 #nav { position: fixed; left: 0; right: 0; bottom: 0; width: 100%; z-index: 15; display: flex; background: var(--primary-deep); border-radius: 24px 24px 0 0; padding: 8px 4px calc(8px + env(safe-area-inset-bottom)); box-shadow: 0 -4px 20px rgba(0,0,0,0.15); }
 #nav button { flex: 1 1 0; min-width: 0; background: none; border: 0; color: #a3c2b2; font-family: inherit; font-size: 11px; line-height: 1.6; padding: 4px 2px; position: relative; transition: color 0.2s; }
 #nav button span { display: block; font-size: 22px; line-height: 1.3; margin-bottom: 2px; filter: grayscale(1) opacity(0.7); transition: 0.2s; }
@@ -170,7 +178,6 @@ body.home #app { padding: 0 16px 20px; gap: 16px; }
 #nav button.on span { filter: grayscale(0) opacity(1); transform: translateY(-2px); }
 #nav button.on::before { content: ""; position: absolute; top: -8px; left: 50%; transform: translateX(-50%); width: 24px; height: 4px; background: var(--gold); border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
 
-/* INNER PAGES & NAMES */
 body.dark #app { padding: 16px; gap: 12px; }
 .panel { background: var(--dark-panel); border: 1px solid var(--dark-border); border-radius: var(--r-lg); padding: 10px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
 .two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
@@ -250,7 +257,7 @@ body.dark #app { padding: 16px; gap: 12px; }
 const APP_TITLE = "Islamic Naam";
 const APP_SUB = "Meri Islamic App";
 const GREETING = "Assalam o Alaikum! 💚 Allah Ta'ala aap ke sath ho";
-const APP_VERSION = "2.0";
+const APP_VERSION = "2.1";
 
 let QUOTES = [
 "Allah par bharosa rakho, woh hamesha behtar karta hai.",
@@ -274,7 +281,7 @@ const ICON_SVG = {
   info: '<svg class="ic-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="48" fill="#F4F8F5"/><path d="M25 50c0-10 10-20 25-20s25 10 25 20-10 20-25 20c-5 0-10-1-15-3l-10 3 3-10c-2-3-3-6-3-10z" fill="#0f6b4a"/><path d="M50 45v15M50 38v2" stroke="#E5C15B" stroke-width="5" stroke-linecap="round"/></svg>'
 };
 
-// REMOVED "stories" from ORDER
+// Removed "stories" from ORDER
 const ORDER = ["poetry", "names", "info"];
 const PAGE = 100;
 
@@ -282,11 +289,14 @@ let DATA = {};
 let NAMES = null;
 let FAV = [];
 let FAVQ = [];
+let LIKES = {};
 try { FAV = JSON.parse(localStorage.getItem("fav_names") || "[]"); } catch (e) { FAV = []; }
 try { FAVQ = JSON.parse(localStorage.getItem("fav_quotes") || "[]"); } catch (e) { FAVQ = []; }
+try { LIKES = JSON.parse(localStorage.getItem("likes_data") || "{}"); } catch (e) { LIKES = {}; }
 
 function saveFav() { try { localStorage.setItem("fav_names", JSON.stringify(FAV)); } catch (e) {} }
 function saveFavQ() { try { localStorage.setItem("fav_quotes", JSON.stringify(FAVQ)); } catch (e) {} }
+function saveLikes() { try { localStorage.setItem("likes_data", JSON.stringify(LIKES)); } catch (e) {} }
 
 const keyOf = x => x.n + "|" + x.e;
 const hdr = document.getElementById("hdr");
@@ -428,6 +438,8 @@ function home() {
   const todayQ = QUOTES[dayNumber() % QUOTES.length];
   const qKey = "Q:" + todayQ;
   const isFavQ = FAVQ.includes(qKey);
+  const likeCount = LIKES[qKey] || 0;
+  const isLiked = localStorage.getItem("liked_" + qKey) === "yes";
 
   app.innerHTML =
     "<div class='sb'>" +
@@ -437,21 +449,19 @@ function home() {
     "<button class='sgo' id='hGo'>🔍</button>" +
     "</div>" +
     "<div class='hgrid'>" +
-    ORDER.map(k => "<div class='hc' data-k='" + k + "'>" +
-      ICON_SVG[k] +
-      "<div class='tt'>" + META[k].title + "</div>" +
-      "<div class='ds'>" + META[k].desc + "</div>" +
-      "<div class='ft'><span class='go'>❤</span></div>" +
-      "</div>").join("") +
+    "<div class='hc' data-k='names'>" + ICON_SVG.names + "<div class='card-content'><div class='tt'>Islami Naam</div><div class='ds'>Larkon aur larkiyon ke naam</div></div><div class='ft'><span class='go'>❤</span></div></div>" +
+    "<div class='hc' data-k='poetry'>" + ICON_SVG.poetry + "<div class='card-content'><div class='tt'>Shayari</div><div class='ds'>Islami aur sabaq aamoz shayari</div></div><div class='ft'><span class='go'>❤</span></div></div>" +
+    "<div class='hc full-width' data-k='info'>" + ICON_SVG.info + "<div class='card-content'><div class='tt'>Islami Maloomat</div><div class='ds'>Sawalat aur dilchasp maloomat</div></div><div class='ft'><span class='go'>❤</span></div></div>" +
     "</div>" +
     "<div class='quote'>" +
     "<div class='qlabel'>Aaj ki Khoobsurat Baat</div>" +
     "<div class='qtext' id='qText'>" + esc(todayQ) + "</div>" +
     "<div class='qline'></div>" +
     "<div class='qactions'>" +
-    "<button id='qShare'>📤 Share</button>" +
-    "<button id='qCopy'>📋 Copy</button>" +
-    "<button id='qFav' class='" + (isFavQ ? "on" : "") + "'>" + (isFavQ ? "❤️ Pasand" : "🤍 Pasand") + "</button>" +
+    "<button id='qLike'>👍 <span style='font-size:12px;margin-left:2px'>" + likeCount + "</span></button>" +
+    "<button id='qCopy'>📋</button>" +
+    "<button id='qShare'>📤</button>" +
+    "<button id='qFav' class='" + (isFavQ ? "on" : "") + "'>" + (isFavQ ? "❤️" : "🤍") + "</button>" +
     "</div>" +
     "</div>" +
     "<div class='shortcuts'>" +
@@ -484,6 +494,26 @@ function home() {
     };
   }
 
+  // Actions
+  const qLikeBtn = document.getElementById("qLike");
+  if (isLiked) qLikeBtn.classList.add("on");
+  qLikeBtn.onclick = () => {
+    const liked = localStorage.getItem("liked_" + qKey) === "yes";
+    if (liked) {
+      localStorage.removeItem("liked_" + qKey);
+      LIKES[qKey] = Math.max(0, (LIKES[qKey] || 1) - 1);
+      qLikeBtn.classList.remove("on");
+      showToast("Like hata diya");
+    } else {
+      localStorage.setItem("liked_" + qKey, "yes");
+      LIKES[qKey] = (LIKES[qKey] || 0) + 1;
+      qLikeBtn.classList.add("on");
+      showToast("👍 Shukriya!");
+    }
+    qLikeBtn.innerHTML = "👍 <span style='font-size:12px;margin-left:2px'>" + (LIKES[qKey] || 0) + "</span>";
+    saveLikes();
+  };
+
   document.getElementById("qShare").onclick = () => shareQuote(todayQ);
   document.getElementById("qCopy").onclick = () => {
     copyText(todayQ + "\n\n— Meri Islamic App");
@@ -495,12 +525,12 @@ function home() {
     if (at >= 0) {
       FAVQ.splice(at, 1);
       qFavBtn.classList.remove("on");
-      qFavBtn.innerHTML = "🤍 Pasand";
+      qFavBtn.innerHTML = "🤍";
       showToast("Pasandida se hata diya");
     } else {
       FAVQ.push(qKey);
       qFavBtn.classList.add("on");
-      qFavBtn.innerHTML = "❤️ Pasand";
+      qFavBtn.innerHTML = "❤️";
       showToast("❤️ Pasandida mein mehfooz");
     }
     saveFavQ();
