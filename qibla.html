@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+html, body { margin: 0; padding: 0; height: 100%; overflow-x: hidden; }
 body {
   font-family: "Noto Nastaliq Urdu", sans-serif;
   background: radial-gradient(circle at 50% 0%, #17935f 0%, rgba(23,147,95,0) 60%), linear-gradient(160deg, #0b5b3c, #0d6f48 55%, #0a4a31);
@@ -19,24 +19,26 @@ body {
   display: flex;
   flex-direction: column;
   padding: 16px;
+  align-items: center;
 }
 #hdr {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 #back {
-  background: rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.15);
   color: #fff;
-  border: 0;
+  border: 1px solid rgba(255,255,255,0.3);
   border-radius: 10px;
   padding: 8px 14px;
   font-size: 16px;
   font-family: inherit;
 }
 #hdr h1 {
-  font-size: 20px;
+  font-size: 22px;
   margin: 0;
   font-weight: 700;
   color: #f2cf6b;
@@ -45,131 +47,136 @@ body {
   text-align: center;
   font-size: 14px;
   color: #cfe8da;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   min-height: 24px;
 }
 
-/* Compass */
+/* Naya Premium Compass */
 #compassWrap {
-  flex: 1;
+  position: relative;
+  width: 280px;
+  height: 280px;
+  margin-bottom: 24px;
+}
+#compass {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #0a4a31;
+  border: 4px solid #E5C15B;
+  box-shadow: 0 0 30px rgba(229,193,91,0.2), inset 0 0 20px rgba(0,0,0,0.5);
+  position: relative;
+  transition: transform 0.1s linear;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  min-height: 250px;
 }
-#compass {
-  width: 260px;
-  height: 260px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0.2) 100%);
-  border: 3px solid #E5C15B;
-  box-shadow: 0 0 30px rgba(229,193,91,0.3), inset 0 0 20px rgba(0,0,0,0.3);
-  position: relative;
-  transition: transform 0.1s ease-out;
+/* Compass markings using CSS */
+#compass::before {
+  content: "N";
+  position: absolute; top: 10px; color: #ff6b6b; font-weight: bold; font-family: serif; font-size: 18px;
 }
-#compass .marker {
+#compass::after {
+  content: "S";
+  position: absolute; bottom: 10px; color: #cfe8da; font-weight: bold; font-family: serif; font-size: 18px;
+}
+.mark-e { position: absolute; right: 14px; color: #cfe8da; font-family: serif; font-size: 18px; font-weight: bold; }
+.mark-w { position: absolute; left: 14px; color: #cfe8da; font-family: serif; font-size: 18px; font-weight: bold; }
+
+/* Kaaba Arrow (Fixed in center) */
+.kaaba-arrow {
   position: absolute;
-  top: -8px; left: 50%;
-  transform: translateX(-50%);
   width: 0; height: 0;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-bottom: 16px solid #ff6b6b;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 100px solid #E5C15B;
+  transform-origin: 50% 100%;
+  transition: transform 0.2s ease-out;
+  z-index: 10;
 }
-#compass .kaabaArrow {
+.kaaba-icon {
   position: absolute;
-  top: 50%; left: 50%;
-  transform-origin: 50% 0;
-  transform: translate(-50%, 0) rotate(0deg);
-  width: 0; height: 0;
-  border-left: 12px solid transparent;
-  border-right: 12px solid transparent;
-  border-bottom: 110px solid #E5C15B;
-  filter: drop-shadow(0 0 8px rgba(229,193,91,0.8));
-  transition: transform 0.3s ease-out;
-}
-#compass .kaabaIcon {
-  position: absolute;
-  top: -30px; left: 50%;
+  top: -40px;
+  left: 50%;
   transform: translateX(-50%);
-  font-size: 28px;
-  filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
+  font-size: 32px;
 }
-#compass .centerCircle {
+.center-circle {
   position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 20px; height: 20px;
+  width: 24px; height: 24px;
   background: #fff;
   border-radius: 50%;
+  z-index: 11;
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
-  z-index: 5;
 }
 
 /* Info Panel */
 #infoPanel {
-  background: rgba(0,0,0,0.3);
+  width: 100%;
+  background: rgba(0,0,0,0.25);
   border: 1px solid rgba(229,193,91,0.4);
   border-radius: 16px;
-  padding: 12px 16px;
-  margin-top: 15px;
-  text-align: center;
+  padding: 16px;
+  margin-bottom: 16px;
 }
-#infoPanel .infoRow {
+#infoPanel .row {
   display: flex;
   justify-content: space-between;
-  font-size: 14px;
-  line-height: 2;
-  color: #e9f7ee;
+  font-size: 15px;
+  line-height: 2.2;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
 }
-#infoPanel .infoRow span:last-child {
-  color: #f2cf6b;
-  font-weight: 700;
-}
+#infoPanel .row:last-child { border-bottom: 0; }
+#infoPanel .row span:first-child { color: #cfe8da; }
+#infoPanel .row span:last-child { color: #f2cf6b; font-weight: 700; font-family: serif; }
 
 /* Prayer Times */
 #prayerPanel {
-  background: rgba(0,0,0,0.3);
+  width: 100%;
+  background: rgba(0,0,0,0.25);
   border: 1px solid rgba(229,193,91,0.4);
   border-radius: 16px;
-  padding: 12px 16px;
-  margin-top: 15px;
+  padding: 16px;
+  margin-bottom: 20px;
 }
 #prayerPanel h3 {
-  margin: 0 0 10px;
+  margin: 0 0 12px;
   font-size: 16px;
   color: #f2cf6b;
   text-align: center;
 }
-.prayerList {
+.prayer-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 6px;
+  gap: 8px;
   text-align: center;
 }
-.prayerItem {
-  background: rgba(255,255,255,0.1);
-  border-radius: 8px;
-  padding: 6px 2px;
+.prayer-item {
+  background: rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 8px 2px;
+  border: 1px solid rgba(255,255,255,0.05);
 }
-.prayerItem .pName {
+.prayer-item .p-name {
   font-size: 11px;
   color: #cfe8da;
   display: block;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
 }
-.prayerItem .pTime {
+.prayer-item .p-time {
   font-size: 14px;
   font-weight: 700;
   color: #fff;
+  font-family: serif;
 }
 
 /* Buttons */
 #actions {
+  width: 100%;
   display: flex;
-  gap: 10px;
-  margin-top: 15px;
+  gap: 12px;
+  margin-top: auto;
+  padding-bottom: 20px;
 }
 #actions button {
   flex: 1;
@@ -177,19 +184,30 @@ body {
   color: #4a3200;
   border: 0;
   border-radius: 12px;
-  padding: 12px;
+  padding: 14px;
   font-family: inherit;
   font-size: 16px;
   font-weight: 700;
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
-#actions button:active {
-  transform: scale(0.98);
-}
+#actions button:active { transform: scale(0.98); }
 #actions button.ghost {
   background: rgba(255,255,255,0.15);
   color: #fff;
   border: 1px solid rgba(255,255,255,0.3);
+}
+#permissionBtn {
+  display: none;
+  width: 100%;
+  background: #ff6b6b;
+  color: #fff;
+  border: 0;
+  border-radius: 12px;
+  padding: 14px;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 20px;
 }
 </style>
 </head>
@@ -197,30 +215,33 @@ body {
 <div id="hdr">
   <button id="back">← واپس</button>
   <h1>قبلہ رخ</h1>
-  <div style="width: 60px;"></div>
+  <div style="width: 70px;"></div>
 </div>
-<div id="status">لوکیشن حاصل کی جا رہی ہے...</div>
+<div id="status">لوکیشن اور کمپاس کی اجازت دیں...</div>
+
+<button id="permissionBtn">🔄 کمپاس آن کریں (یہاں دبائیں)</button>
 
 <div id="compassWrap">
   <div id="compass">
-    <div class="marker"></div>
-    <div class="kaabaArrow" id="kaabaArrow">
-      <div class="kaabaIcon">🕋</div>
+    <div class="mark-e">E</div>
+    <div class="mark-w">W</div>
+    <div class="kaaba-arrow" id="kaabaArrow">
+      <div class="kaaba-icon">🕋</div>
     </div>
-    <div class="centerCircle"></div>
+    <div class="center-circle"></div>
   </div>
 </div>
 
 <div id="infoPanel">
-  <div class="infoRow">
+  <div class="row">
     <span>مقام</span>
     <span id="locationName">لوڈ ہو رہا ہے...</span>
   </div>
-  <div class="infoRow">
+  <div class="row">
     <span>قبلہ کا رخ</span>
     <span id="qiblaBearing">--°</span>
   </div>
-  <div class="infoRow">
+  <div class="row">
     <span>کعبہ سے فاصلہ</span>
     <span id="distance">-- KM</span>
   </div>
@@ -228,31 +249,27 @@ body {
 
 <div id="prayerPanel">
   <h3>آج کے نماز کے اوقات</h3>
-  <div class="prayerList" id="prayerList">
-    <div class="prayerItem"><span class="pName">فجر</span><span class="pTime">--:--</span></div>
-    <div class="prayerItem"><span class="pName">ظہر</span><span class="pTime">--:--</span></div>
-    <div class="prayerItem"><span class="pName">عصر</span><span class="pTime">--:--</span></div>
-    <div class="prayerItem"><span class="pName">مغرب</span><span class="pTime">--:--</span></div>
-    <div class="prayerItem"><span class="pName">عشاء</span><span class="pTime">--:--</span></div>
+  <div class="prayer-grid" id="prayerList">
+    <div class="prayer-item"><span class="p-name">فجر</span><span class="p-time">--:--</span></div>
+    <div class="prayer-item"><span class="p-name">ظہر</span><span class="p-time">--:--</span></div>
+    <div class="prayer-item"><span class="p-name">عصر</span><span class="p-time">--:--</span></div>
+    <div class="prayer-item"><span class="p-name">مغرب</span><span class="p-time">--:--</span></div>
+    <div class="prayer-item"><span class="p-name">عشاء</span><span class="p-time">--:--</span></div>
   </div>
 </div>
 
 <div id="actions">
-  <button id="calibrateBtn" class="ghost">🔄 کیلیبریٹ کریں</button>
-  <button id="fallbackBtn">🗺️ نقشہ کھولیں</button>
+  <button id="fallbackBtn" class="ghost">🗺️ نقشہ کھولیں</button>
 </div>
 
 <script>
 const KAABA_LAT = 21.4225;
 const KAABA_LNG = 39.8262;
-const CACHE_KEY = "qibla_cache";
-const CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours
 
 let currentLat = null;
 let currentLng = null;
 let currentQibla = 0;
 let currentHeading = 0;
-let hasCompass = false;
 
 const el = {
   status: document.getElementById("status"),
@@ -263,8 +280,8 @@ const el = {
   distance: document.getElementById("distance"),
   prayerList: document.getElementById("prayerList"),
   back: document.getElementById("back"),
-  calibrateBtn: document.getElementById("calibrateBtn"),
-  fallbackBtn: document.getElementById("fallbackBtn")
+  fallbackBtn: document.getElementById("fallbackBtn"),
+  permissionBtn: document.getElementById("permissionBtn")
 };
 
 el.back.onclick = () => {
@@ -272,7 +289,6 @@ el.back.onclick = () => {
   else location.href = "index.html";
 };
 
-// Qibla Bearing Calculation (Great Circle)
 function calculateQibla(lat, lng) {
   const φ1 = lat * Math.PI / 180;
   const φ2 = KAABA_LAT * Math.PI / 180;
@@ -283,7 +299,6 @@ function calculateQibla(lat, lng) {
   return (bearing + 360) % 360;
 }
 
-// Distance to Kaaba (Haversine)
 function calculateDistance(lat, lng) {
   const R = 6371;
   const dLat = (KAABA_LAT - lat) * Math.PI / 180;
@@ -295,112 +310,105 @@ function calculateDistance(lat, lng) {
   return Math.round(R * c);
 }
 
-// Get City Name (using OpenStreetMap Nominatim - Free)
 async function getCityName(lat, lng) {
   try {
     const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=10&addressdetails=1`);
     const data = await res.json();
     const city = data.address.city || data.address.town || data.address.village || data.address.state || "Unknown";
-    const country = data.address.country || "";
-    return `${city}, ${country}`;
-  } catch (e) {
-    return "Location";
-  }
+    return `${city}, ${data.address.country || ""}`;
+  } catch (e) { return "Location"; }
 }
 
-// Get Prayer Times (Aladhan API - Free, Method 1 = Karachi for Pakistan)
+// Prayer Times - Using University of Islamic Sciences, Karachi (Method 1)
 async function getPrayerTimes(lat, lng) {
   try {
-    const today = new Date();
-    const dateStr = `${today.getDate()}-${today.getMonth()+1}-${today.getFullYear()}`;
-    const res = await fetch(`https://api.aladhan.com/v1/timings/${dateStr}?latitude=${lat}&longitude=${lng}&method=1`);
+    const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=1`);
     const data = await res.json();
-    if (data.code === 200) {
-      return data.data.timings;
-    }
+    if (data.code === 200) return data.data.timings;
     return null;
-  } catch (e) {
-    return null;
-  }
+  } catch (e) { return null; }
 }
 
 function renderPrayerTimes(timings) {
   if (!timings) {
-    el.prayerList.innerHTML = "<div style='grid-column: span 5; text-align:center; font-size:13px; color:#cfe8da'>اوقات لوڈ نہیں ہو سکے (انٹرنیٹ چیک کریں)</div>";
+    el.prayerList.innerHTML = "<div style='grid-column: span 5; text-align:center; font-size:13px; color:#cfe8da'>اوقات لوڈ نہیں ہو سکے</div>";
     return;
   }
   const prayers = [
-    { name: "فجر", key: "Fajr" },
-    { name: "ظہر", key: "Dhuhr" },
-    { name: "عصر", key: "Asr" },
-    { name: "مغرب", key: "Maghrib" },
+    { name: "فجر", key: "Fajr" }, { name: "ظہر", key: "Dhuhr" },
+    { name: "عصر", key: "Asr" }, { name: "مغرب", key: "Maghrib" },
     { name: "عشاء", key: "Isha" }
   ];
   el.prayerList.innerHTML = prayers.map(p => {
     let time = timings[p.key] || "--:--";
-    // Convert to 12-hour format
     const [h, m] = time.split(":");
     let hour = parseInt(h);
     const ampm = hour >= 12 ? "PM" : "AM";
     hour = hour % 12 || 12;
-    return `<div class="prayerItem"><span class="pName">${p.name}</span><span class="pTime">${hour}:${m} ${ampm}</span></div>`;
+    return `<div class="prayer-item"><span class="p-name">${p.name}</span><span class="p-time">${hour}:${m} ${ampm}</span></div>`;
   }).join("");
 }
 
-// Compass Logic
+// Compass Logic - Updates Arrow to point to Qibla
 function handleOrientation(event) {
   let heading = null;
   if (event.webkitCompassHeading) {
-    heading = event.webkitCompassHeading;
-  } else if (event.absolute && event.alpha !== null) {
-    heading = 360 - event.alpha;
+    heading = event.webkitCompassHeading; // iOS
   } else if (event.alpha !== null) {
-    heading = 360 - event.alpha;
+    heading = 360 - event.alpha; // Android
   }
 
   if (heading !== null) {
-    hasCompass = true;
+    el.permissionBtn.style.display = "none"; // Hide button if working
     currentHeading = heading;
     updateCompassUI();
   }
 }
 
 function updateCompassUI() {
-  if (!hasCompass || currentLat === null) return;
-  const relativeAngle = currentQibla - currentHeading;
+  if (currentLat === null) return;
+  
+  // Rotate compass card so 'N' points to actual North
   el.compass.style.transform = `rotate(${-currentHeading}deg)`;
-  el.kaabaArrow.style.transform = `translate(-50%, 0) rotate(${relativeAngle}deg)`;
+  
+  // Calculate angle for Kaaba relative to current heading
+  const relativeAngle = currentQibla - currentHeading;
+  el.kaabaArrow.style.transform = `translateY(-50%) rotate(${relativeAngle}deg)`;
 }
 
-// Calibration
-el.calibrateBtn.onclick = () => {
-  el.status.textContent = "فون کو 8 کی شکل میں گھمائیں...";
+el.permissionBtn.onclick = () => {
+  el.status.textContent = "کمپاس آن ہو رہا ہے...";
   if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+    // iOS 13+ permission
     DeviceOrientationEvent.requestPermission().then(permission => {
       if (permission === "granted") {
-        window.addEventListener("deviceorientationabsolute", handleOrientation, true);
         window.addEventListener("deviceorientation", handleOrientation, true);
+        el.permissionBtn.style.display = "none";
+        el.status.textContent = "کمپاس آن ہے، فون کو گھمائیں";
       } else {
-        el.status.textContent = "کیلیبریشن کی اجازت نہیں ملی";
+        el.status.textContent = "اجازت نہیں ملی";
       }
     }).catch(console.error);
+  } else {
+    // Android/Chrome
+    window.addEventListener("deviceorientationabsolute", handleOrientation, true);
+    window.addEventListener("deviceorientation", handleOrientation, true);
+    el.permissionBtn.style.display = "none";
+    el.status.textContent = "کمپاس آن ہے، فون کو گھمائیں";
   }
 };
 
-// Fallback Map
 el.fallbackBtn.onclick = () => {
   if (currentLat && currentLng) {
     window.open(`https://www.google.com/maps/dir/${currentLat},${currentLng}/${KAABA_LAT},${KAABA_LNG}`, "_blank");
   } else {
-    el.status.textContent = "پہلے لوکیشن حاصل کریں";
+    el.status.textContent = "لوکیشن کا انتظار کریں";
   }
 };
 
-// Main Init
 function init() {
-  el.status.textContent = "لوکیشن حاصل کی جا رہی ہے...";
   if (!navigator.geolocation) {
-    el.status.textContent = "آپ کا فون لوکیشن سپورٹ نہیں کرتا";
+    el.status.textContent = "آپ کا فون GPS سپورٹ نہیں کرتا";
     return;
   }
   navigator.geolocation.getCurrentPosition(
@@ -412,37 +420,32 @@ function init() {
 
       el.qiblaBearing.textContent = `${Math.round(currentQibla)}°`;
       el.distance.textContent = `${distance.toLocaleString()} KM`;
+      el.locationName.textContent = await getCityName(currentLat, currentLng);
 
-      const city = await getCityName(currentLat, currentLng);
-      el.locationName.textContent = city;
-
-      // Prayer Times
       const timings = await getPrayerTimes(currentLat, currentLng);
       renderPrayerTimes(timings);
 
-      // Compass
       if (window.DeviceOrientationEvent) {
         if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-          el.status.textContent = "کیلیبریٹ بٹن دبائیں";
+          el.permissionBtn.style.display = "block";
+          el.status.textContent = "کمپاس چلانے کے لیے بٹن دبائیں";
         } else {
           window.addEventListener("deviceorientationabsolute", handleOrientation, true);
           window.addEventListener("deviceorientation", handleOrientation, true);
-          el.status.textContent = "کمپاس لوڈ ہو رہا ہے...";
+          el.status.textContent = "کمپاس آن ہے، فون کو گھمائیں";
         }
       } else {
         el.status.textContent = "آپ کے فون میں کمپاس نہیں ہے";
       }
-
       updateCompassUI();
     },
     (err) => {
-      el.status.textContent = "لوکیشن حاصل نہیں ہو سکی. GPS آن کریں";
+      el.status.textContent = "لوکیشن کی اجازت نہیں ملی (GPS آن کریں)";
     },
     { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
   );
 }
 
-// Start
 init();
 </script>
 </body>
