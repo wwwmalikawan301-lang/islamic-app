@@ -21,78 +21,25 @@ body {
   overflow-x: hidden;
 }
 
-/* Header */
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 20px;
-  background: #fff;
-}
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 600;
-  font-size: 18px;
-  color: #0f6b4a;
-}
+.header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; background: #fff; }
+.header-left { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 18px; color: #0f6b4a; }
 .header-left svg { width: 28px; height: 28px; }
 .header-right { display: flex; gap: 15px; }
-.header-right button {
-  background: none; border: none; font-size: 20px; color: #666; cursor: pointer;
-}
+.header-right button { background: none; border: none; font-size: 20px; color: #666; cursor: pointer; }
 
-/* Compass Section */
-.compass-section {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px 0 20px;
-  background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
-}
-.kaaba-top-label {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  text-align: center;
-  font-size: 11px;
-  font-weight: 600;
-  color: #0f6b4a;
-}
+.compass-section { position: relative; display: flex; flex-direction: column; align-items: center; padding: 10px 0 20px; background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%); }
+.kaaba-top-label { position: absolute; top: 20px; right: 20px; text-align: center; font-size: 11px; font-weight: 600; color: #0f6b4a; }
 .kaaba-top-label span { display: block; font-size: 24px; margin-bottom: 4px; }
 
 .compass-container {
-  position: relative;
-  width: 300px;
-  height: 300px;
-  border-radius: 50%;
-  background: #fdfaf2;
-  border: 12px solid #d4af37;
-  box-shadow: 
-    inset 0 0 20px rgba(0,0,0,0.1),
-    0 10px 25px rgba(0,0,0,0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: relative; width: 300px; height: 300px; border-radius: 50%;
+  background: #fdfaf2; border: 12px solid #d4af37;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.1), 0 10px 25px rgba(0,0,0,0.15);
+  display: flex; align-items: center; justify-content: center;
 }
+.compass-inner { position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 2px solid #e0d0a0; box-sizing: border-box; }
 
-/* Inner compass design */
-.compass-inner {
-  position: absolute;
-  width: 100%; height: 100%;
-  border-radius: 50%;
-  border: 2px solid #e0d0a0;
-  box-sizing: border-box;
-}
-
-.compass-marking {
-  position: absolute;
-  font-size: 14px;
-  font-weight: 700;
-  color: #2c3e50;
-}
+.compass-marking { position: absolute; font-size: 14px; font-weight: 700; color: #2c3e50; }
 .mark-n { top: 15px; left: 50%; transform: translateX(-50%); color: #e74c3c; }
 .mark-s { bottom: 15px; left: 50%; transform: translateX(-50%); }
 .mark-e { right: 20px; top: 50%; transform: translateY(-50%); }
@@ -102,209 +49,70 @@ body {
 .mark-se { bottom: 45px; right: 55px; font-size: 11px; color: #7f8c8d; transform: rotate(135deg);}
 .mark-sw { bottom: 45px; left: 55px; font-size: 11px; color: #7f8c8d; transform: rotate(-135deg);}
 
-/* Degree marks */
-.degree-marks {
-  position: absolute;
-  width: 100%; height: 100%;
-  border-radius: 50%;
-}
-.tick {
-  position: absolute;
-  width: 2px; height: 6px;
-  background: #999;
-  top: 5px;
-  left: 50%;
-  transform-origin: 50% 145px; /* Radius */
-}
+.degree-marks { position: absolute; width: 100%; height: 100%; border-radius: 50%; }
+.tick { position: absolute; width: 2px; height: 6px; background: #999; top: 5px; left: 50%; transform-origin: 50% 145px; }
 
-/* Kaaba Arrow (Needle) - Fixed to Qibla */
-.needle-wrap {
-  position: absolute;
-  width: 100%; height: 100%;
-  top: 0; left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-  z-index: 10;
-}
+.needle-wrap { position: absolute; width: 100%; height: 100%; top: 0; left: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; z-index: 10; }
 .needle {
-  position: absolute;
-  width: 0; height: 0;
-  border-left: 15px solid transparent;
-  border-right: 15px solid transparent;
-  border-bottom: 110px solid #27ae60;
-  transform-origin: 50% 100%;
-  bottom: 50%;
+  position: absolute; width: 0; height: 0;
+  border-left: 15px solid transparent; border-right: 15px solid transparent; border-bottom: 110px solid #27ae60;
+  transform-origin: 50% 100%; bottom: 50%;
   filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
   transition: transform 0.1s linear;
 }
-.needle::after {
-  content: '';
-  position: absolute;
-  top: 110px; left: -15px;
-  width: 30px; height: 30px;
-  background: #27ae60;
-  border-radius: 50%;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-}
-.kaaba-icon-in-compass {
-  position: absolute;
-  top: -40px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 28px;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.4);
-}
+.needle::after { content: ''; position: absolute; top: 110px; left: -15px; width: 30px; height: 30px; background: #27ae60; border-radius: 50%; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+.kaaba-icon-in-compass { position: absolute; top: -40px; left: 50%; transform: translateX(-50%); font-size: 28px; text-shadow: 0 2px 4px rgba(0,0,0,0.4); }
 
-/* Compass Info */
-.compass-info {
-  text-align: center;
-  margin-top: 15px;
-}
-.compass-degrees {
-  font-size: 22px;
-  font-weight: 700;
-  color: #2c3e50;
-}
+.compass-info { text-align: center; margin-top: 15px; }
+.compass-degrees { font-size: 22px; font-weight: 700; color: #2c3e50; }
 .compass-degrees span { font-size: 16px; color: #888; font-weight: 500; }
-.compass-location {
-  font-size: 13px;
-  color: #7f8c8d;
-  margin-top: 4px;
-}
+.compass-location { font-size: 13px; color: #7f8c8d; margin-top: 4px; }
 
-/* Main Content Cards */
-.container {
-  padding: 16px;
-  background: #ffffff;
-  border-radius: 24px 24px 0 0;
-  flex: 1;
-}
+.container { padding: 16px; background: #ffffff; border-radius: 24px 24px 0 0; flex: 1; }
 
-/* Next Prayer Card */
-.next-prayer-card {
-  background: #e8f5e9;
-  border-radius: 16px;
-  padding: 16px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-  border-left: 6px solid #2e7d32;
+/* Calibrate Button */
+.calibrate-btn {
+  background: #f39c12; color: white; border: none; border-radius: 8px;
+  padding: 10px 20px; font-size: 14px; font-weight: 600;
+  margin-top: 10px; cursor: pointer; display: flex; align-items: center; gap: 6px;
+  box-shadow: 0 2px 6px rgba(243,156,18,0.4);
 }
-.next-prayer-left {
-  color: #1b5e20;
-}
-.next-prayer-left .label {
-  font-size: 12px;
-  font-weight: 600;
-  opacity: 0.8;
-}
-.next-prayer-left .name {
-  font-size: 28px;
-  font-weight: 700;
-  margin: 2px 0;
-}
-.next-prayer-left .time {
-  font-size: 14px;
-  font-weight: 500;
-}
-.next-prayer-right {
-  text-align: center;
-  background: #fff;
-  padding: 10px 15px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-.next-prayer-right span {
-  font-size: 12px;
-  color: #666;
-  display: block;
-}
-.next-prayer-right strong {
-  font-size: 16px;
-  color: #2e7d32;
-}
+.calibrate-btn:active { transform: scale(0.98); }
 
-/* Today's Prayer Times */
-.today-prayers {
-  background: #fff;
-  border: 1px solid #eee;
-  border-radius: 16px;
-  padding: 16px;
-  margin-bottom: 16px;
-}
-.today-prayers h3 {
-  font-size: 14px;
-  color: #555;
-  margin-bottom: 12px;
-}
-.prayer-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 0;
-  border-bottom: 1px solid #f5f5f5;
-  font-size: 14px;
-}
+.next-prayer-card { background: #e8f5e9; border-radius: 16px; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; border-left: 6px solid #2e7d32; }
+.next-prayer-left { color: #1b5e20; }
+.next-prayer-left .label { font-size: 12px; font-weight: 600; opacity: 0.8; }
+.next-prayer-left .name { font-size: 28px; font-weight: 700; margin: 2px 0; }
+.next-prayer-left .time { font-size: 14px; font-weight: 500; }
+.next-prayer-right { text-align: center; background: #fff; padding: 10px 15px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+.next-prayer-right span { font-size: 12px; color: #666; display: block; }
+.next-prayer-right strong { font-size: 16px; color: #2e7d32; }
+
+.today-prayers { background: #fff; border: 1px solid #eee; border-radius: 16px; padding: 16px; margin-bottom: 16px; }
+.today-prayers h3 { font-size: 14px; color: #555; margin-bottom: 12px; }
+.prayer-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f5f5f5; font-size: 14px; }
 .prayer-row:last-child { border-bottom: none; }
 .prayer-row .p-left { display: flex; align-items: center; gap: 10px; color: #333; font-weight: 500;}
 .prayer-row .p-left span { font-size: 18px; }
 .prayer-row .p-right { color: #666; font-weight: 500; }
 
-/* Hijri Date */
-.hijri-card {
-  background: #fff;
-  border: 1px solid #eee;
-  border-radius: 16px;
-  padding: 16px;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-.hijri-card .icon {
-  font-size: 24px;
-  background: #f0f0f0;
-  padding: 10px;
-  border-radius: 50%;
-}
+.hijri-card { background: #fff; border: 1px solid #eee; border-radius: 16px; padding: 16px; display: flex; align-items: center; gap: 15px; }
+.hijri-card .icon { font-size: 24px; background: #f0f0f0; padding: 10px; border-radius: 50%; }
 .hijri-card .text h4 { font-size: 14px; color: #333; margin-bottom: 2px;}
 .hijri-card .text p { font-size: 12px; color: #888; }
 
-/* Error/Overlay */
-#overlay {
-  position: fixed;
-  top:0; left:0; right:0; bottom:0;
-  background: rgba(0,0,0,0.8);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  flex-direction: column;
-  color: #fff;
-  text-align: center;
-  padding: 20px;
+#overlay { position: fixed; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 1000; flex-direction: column; color: #fff; text-align: center; padding: 20px; }
+#overlay button { margin-top: 20px; padding: 12px 24px; background: #0f6b4a; color: #fff; border: none; border-radius: 8px; font-size: 16px; }
+#loadingText { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: #666; font-size: 14px; z-index: 1; }
+
+/* Calibration Toast */
+#calibToast {
+  position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(20px);
+  background: #333; color: #fff; padding: 12px 24px; border-radius: 30px;
+  font-size: 14px; font-weight: 600; opacity: 0; transition: 0.3s; z-index: 2000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
-#overlay button {
-  margin-top: 20px;
-  padding: 12px 24px;
-  background: #0f6b4a;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-}
-#loadingText {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  color: #666;
-  font-size: 14px;
-  z-index: 1;
-}
+#calibToast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 </style>
 </head>
 <body>
@@ -327,7 +135,6 @@ body {
     Qibla Direction<br>Kaaba
   </div>
 
-  <!-- Compass Background (Ghoomega) -->
   <div class="compass-container" id="compass">
     <div class="compass-inner"></div>
     <div class="degree-marks" id="degreeMarks"></div>
@@ -342,8 +149,7 @@ body {
     <div class="compass-marking mark-sw">SW</div>
   </div>
 
-  <!-- Needle (Kaaba ki taraf lock rahega) -->
-  <div class="needle-wrap" style="position: absolute; top: 10px; width: 300px; height: 300px;">
+  <div class="needle-wrap" style="position: absolute; top: 70px; width: 300px; height: 300px;">
       <div class="needle" id="needle">
         <div class="kaaba-icon-in-compass">🕋</div>
       </div>
@@ -352,6 +158,9 @@ body {
   <div class="compass-info">
     <div class="compass-degrees" id="qiblaDegrees">--° <span id="qiblaDir">W</span></div>
     <div class="compass-location" id="locationName">Location: Loading...</div>
+    
+    <!-- Calibration Button -->
+    <button id="calibrateBtn" class="calibrate-btn">🔄 Compass Set Karein</button>
   </div>
 </section>
 
@@ -373,7 +182,7 @@ body {
     <h3>Today's Prayer Times</h3>
     <div id="prayerList">
       <div class="prayer-row"><div class="p-left"><span>🌙</span>Fajr</div><div class="p-right">--:--</div></div>
-      <div class="prayer-row"><div class="p-left"><span>☀️</span>Sunrise</div><div class="p-right">--:--</div></div>
+      <div class="prayer-row"><div class="p-left"><span>🌅</span>Sunrise</div><div class="p-right">--:--</div></div>
       <div class="prayer-row"><div class="p-left"><span>☀️</span>Dhuhr</div><div class="p-right">--:--</div></div>
       <div class="prayer-row"><div class="p-left"><span>⛅</span>Asr</div><div class="p-right">--:--</div></div>
       <div class="prayer-row"><div class="p-left"><span>🌇</span>Maghrib</div><div class="p-right">--:--</div></div>
@@ -397,6 +206,8 @@ body {
   <button onclick="initLocation()">Try Again</button>
 </div>
 
+<div id="calibToast">📱 Phone ko 8 ki shakal mein ghumayen</div>
+
 <script>
 const KAABA_LAT = 21.4225;
 const KAABA_LNG = 39.8262;
@@ -407,6 +218,7 @@ let currentQibla = 0;
 let currentHeading = 0;
 let prayerTimings = null;
 let prayerDataArray = [];
+let isCalibrating = false;
 
 // Generate Degree Marks
 const degreeMarksContainer = document.getElementById('degreeMarks');
@@ -434,7 +246,9 @@ const el = {
   prayerList: document.getElementById('prayerList'),
   hijriDate: document.getElementById('hijriDate'),
   loadingText: document.getElementById('loadingText'),
-  overlay: document.getElementById('overlay')
+  overlay: document.getElementById('overlay'),
+  calibrateBtn: document.getElementById('calibrateBtn'),
+  calibToast: document.getElementById('calibToast')
 };
 
 function getDirection(deg) {
@@ -494,7 +308,6 @@ function renderPrayerTimes(timings) {
     return;
   }
 
-  // ADDED SUNRISE HERE
   prayerDataArray = [
     { name: "Fajr", key: "Fajr", icon: "🌙" },
     { name: "Sunrise", key: "Sunrise", icon: "🌅" },
@@ -516,28 +329,19 @@ function renderPrayerTimes(timings) {
 
 function updateNextPrayer() {
   if (!prayerDataArray.length) return;
-  
   const now = new Date();
   let next = null;
   let nextTime = null;
-
-  // We ignore Sunrise for "Next Prayer" box because Sunrise is not a prayer
   const validPrayers = prayerDataArray.filter(p => p.name !== "Sunrise");
 
   for (let i = 0; i < validPrayers.length; i++) {
     const p = validPrayers[i];
     const [h, m] = prayerTimings[p.key].split(":");
     const pTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), parseInt(h), parseInt(m));
-    
-    if (pTime > now) {
-      next = p;
-      nextTime = pTime;
-      break;
-    }
+    if (pTime > now) { next = p; nextTime = pTime; break; }
   }
 
   if (!next) {
-    // Next is tomorrow's Fajr
     next = validPrayers[0];
     const [h, m] = prayerTimings["Fajr"].split(":");
     nextTime = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, parseInt(h), parseInt(m));
@@ -546,20 +350,21 @@ function updateNextPrayer() {
   el.nextPrayerName.textContent = next.name;
   el.nextPrayerTime.textContent = formatTime12(prayerTimings[next.key]);
 
-  // Calculate remaining time
   const diffMs = nextTime - now;
   const diffH = Math.floor(diffMs / 3600000);
   const diffM = Math.floor((diffMs % 3600000) / 60000);
   el.timeRemaining.textContent = `${diffH}h ${diffM}m`;
 }
 
-// Compass Rotation Logic
 function handleOrientation(event) {
   let heading = null;
+  // Use Absolute if available (Better for Android)
   if (event.webkitCompassHeading) {
-    heading = event.webkitCompassHeading;
-  } else if (event.alpha !== null) {
+    heading = event.webkitCompassHeading; // iOS
+  } else if (event.absolute && event.alpha !== null) {
     heading = 360 - event.alpha;
+  } else if (event.alpha !== null) {
+    heading = 360 - event.alpha; // Fallback
   }
 
   if (heading !== null) {
@@ -569,7 +374,7 @@ function handleOrientation(event) {
 }
 
 function updateCompassUI() {
-  // 1. Rotate compass background so North points to actual North
+  // 1. Rotate compass card so North points to actual North
   el.compass.style.transform = `rotate(${-currentHeading}deg)`;
   
   // 2. Keep Needle locked to Qibla (relative to phone screen)
@@ -588,11 +393,33 @@ function requestCompassPermission() {
       }
     }).catch(console.error);
   } else {
+    // Add both to be safe
     window.addEventListener("deviceorientationabsolute", handleOrientation, true);
     window.addEventListener("deviceorientation", handleOrientation, true);
     document.getElementById('overlay').style.display = 'none';
   }
 }
+
+// CALIBRATION LOGIC
+el.calibrateBtn.onclick = () => {
+  el.calibToast.classList.add('show');
+  setTimeout(() => { el.calibToast.classList.remove('show'); }, 4000);
+  
+  // Re-request sensor permission or force refresh
+  if (window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === 'function') {
+    DeviceOrientationEvent.requestPermission().then(permission => {
+      if (permission === "granted") {
+        window.addEventListener("deviceorientation", handleOrientation, true);
+      }
+    });
+  } else {
+    // Android: Removing and re-adding listeners forces a fresh reading
+    window.removeEventListener("deviceorientationabsolute", handleOrientation, true);
+    window.removeEventListener("deviceorientation", handleOrientation, true);
+    window.addEventListener("deviceorientationabsolute", handleOrientation, true);
+    window.addEventListener("deviceorientation", handleOrientation, true);
+  }
+};
 
 function initLocation() {
   el.overlay.style.display = 'none';
@@ -644,7 +471,6 @@ document.getElementById('refreshBtn').onclick = () => {
   initLocation();
 };
 
-// Initialize App
 initLocation();
 setInterval(updateNextPrayer, 60000);
 </script>
