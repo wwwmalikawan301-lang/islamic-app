@@ -65,7 +65,7 @@ body {
   top: 0; left: 0;
   width: 0; height: 0;
   transform-origin: 0 0;
-  transition: transform 0.2s ease-out;
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
 }
 .needle-shape {
   position: absolute;
@@ -242,6 +242,11 @@ let currentHeading = 0;
 let prayerTimings = null;
 let prayerDataArray = [];
 
+// Smoothing Variables
+let lastHeading = null;
+let smoothedHeading = null;
+const SMOOTHING_FACTOR = 0.15; // Lower = smoother but slower, Higher = faster but jittery
+
 const degreeMarksContainer = document.getElementById('degreeMarks');
 for (let i = 0; i < 72; i++) {
   const tick = document.createElement('div');
@@ -382,27 +387,44 @@ function updateNextPrayer() {
   el.timeRemaining.textContent = `${diffH}h ${diffM}m`;
 }
 
-// --- EXACT DEVICE SENSOR FIX ---
+// --- POWERFUL STABLE COMPASS LOGIC ---
 function handleOrientation(event) {
-  let heading = null;
+  let rawHeading = null;
   
-  // 1. iOS Safari (Most Accurate)
   if (event.webkitCompassHeading) {
-    heading = event.webkitCompassHeading;
-  } 
-  // 2. Android Chrome (Absolute Orientation)
-  else if (event.absolute && event.alpha !== null) {
-    heading = 360 - event.alpha;
-  } 
-  // 3. Fallback for other browsers
-  else if (event.alpha !== null) {
-    heading = 360 - event.alpha;
+    // iOS Safari
+    rawHeading = event.webkitCompassHeading;
+  } else if (event.alpha !== null) {
+    // Android Chrome & others
+    rawHeading = 360 - event.alpha;
   }
 
-  if (heading !== null) {
+  if (rawHeading !== null) {
     // Normalize to 0-360
-    heading = (heading + 360) % 360;
-    currentHeading = heading;
+    rawHeading = (rawHeading + 360) % 360;
+    
+    // 1. Initial Setup
+    if (lastHeading === null) {
+        lastHeading = rawHeading;
+        smoothedHeading = rawHeading;
+    } else {
+        // 2. Handle 360-degree wrap-around (e.g., 358 to 2)
+        let delta = rawHeading - lastHeading;
+        if (delta > 180) delta -= 360;
+        if (delta < -180) delta += 360;
+        
+        // 3. Smooth the movement (Low-pass filter)
+        // This prevents the "jumping" or "shaking" effect
+        smoothedHeading = lastHeading + (delta * SMOOTHING_FACTOR);
+        
+        // Normalize smoothed value
+        if (smoothedHeading < 0) smoothedHeading += 360;
+        if (smoothedHeading >= 360) smoothedHeading -= 360;
+        
+        lastHeading = rawHeading;
+    }
+
+    currentHeading = smoothedHeading;
     updateCompassUI();
   }
 }
@@ -420,10 +442,10 @@ function requestCompassPermission() {
   if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
     DeviceOrientationEvent.requestPermission().then(permission => {
       if (permission === "granted") {
-        // Use 'true' to get absolute orientation on iOS
-        window.addEventListener("deviceorientationabsolute", handleOrientation, true);
         window.addEventListener("deviceorientation", handleOrientation, true);
         document.getElementById('overlay').style.display = 'none';
+      } else {
+        alert("Compass permission denied.");
       }
     }).catch(console.error);
   } else {
@@ -437,13 +459,14 @@ el.calibrateBtn.onclick = () => {
   el.calibToast.classList.add('show');
   setTimeout(() => { el.calibToast.classList.remove('show'); }, 4000);
   
-  // Force reset listeners to re-calibrate sensor
+  // Reset variables to force fresh calibration
+  lastHeading = null;
+  smoothedHeading = null;
+  
   if (window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === 'function') {
     DeviceOrientationEvent.requestPermission().then(permission => {
       if (permission === "granted") {
-        window.removeEventListener("deviceorientationabsolute", handleOrientation, true);
         window.removeEventListener("deviceorientation", handleOrientation, true);
-        window.addEventListener("deviceorientationabsolute", handleOrientation, true);
         window.addEventListener("deviceorientation", handleOrientation, true);
       }
     });
