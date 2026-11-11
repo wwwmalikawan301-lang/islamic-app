@@ -445,7 +445,7 @@ function home() {
     "<div class='hgrid'>" +
     "<div class='hc' data-k='names'>" + ICON_SVG.names + "<div class='card-content'><div class='tt'>Islami Naam</div><div class='ds'>Larkon aur larkiyon ke naam</div></div><div class='ft'><span class='go'>❤</span></div></div>" +
     "<div class='hc' data-k='poetry'>" + ICON_SVG.poetry + "<div class='card-content'><div class='tt'>Shayari</div><div class='ds'>Islami aur sabaq aamoz shayari</div></div><div class='ft'><span class='go'>❤</span></div></div>" +
-    "<div class='hc full-width' data-k='info'>" + ICON_SVG.info + "<div class='card-content'><div class='tt'>Islami Maloomat</div><div class='ds'>Sawalat aur dilchasp maloomat</div></div><div class='ft'><span class='go'>❤</span></div></div>" +
+    "<div class='hc full-width' data-k='duas'>" + ICON_SVG.info + "<div class='card-content'><div class='tt'>Islami Maloomat</div><div class='ds'>Sawalat aur dilchasp maloomat</div></div><div class='ft'><span class='go'>❤</span></div></div>" +
     "</div>" +
     "<div class='quote'>" +
     "<div class='qlabel'>Aaj ki Khoobsurat Baat</div>" +
@@ -556,6 +556,7 @@ nav.onclick = e => {
 };
 function openCard(k) {
   if (k === "names") { namesPage(); return; }
+  if (k === "duas") { location.href = "duas.html"; return; }
   if (DATA[k]) { category(k); return; }
   showModal("<b>" + META[k].title + "</b><br>Yeh hissa jald aa raha hai.");
 }
