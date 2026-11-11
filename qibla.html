@@ -31,7 +31,6 @@ body {
 .kaaba-top-label { position: absolute; top: 20px; right: 20px; text-align: center; font-size: 11px; font-weight: 600; color: #0f6b4a; }
 .kaaba-top-label span { display: block; font-size: 24px; margin-bottom: 4px; }
 
-/* Compass Container */
 .compass-container {
   position: relative; width: 320px; height: 320px; border-radius: 50%;
   background: #fdfaf2; border: 12px solid #d4af37;
@@ -41,7 +40,6 @@ body {
 .compass-bg { position: absolute; width: 100%; height: 100%; border-radius: 50%; transition: transform 0.1s linear; }
 .compass-inner { position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 2px solid #e0d0a0; box-sizing: border-box; }
 
-/* Degree Text (0, 30, 60...) */
 .degree-text {
   position: absolute;
   font-size: 11px;
@@ -54,7 +52,6 @@ body {
   transform-origin: 0 0;
 }
 
-/* Compass Markings (N, E, S, W) */
 .compass-marking { position: absolute; font-size: 16px; font-weight: 700; color: #2c3e50; }
 .mark-n { top: 25px; left: 50%; transform: translateX(-50%); color: #e74c3c; }
 .mark-s { bottom: 25px; left: 50%; transform: translateX(-50%); }
@@ -254,36 +251,23 @@ let lastHeading = null;
 let smoothedHeading = null;
 const SMOOTHING_FACTOR = 0.15;
 
-// --- GENERATE DEGREES AND TICKS ---
 const degreeMarksContainer = document.getElementById('degreeMarks');
 const degreeTextContainer = document.getElementById('degreeText');
 
-// 1. Ticks (Har 5 degree par ek line)
 for (let i = 0; i < 72; i++) {
   const tick = document.createElement('div');
   tick.className = 'tick';
   tick.style.transform = `rotate(${i * 5}deg)`;
-  if (i % 6 === 0) {
-    tick.classList.add('tick-major');
-  }
+  if (i % 6 === 0) tick.classList.add('tick-major');
   degreeMarksContainer.appendChild(tick);
 }
 
-// 2. Numbers (Har 30 degree par: 0, 30, 60...)
 for (let i = 0; i < 360; i += 30) {
   const text = document.createElement('div');
   text.className = 'degree-text';
   text.innerText = i;
-  
-  // Mathematical placement
   text.style.transform = `rotate(${i}deg) translate(0, -140px) rotate(${-i}deg)`;
-  
-  // Special styling for main directions (0, 90, 180, 270)
-  if (i === 0) { text.style.color = '#e74c3c'; text.style.fontWeight = 'bold'; } // N
-  else if (i === 90) { text.style.color = '#2c3e50'; text.style.fontWeight = 'bold'; } // E
-  else if (i === 180) { text.style.color = '#2c3e50'; text.style.fontWeight = 'bold'; } // S
-  else if (i === 270) { text.style.color = '#2c3e50'; text.style.fontWeight = 'bold'; } // W
-  
+  if (i === 0) text.style.color = '#e74c3c'; 
   degreeTextContainer.appendChild(text);
 }
 
@@ -414,12 +398,16 @@ function updateNextPrayer() {
   el.timeRemaining.textContent = `${diffH}h ${diffM}m`;
 }
 
+// --- SENSOR FIX FOR ANDROID & iOS ---
 function handleOrientation(event) {
   let rawHeading = null;
   
   if (event.webkitCompassHeading) {
+    // iOS
     rawHeading = event.webkitCompassHeading;
   } else if (event.alpha !== null) {
+    // Android (The issue was here)
+    // Standard web compass uses `360 - alpha` for absolute orientation.
     rawHeading = 360 - event.alpha;
   }
 
@@ -448,7 +436,10 @@ function handleOrientation(event) {
 }
 
 function updateCompassUI() {
+  // Rotate compass background
   el.compassBg.style.transform = `rotate(${-currentHeading}deg)`;
+  
+  // Keep the Qibla needle locked
   const relativeAngle = currentQibla - currentHeading;
   el.needleRotator.style.transform = `rotate(${relativeAngle}deg)`;
 }
