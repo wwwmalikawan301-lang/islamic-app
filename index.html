@@ -28,7 +28,7 @@ window.addEventListener('appinstalled', function () { gtag('event', 'app_install
   --gold-light: #f2cf6b;
   --gold-dark: #c49b38;
   --gold-gradient: linear-gradient(135deg, #f6dc83, #d9b44a 50%, #f2cf6b);
-  --bg: #F8F9F6; /* Cream background */
+  --bg: #F8F9F6;
   --surface: #FFFFFF;
   --surface-tint: #F4F8F5;
   --text: #123F32;
@@ -73,57 +73,20 @@ body {
 }
 body.dark { background: var(--dark-bg); color: var(--dark-text); }
 
-/* ===== PREMIUM HEADER ===== */
+/* HEADER */
 #hdr { background: var(--primary); color: var(--text-on-primary); padding: 22px 16px; text-align: center; position: relative; }
 #hdr h1 { margin: 0 0 4px; font-size: 24px; line-height: 1.9; position: relative; z-index: 2; }
 #hdr p { margin: 0; opacity: 0.85; line-height: 1.8; position: relative; z-index: 2; }
 #greet { display: none; }
 .decos { display: none; position: absolute; top: 0; right: 0; bottom: 0; left: 0; overflow: hidden; pointer-events: none; z-index: 1; }
 .deco { position: absolute; height: auto; }
-
-#hdr.hero { 
-  background: var(--primary-gradient-hero); 
-  padding: 40px 16px 70px; 
-  border-radius: 0 0 36px 36px; 
-  box-shadow: 0 10px 30px rgba(0,40,20,0.25); 
-  overflow: hidden; 
-}
+#hdr.hero { background: var(--primary-gradient-hero); padding: 40px 16px 70px; border-radius: 0 0 36px 36px; box-shadow: 0 10px 30px rgba(0,40,20,0.25); overflow: hidden; }
 #hdr.hero .decos { display: block; border-radius: 0 0 36px 36px; }
-#hdr.hero h1 { 
-  font-size: 38px; 
-  line-height: 1.4; 
-  margin-bottom: 0; 
-  font-weight: 700; 
-  color: var(--gold-light);
-  text-shadow: 0 2px 10px rgba(0,0,0,0.4); 
-}
-#hdr.hero p { 
-  font-size: 20px; 
-  line-height: 1.6; 
-  color: var(--gold-light); 
-  opacity: 1; 
-  font-weight: 700; 
-}
-#hdr.hero #greet { 
-  display: block; 
-  margin-top: 12px; 
-  font-size: 15px; 
-  line-height: 1.9; 
-  color: #e9f7ee; 
-  position: relative; 
-  z-index: 2; 
-}
-#hdr.hero #greet::before { 
-  content: ""; 
-  display: block; 
-  width: 80px; 
-  height: 2px; 
-  margin: 0 auto 8px; 
-  background: var(--gold-gradient); 
-  border-radius: 2px; 
-}
+#hdr.hero h1 { font-size: 34px; line-height: 1.4; margin-bottom: 0; font-weight: 700; color: var(--gold-light); text-shadow: 0 2px 10px rgba(0,0,0,0.4); }
+#hdr.hero p { font-size: 18px; line-height: 1.6; color: var(--gold-light); opacity: 1; font-weight: 700; }
+#hdr.hero #greet { display: block; margin-top: 12px; font-size: 14px; line-height: 1.9; color: #e9f7ee; position: relative; z-index: 2; }
+#hdr.hero #greet::before { content: ""; display: block; width: 80px; height: 2px; margin: 0 auto 8px; background: var(--gold-gradient); border-radius: 2px; }
 
-/* Header Decorations */
 .moon { top: 25px; left: 50%; transform: translateX(-50%); width: 60px; filter: drop-shadow(0 0 15px rgba(247,224,140,0.9)); animation: moonGlow 4s ease-in-out infinite; }
 .mosque { left: 0; bottom: 0; width: 100%; opacity: 0.4; }
 .lantern { width: 30px; filter: drop-shadow(0 0 12px rgba(247,224,140,0.9)); transform-origin: 50% 0; animation: swing 5s ease-in-out infinite; }
@@ -131,11 +94,9 @@ body.dark { background: var(--dark-bg); color: var(--dark-text); }
 .lantern-r { right: 20px; top: -10px; animation-delay: 1.2s; }
 .lantern-c1 { left: 35%; top: -15px; animation-delay: 0.5s; width: 22px; }
 .lantern-c2 { right: 35%; top: -15px; animation-delay: 0.8s; width: 22px; }
-
 @keyframes swing { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
 @keyframes moonGlow { 0%, 100% { filter: drop-shadow(0 0 10px rgba(247,224,140,0.7)); } 50% { filter: drop-shadow(0 0 20px rgba(247,224,140,1)); } }
 
-/* Back & Menu Buttons */
 #back, #menuBtn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; width: 44px; height: 44px; border-radius: 50%; font-family: inherit; font-size: 18px; z-index: 3; display: flex; align-items: center; justify-content: center; transition: background var(--t-fast), transform var(--t-fast); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
 #back { display: none; right: 16px; padding: 0; }
 #back svg { width: 22px; height: 22px; }
@@ -150,150 +111,66 @@ body.dark { background: var(--dark-bg); color: var(--dark-text); }
 @keyframes menuIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
 #hdr.hero #menu { top: 88px; }
 #menu.show { display: block; }
-#menu button { display: flex; align-items: center; gap: 12px; width: 100%; text-align: right; padding: 14px 18px; border: 0; background: none; font-family: inherit; font-size: 17px; color: inherit; line-height: 2; }
+#menu button { display: flex; align-items: center; gap: 12px; width: 100%; text-align: right; padding: 14px 18px; border: 0; background: none; font-family: inherit; font-size: 16px; color: inherit; line-height: 2; }
 #menu button + button { border-top: 1px solid rgba(0,0,0,0.06); }
 body.theme-dark #menu button + button { border-top-color: rgba(255,255,255,0.08); }
 
-/* ===== MODAL & TOAST ===== */
 #modal { display: none; position: fixed; top: 0; right: 0; bottom: 0; left: 0; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; z-index: 30; padding: 20px; backdrop-filter: blur(2px); }
 #modal.show { display: flex; }
-#modalBox { background: var(--surface); color: var(--text); border-radius: var(--r-lg); padding: 24px; line-height: 2.2; max-width: 460px; width: 100%; text-align: center; font-size: 18px; max-height: 85vh; overflow-y: auto; animation: menuIn 200ms ease both; }
+#modalBox { background: var(--surface); color: var(--text); border-radius: var(--r-lg); padding: 24px; line-height: 2.2; max-width: 460px; width: 100%; text-align: center; font-size: 17px; max-height: 85vh; overflow-y: auto; animation: menuIn 200ms ease both; }
 .mb { background: none; border: 0; font-size: 26px; padding: 4px 12px; }
 .toast { position: fixed; bottom: calc(100px + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%) translateY(20px); background: rgba(6,60,40,0.96); color: #fff; padding: 12px 24px; border-radius: var(--r-full); font-family: inherit; font-size: 15px; line-height: 1.6; box-shadow: 0 6px 20px rgba(0,0,0,0.35); opacity: 0; pointer-events: none; transition: opacity 200ms ease, transform 200ms ease; z-index: 100; white-space: nowrap; }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-/* ===== APP CONTAINER ===== */
 #app { padding: 16px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
 body.home #app { padding: 0 16px 20px; gap: 16px; }
 #app > * { min-width: 0; max-width: 100%; }
 
-/* ===== PREMIUM SEARCH BAR ===== */
-.sb { 
-  display: flex; 
-  align-items: center; 
-  gap: 8px; 
-  background: var(--surface); 
-  border-radius: var(--r-full); 
-  padding: 6px 8px; 
-  box-shadow: 0 8px 24px rgba(0,60,30,0.12); 
-  margin-top: -35px; 
-  position: relative; 
-  z-index: 3; 
-  border: 2px solid var(--gold); 
-}
-.sb input { 
-  flex: 1 1 auto; width: 0; min-width: 0; border: 0; outline: 0; background: none; 
-  font-family: inherit; font-size: 15px; color: var(--text); padding: 8px 6px; line-height: 1.6; text-align: right;
-}
+/* SEARCH BAR */
+.sb { display: flex; align-items: center; gap: 8px; background: var(--surface); border-radius: var(--r-full); padding: 6px 8px; box-shadow: 0 8px 24px rgba(0,60,30,0.12); margin-top: -35px; position: relative; z-index: 3; border: 2px solid var(--gold); }
+.sb input { flex: 1 1 auto; width: 0; min-width: 0; border: 0; outline: 0; background: none; font-family: inherit; font-size: 15px; color: var(--text); padding: 8px 6px; line-height: 1.6; text-align: right; }
 .sb input::placeholder { color: var(--text-secondary); opacity: 0.8; }
-.sgo { 
-  flex: 0 0 auto; width: 44px; height: 44px; border-radius: 50%; border: 0; 
-  background: var(--primary); color: var(--text-on-primary); font-size: 18px; 
-  display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); 
-}
+.sgo { flex: 0 0 auto; width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--primary); color: var(--text-on-primary); font-size: 18px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
 .mic { flex: 0 0 auto; border: 0; background: none; font-size: 20px; color: var(--primary); padding: 4px 8px; }
 .clear-sb { flex: 0 0 auto; border: 0; background: none; color: var(--text-secondary); font-size: 18px; padding: 4px 8px; display: none; }
 .clear-sb.show { display: block; }
 
-/* ===== PREMIUM CATEGORY CARDS ===== */
+/* CATEGORY CARDS (3 items) */
 .hgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
-.hc { 
-  min-width: 0; position: relative; display: flex; flex-direction: column; 
-  background: var(--surface); 
-  border-radius: 20px; 
-  padding: 16px 14px; 
-  box-shadow: 0 4px 15px rgba(0,0,0,0.04); 
-  border: 1.5px solid var(--gold); /* Golden Border */
-  cursor: pointer; 
-  overflow: hidden; 
-  transition: transform 0.15s;
-}
+.hc { min-width: 0; position: relative; display: flex; flex-direction: column; background: var(--surface); border-radius: 20px; padding: 16px 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); border: 1.5px solid var(--gold); cursor: pointer; overflow: hidden; transition: transform 0.15s; }
 .hc:active { transform: scale(0.96); }
-.hc .ic-svg { width: 44px; height: 44px; margin: 0 auto 8px; display: block; object-fit: contain; }
-.hc .tt { font-size: 18px; font-weight: 700; color: var(--primary-deep); line-height: 1.6; text-align: center; margin-bottom: 4px; }
-.hc .ds { font-size: 12px; color: var(--text-secondary); line-height: 1.6; text-align: center; flex: 1; }
-.hc .ft { display: flex; justify-content: center; align-items: center; margin-top: 10px; }
-.hc .go { 
-  width: 32px; height: 32px; border-radius: 50%; background: var(--gold-gradient); 
-  color: #fff; display: flex; align-items: center; justify-content: center; 
-  font-size: 16px; font-weight: 700; box-shadow: 0 2px 6px rgba(160,125,18,0.3); 
-}
+.hc .ic-svg { width: 36px; height: 36px; margin: 0 auto 6px; display: block; object-fit: contain; }
+.hc .tt { font-size: 16px; font-weight: 700; color: var(--primary-deep); line-height: 1.6; text-align: center; margin-bottom: 2px; }
+.hc .ds { font-size: 11.5px; color: var(--text-secondary); line-height: 1.6; text-align: center; flex: 1; }
+.hc .ft { display: flex; justify-content: center; align-items: center; margin-top: 8px; }
+.hc .go { width: 28px; height: 28px; border-radius: 50%; background: var(--gold-gradient); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; box-shadow: 0 2px 6px rgba(160,125,18,0.3); }
 
-/* ===== QUOTE CARD ===== */
-.quote { 
-  position: relative; 
-  background: var(--primary-gradient); 
-  border: 2px solid var(--gold); 
-  border-radius: 20px; 
-  padding: 32px 16px 16px; 
-  text-align: center; 
-  color: #fff; 
-  box-shadow: 0 8px 20px rgba(0,60,30,0.2); 
-  overflow: hidden; 
-}
-.qlabel { 
-  position: absolute; top: -2px; right: 20px; 
-  background: var(--gold-gradient); color: #4a3200; 
-  font-weight: 700; font-size: 13px; padding: 2px 16px; 
-  border-radius: 0 0 12px 12px; line-height: 1.8; 
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15); 
-}
-.qtext { font-size: 18px; line-height: 2.2; padding: 0 4px 16px; font-weight: 500; }
+/* QUOTE CARD */
+.quote { position: relative; background: var(--primary-gradient); border: 2px solid var(--gold); border-radius: 20px; padding: 32px 16px 16px; text-align: center; color: #fff; box-shadow: 0 8px 20px rgba(0,60,30,0.2); overflow: hidden; }
+.qlabel { position: absolute; top: -2px; right: 20px; background: var(--gold-gradient); color: #4a3200; font-weight: 700; font-size: 13px; padding: 2px 16px; border-radius: 0 0 12px 12px; line-height: 1.8; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+.qtext { font-size: 17px; line-height: 2.2; padding: 0 4px 16px; font-weight: 500; }
 .qline { width: 80px; height: 2px; margin: 0 auto 12px; background: var(--gold-gradient); border-radius: 2px; opacity: 0.8; }
 .qactions { display: flex; justify-content: center; gap: 10px; }
-.qactions button { 
-  flex: 1; max-width: 110px; background: rgba(255,255,255,0.15); 
-  border: 1px solid rgba(255,255,255,0.3); color: #fff; 
-  border-radius: 20px; padding: 8px 6px; font-family: inherit; font-size: 12px; 
-  display: flex; align-items: center; justify-content: center; gap: 4px; 
-}
+.qactions button { flex: 1; max-width: 110px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; border-radius: 20px; padding: 8px 6px; font-family: inherit; font-size: 12px; display: flex; align-items: center; justify-content: center; gap: 4px; }
 .qactions button.on { background: var(--gold-gradient); color: #4a3200; border-color: var(--gold); font-weight: 700; }
 
-/* ===== PREMIUM SHORTCUTS ===== */
-.shortcuts {
-  display: flex; gap: 10px; overflow-x: auto; overflow-y: hidden; padding: 4px 2px 8px;
-  -webkit-overflow-scrolling: touch; scrollbar-width: none;
-}
+/* SHORTCUTS */
+.shortcuts { display: flex; gap: 10px; overflow-x: auto; overflow-y: hidden; padding: 4px 2px 8px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
 .shortcuts::-webkit-scrollbar { display: none; }
-.sc {
-  flex: 0 0 auto; min-width: 85px;
-  background: var(--surface);
-  border: 1.5px solid var(--gold);
-  border-radius: 16px; padding: 12px 8px 10px;
-  text-align: center; font-size: 12px; line-height: 1.6; color: var(--primary-deep);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  transition: transform 0.15s;
-}
+.sc { flex: 0 0 auto; min-width: 85px; background: var(--surface); border: 1.5px solid var(--gold); border-radius: 16px; padding: 12px 8px 10px; text-align: center; font-size: 11.5px; line-height: 1.6; color: var(--primary-deep); box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: transform 0.15s; }
 .sc:active { transform: scale(0.94); }
-.sc .sc-ic {
-  display: flex; align-items: center; justify-content: center;
-  width: 36px; height: 36px; margin: 0 auto 6px;
-  border-radius: 50%; background: var(--surface-tint); font-size: 18px;
-}
+.sc .sc-ic { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; margin: 0 auto 6px; border-radius: 50%; background: var(--surface-tint); font-size: 16px; }
 .sc .sc-label { font-weight: 700; }
 
-/* ===== PREMIUM BOTTOM NAV ===== */
-#nav { 
-  position: fixed; left: 0; right: 0; bottom: 0; width: 100%; z-index: 15; 
-  display: flex; background: var(--primary-deep); 
-  border-radius: 24px 24px 0 0; 
-  padding: 8px 4px calc(8px + env(safe-area-inset-bottom)); 
-  box-shadow: 0 -4px 20px rgba(0,0,0,0.15); 
-}
-#nav button { 
-  flex: 1 1 0; min-width: 0; background: none; border: 0; 
-  color: #a3c2b2; font-family: inherit; font-size: 11px; line-height: 1.6; 
-  padding: 4px 2px; position: relative; transition: color 0.2s; 
-}
+/* BOTTOM NAV (4 items now) */
+#nav { position: fixed; left: 0; right: 0; bottom: 0; width: 100%; z-index: 15; display: flex; background: var(--primary-deep); border-radius: 24px 24px 0 0; padding: 8px 4px calc(8px + env(safe-area-inset-bottom)); box-shadow: 0 -4px 20px rgba(0,0,0,0.15); }
+#nav button { flex: 1 1 0; min-width: 0; background: none; border: 0; color: #a3c2b2; font-family: inherit; font-size: 11px; line-height: 1.6; padding: 4px 2px; position: relative; transition: color 0.2s; }
 #nav button span { display: block; font-size: 22px; line-height: 1.3; margin-bottom: 2px; filter: grayscale(1) opacity(0.7); transition: 0.2s; }
 #nav button.on { color: var(--gold-light); }
 #nav button.on span { filter: grayscale(0) opacity(1); transform: translateY(-2px); }
-#nav button.on::before { 
-  content: ""; position: absolute; top: -8px; left: 50%; transform: translateX(-50%); 
-  width: 24px; height: 4px; background: var(--gold); border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.3); 
-}
+#nav button.on::before { content: ""; position: absolute; top: -8px; left: 50%; transform: translateX(-50%); width: 24px; height: 4px; background: var(--gold); border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
 
-/* ===== INNER PAGES & NAMES ===== */
+/* INNER PAGES & NAMES */
 body.dark #app { padding: 16px; gap: 12px; }
 .panel { background: var(--dark-panel); border: 1px solid var(--dark-border); border-radius: var(--r-lg); padding: 10px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
 .two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
@@ -317,9 +194,8 @@ body.dark #app { padding: 16px; gap: 12px; }
 .more { display: none; width: 100%; padding: 12px; font-size: 15px; font-family: inherit; background: var(--dark-panel); color: var(--dark-name); border: 1px solid var(--dark-border-2); border-radius: var(--r-md); margin-top:10px; }
 .empty { padding: 30px; text-align: center; color: var(--dark-text-muted); font-size: 15px; }
 
-/* Settings, Details etc. */
-.card { background: var(--surface); border-radius: var(--r-lg); padding: 18px; font-size: 18px; line-height: 2; box-shadow: var(--shadow-sm); margin-bottom: 10px;}
-.detail { background: var(--surface); border-radius: var(--r-lg); padding: 24px; line-height: 2.4; font-size: 18px; white-space: pre-line; box-shadow: var(--shadow-sm); }
+.card { background: var(--surface); border-radius: var(--r-lg); padding: 18px; font-size: 17px; line-height: 2; box-shadow: var(--shadow-sm); margin-bottom: 10px;}
+.detail { background: var(--surface); border-radius: var(--r-lg); padding: 24px; line-height: 2.4; font-size: 17px; white-space: pre-line; box-shadow: var(--shadow-sm); }
 .settings-list { display: grid; gap: 10px; }
 .set-item { display: flex; align-items: center; justify-content: space-between; background: var(--surface); border: 1px solid rgba(0,0,0,0.05); border-radius: var(--r-md); padding: 16px; font-size: 16px; }
 .set-item .set-label { display: flex; align-items: center; gap: 10px; }
@@ -342,23 +218,20 @@ body.dark #app { padding: 16px; gap: 12px; }
 <body class="home">
 <header id="hdr" class="hero">
 <div class="decos">
-<!-- Masjid Silhouette -->
 <svg class="deco mosque" viewBox="0 0 400 120" preserveAspectRatio="none"><path d="M0 120V90h30V70l10-10 10 10v20h40V50c0-30 30-40 60-40s60 10 60 40v70h40V70l10-10 10 10v20h30v30H0z" fill="#064B38"/><rect x="180" y="20" width="4" height="15" fill="#064B38"/><circle cx="182" cy="15" r="4" fill="#064B38"/></svg>
-<!-- Moon -->
 <svg class="deco moon" viewBox="0 0 100 100"><defs><mask id="cm"><rect width="100" height="100" fill="#fff"/><circle cx="64" cy="38" r="34" fill="#000"/></mask></defs><circle cx="46" cy="52" r="38" fill="#f7e08c" mask="url(#cm)"/></svg>
-<!-- Lanterns -->
 <svg class="deco lantern lantern-l" viewBox="0 0 40 90"><line x1="20" y1="0" x2="20" y2="16" stroke="#c9a23c" stroke-width="2"/><path d="M11 16h18l5 8H6z" fill="#c9a23c"/><rect x="9" y="24" width="22" height="40" rx="8" fill="#f7e08c"/><rect x="18" y="24" width="4" height="40" fill="#c9a23c" opacity="0.5"/><path d="M11 64h18l-4 12H15z" fill="#c9a23c"/></svg>
 <svg class="deco lantern lantern-r" viewBox="0 0 40 90"><line x1="20" y1="0" x2="20" y2="16" stroke="#c9a23c" stroke-width="2"/><path d="M11 16h18l5 8H6z" fill="#c9a23c"/><rect x="9" y="24" width="22" height="40" rx="8" fill="#f7e08c"/><rect x="18" y="24" width="4" height="40" fill="#c9a23c" opacity="0.5"/><path d="M11 64h18l-4 12H15z" fill="#c9a23c"/></svg>
 <svg class="deco lantern lantern-c1" viewBox="0 0 40 90"><line x1="20" y1="0" x2="20" y2="16" stroke="#c9a23c" stroke-width="2"/><path d="M11 16h18l5 8H6z" fill="#c9a23c"/><rect x="9" y="24" width="22" height="40" rx="8" fill="#f7e08c"/><rect x="18" y="24" width="4" height="40" fill="#c9a23c" opacity="0.5"/><path d="M11 64h18l-4 12H15z" fill="#c9a23c"/></svg>
 <svg class="deco lantern lantern-c2" viewBox="0 0 40 90"><line x1="20" y1="0" x2="20" y2="16" stroke="#c9a23c" stroke-width="2"/><path d="M11 16h18l5 8H6z" fill="#c9a23c"/><rect x="9" y="24" width="22" height="40" rx="8" fill="#f7e08c"/><rect x="18" y="24" width="4" height="40" fill="#c9a23c" opacity="0.5"/><path d="M11 64h18l-4 12H15z" fill="#c9a23c"/></svg>
 </div>
-<button id="back" aria-label="واپس"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
-<button id="menuBtn" aria-label="مینو">⋮</button>
+<button id="back" aria-label="Wapas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+<button id="menuBtn" aria-label="Menu">⋮</button>
 <div id="menu">
-<button id="mShare">📤 ایپ شیئر کریں</button>
-<button id="mDark">🌙 ڈارک موڈ</button>
-<button id="mSettings">⚙️ سیٹنگز</button>
-<button id="mAbout">ℹ️ ایپ کے بارے میں</button>
+<button id="mShare">📤 App Share Karein</button>
+<button id="mDark">🌙 Dark Mode</button>
+<button id="mSettings">⚙️ Settings</button>
+<button id="mAbout">ℹ️ App Ke Baare Mein</button>
 </div>
 <h1 id="title"></h1>
 <p id="sub"></p>
@@ -366,45 +239,43 @@ body.dark #app { padding: 16px; gap: 12px; }
 </header>
 <div id="app"></div>
 <nav id="nav">
-<button data-t="home"><span>🏠</span>ہوم</button>
-<button data-t="names"><span>📖</span>نام</button>
-<button data-t="poetry"><span>✍️</span>شاعری</button>
-<button data-t="stories"><span>📚</span>کہانیاں</button>
-<button data-t="fav"><span>❤️</span>پسندیدہ</button>
+<button data-t="home"><span>🏠</span>Home</button>
+<button data-t="names"><span>📖</span>Naam</button>
+<button data-t="poetry"><span>✍️</span>Shayari</button>
+<button data-t="fav"><span>❤️</span>Pasandida</button>
 </nav>
 <div id="modal"><div id="modalBox"></div></div>
 <div id="toast" class="toast"></div>
 <script>
-const APP_TITLE = "اسلامی نام";
-const APP_SUB = "میری اسلامی ایپ";
-const GREETING = "السلام علیکم! 💚 اللہ تعالیٰ آپ کے ساتھ ہو";
-const APP_VERSION = "1.9";
+const APP_TITLE = "Islamic Naam";
+const APP_SUB = "Meri Islamic App";
+const GREETING = "Assalam o Alaikum! 💚 Allah Ta'ala aap ke sath ho";
+const APP_VERSION = "2.0";
 
 let QUOTES = [
-"اللہ پر بھروسہ رکھو، وہ ہمیشہ بہتر کرتا ہے۔",
-"اچھا اخلاق سب سے بڑی دولت ہے۔",
-"سچ بولنے سے دل کو سکون ملتا ہے۔",
-"شکر کرنے سے نعمتوں میں برکت ہوتی ہے۔",
-"صبر کا پھل ہمیشہ میٹھا ہوتا ہے۔",
-"ماں باپ کی خدمت سب سے بڑی نیکیوں میں سے ہے۔",
-"مسکرا کر ملنا بھی نیکی ہے۔"
+"Allah par bharosa rakho, woh hamesha behtar karta hai.",
+"Acha akhlaq sab se bari daulat hai.",
+"Sach bolne se dil ko sukoon milta hai.",
+"Shukar karne se naimaton mein barkat hoti hai.",
+"Sabr ka phal hamesha meetha hota hai.",
+"Maa baap ki khidmat sab se bari nekiyon mein se hai.",
+"Muskira kar milna bhi neki hai."
 ];
 
 const META = {
-  poetry: { title: "شاعری", icon: "✍️", desc: "اسلامی اور سبق آموز شاعری" },
-  names: { title: "اسلامی نام", icon: "📖", desc: "لڑکوں اور لڑکیوں کے نام" },
-  info: { title: "اسلامی معلومات", icon: "🕌", desc: "سوالات اور دلچسپ معلومات" },
-  stories: { title: "کہانیاں", icon: "📚", desc: "مختصر اور سبق آموز کہانیاں" }
+  poetry: { title: "Shayari", icon: "✍️", desc: "Islami aur sabaq aamoz shayari" },
+  names: { title: "Islami Naam", icon: "📖", desc: "Larkon aur larkiyon ke naam" },
+  info: { title: "Islami Maloomat", icon: "🕌", desc: "Sawalat aur dilchasp maloomat" }
 };
 
 const ICON_SVG = {
   names: '<svg class="ic-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="48" fill="#F4F8F5"/><path d="M30 30v40c10-3 15-8 20-15V30c0 8-10 12-20 15z" fill="#0f6b4a"/><path d="M70 30v40c-10-3-15-8-20-15V30c0 8 10 12 20 15z" fill="#117a58"/><path d="M50 30v40" stroke="#E5C15B" stroke-width="3" stroke-linecap="round"/></svg>',
   poetry: '<svg class="ic-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="48" fill="#F4F8F5"/><path d="M65 28l-28 28-3 12 12-3 28-28z" fill="#0f6b4a"/><path d="M65 28l8 8" stroke="#E5C15B" stroke-width="4" stroke-linecap="round"/><path d="M30 70h15" stroke="#117a58" stroke-width="4" stroke-linecap="round"/></svg>',
-  info: '<svg class="ic-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="48" fill="#F4F8F5"/><path d="M25 50c0-10 10-20 25-20s25 10 25 20-10 20-25 20c-5 0-10-1-15-3l-10 3 3-10c-2-3-3-6-3-10z" fill="#0f6b4a"/><path d="M50 45v15M50 38v2" stroke="#E5C15B" stroke-width="5" stroke-linecap="round"/></svg>',
-  stories: '<svg class="ic-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="48" fill="#F4F8F5"/><path d="M30 28h15c5 0 5 5 5 5v35c0-3-5-5-10-5H30z" fill="#117a58"/><path d="M70 28H55c-5 0-5 5-5 5v35c0-3 5-5 10-5h10z" fill="#0f6b4a"/><path d="M50 33v35" stroke="#E5C15B" stroke-width="3" stroke-linecap="round"/></svg>'
+  info: '<svg class="ic-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="48" fill="#F4F8F5"/><path d="M25 50c0-10 10-20 25-20s25 10 25 20-10 20-25 20c-5 0-10-1-15-3l-10 3 3-10c-2-3-3-6-3-10z" fill="#0f6b4a"/><path d="M50 45v15M50 38v2" stroke="#E5C15B" stroke-width="5" stroke-linecap="round"/></svg>'
 };
 
-const ORDER = ["poetry", "names", "info", "stories"];
+// REMOVED "stories" from ORDER
+const ORDER = ["poetry", "names", "info"];
 const PAGE = 100;
 
 let DATA = {};
@@ -464,7 +335,7 @@ function applyTheme() {
   const dark = localStorage.getItem("theme") === "dark";
   document.body.classList.toggle("theme-dark", dark);
   const mDark = document.getElementById("mDark");
-  if (mDark) mDark.textContent = dark ? "☀️ لائٹ موڈ" : "🌙 ڈارک موڈ";
+  if (mDark) mDark.textContent = dark ? "☀️ Light Mode" : "🌙 Dark Mode";
 }
 function applyFontScale() {
   const s = parseFloat(localStorage.getItem("fontScale") || "1");
@@ -497,15 +368,15 @@ function shareText(text, titleText) {
 }
 function shareApp() {
   const url = location.origin + location.pathname;
-  shareText("میری اسلامی ایپ: اسلامی نام، شاعری اور کہانیاں\n" + url, "میری اسلامی ایپ");
+  shareText("Meri Islamic App: Islami Naam, Shayari aur Maloomat\n" + url, "Meri Islamic App");
 }
 function shareName(x) {
   const url = location.origin + location.pathname;
-  shareText(x.n + " (" + x.e + ")\nمعنی: " + x.m + "\n\nمیری اسلامی ایپ:\n" + url, x.n);
+  shareText(x.n + " (" + x.e + ")\nMeaning: " + x.m + "\n\nMeri Islamic App:\n" + url, x.n);
 }
 function shareQuote(q) {
   const url = location.origin + location.pathname;
-  shareText("آج کی خوبصورت بات:\n\n\"" + q + "\"\n\nمیری اسلامی ایپ:\n" + url, "آج کی خوبصورت بات");
+  shareText("Aaj ki khoobsurat baat:\n\n\"" + q + "\"\n\nMeri Islamic App:\n" + url, "Aaj ki baat");
 }
 
 document.getElementById("mShare").onclick = () => { menu.classList.remove("show"); shareApp(); };
@@ -516,12 +387,12 @@ document.getElementById("mDark").onclick = () => {
   const mode = document.body.classList.contains("dark") ? "dark" : (document.body.classList.contains("home") ? "home" : "inner");
   setMode(mode);
   menu.classList.remove("show");
-  showToast(dark ? "☀️ لائٹ موڈ" : "🌙 ڈارک موڈ");
+  showToast(dark ? "☀️ Light Mode" : "🌙 Dark Mode");
 };
 document.getElementById("mSettings").onclick = () => { menu.classList.remove("show"); settingsPage(); };
 document.getElementById("mAbout").onclick = () => {
   menu.classList.remove("show");
-  showModal("<b>میری اسلامی ایپ</b><br>اسلامی نام، شاعری اور کہانیاں<br>ورژن " + APP_VERSION + "<br><br><small style='color:#64756C'>یہ ایک مفت اسلامی ایپ ہے۔ اللہ قبول فرمائے۔</small>");
+  showModal("<b>Meri Islamic App</b><br>Islami Naam, Shayari aur Maloomat<br>Version " + APP_VERSION + "<br><br><small style='color:#64756C'>Yeh ek muft Islami app hai. Allah qubool farmaye.</small>");
 };
 
 function loadNames() {
@@ -535,7 +406,7 @@ function todayName() {
     const x = list[dayNumber() % list.length];
     const k = keyOf(x);
     showModal(
-      "<div style='font-size:15px;color:#4a6b5b'>آج کا نام</div>" +
+      "<div style='font-size:15px;color:#4a6b5b'>Aaj ka Naam</div>" +
       "<div style='font-size:34px;color:#0f6b4a;line-height:2'>" + esc(x.n) + "</div>" +
       "<div style='font-family:Georgia,serif;color:#a07d12'>" + esc(x.e) + "</div>" +
       "<div style='margin:6px 0 10px'>" + esc(x.m) + "</div>" +
@@ -543,7 +414,7 @@ function todayName() {
     );
     document.getElementById("tFav").onclick = e => { const at = FAV.indexOf(k); if (at >= 0) FAV.splice(at, 1); else FAV.push(k); saveFav(); e.target.textContent = FAV.includes(k) ? "❤️" : "🤍"; };
     document.getElementById("tSh").onclick = () => shareName(x);
-  }).catch(() => showModal("نام لوڈ نہیں ہو سکا۔"));
+  }).catch(() => showModal("Naam load nahi ho saka."));
 }
 function goSearch(q) { namesPage({ q: String(q || "").trim() }); }
 
@@ -561,7 +432,7 @@ function home() {
   app.innerHTML =
     "<div class='sb'>" +
     "<button class='mic' id='hMic'>🎤</button>" +
-    "<input id='hSearch' type='search' placeholder='اپنا پسندیدہ نام تلاش کریں...'>" +
+    "<input id='hSearch' type='search' placeholder='Apna pasandida naam talash karein...'>" +
     "<button class='clear-sb' id='hClear'>✕</button>" +
     "<button class='sgo' id='hGo'>🔍</button>" +
     "</div>" +
@@ -574,21 +445,21 @@ function home() {
       "</div>").join("") +
     "</div>" +
     "<div class='quote'>" +
-    "<div class='qlabel'>آج کی خوبصورت بات</div>" +
+    "<div class='qlabel'>Aaj ki Khoobsurat Baat</div>" +
     "<div class='qtext' id='qText'>" + esc(todayQ) + "</div>" +
     "<div class='qline'></div>" +
     "<div class='qactions'>" +
-    "<button id='qShare'>📤 شیئر</button>" +
-    "<button id='qCopy'>📋 کاپی</button>" +
-    "<button id='qFav' class='" + (isFavQ ? "on" : "") + "'>" + (isFavQ ? "❤️ پسندیدہ" : "🤍 پسندیدہ") + "</button>" +
+    "<button id='qShare'>📤 Share</button>" +
+    "<button id='qCopy'>📋 Copy</button>" +
+    "<button id='qFav' class='" + (isFavQ ? "on" : "") + "'>" + (isFavQ ? "❤️ Pasand" : "🤍 Pasand") + "</button>" +
     "</div>" +
     "</div>" +
     "<div class='shortcuts'>" +
-    "<div class='sc' data-a='share'><div class='sc-ic'>📤</div><div class='sc-label'>شیئر کریں</div></div>" +
-    "<div class='sc' data-a='fav'><div class='sc-ic'>❤️</div><div class='sc-label'>پسندیدہ</div></div>" +
-    "<div class='sc' data-a='tasbeeh'><div class='sc-ic'>📿</div><div class='sc-label'>تسبیح</div></div>" +
-    "<div class='sc' data-a='today'><div class='sc-ic'>📅</div><div class='sc-label'>آج کا نام</div></div>" +
-    "<div class='sc' data-a='more'><div class='sc-ic'>⭐</div><div class='sc-label'>مزید</div></div>" +
+    "<div class='sc' data-a='share'><div class='sc-ic'>📤</div><div class='sc-label'>Share Karein</div></div>" +
+    "<div class='sc' data-a='fav'><div class='sc-ic'>❤️</div><div class='sc-label'>Pasandida</div></div>" +
+    "<div class='sc' data-a='tasbeeh'><div class='sc-ic'>📿</div><div class='sc-label'>Tasbeeh</div></div>" +
+    "<div class='sc' data-a='today'><div class='sc-ic'>📅</div><div class='sc-label'>Aaj ka Naam</div></div>" +
+    "<div class='sc' data-a='more'><div class='sc-ic'>⭐</div><div class='sc-label'>Mazeed</div></div>" +
     "</div>";
 
   const hs = document.getElementById("hSearch");
@@ -615,8 +486,8 @@ function home() {
 
   document.getElementById("qShare").onclick = () => shareQuote(todayQ);
   document.getElementById("qCopy").onclick = () => {
-    copyText(todayQ + "\n\n— میری اسلامی ایپ");
-    showToast("📋 کاپی ہو گیا");
+    copyText(todayQ + "\n\n— Meri Islamic App");
+    showToast("📋 Copy ho gaya");
   };
   const qFavBtn = document.getElementById("qFav");
   qFavBtn.onclick = () => {
@@ -624,13 +495,13 @@ function home() {
     if (at >= 0) {
       FAVQ.splice(at, 1);
       qFavBtn.classList.remove("on");
-      qFavBtn.innerHTML = "🤍 پسندیدہ";
-      showToast("پسندیدہ سے ہٹا دیا");
+      qFavBtn.innerHTML = "🤍 Pasand";
+      showToast("Pasandida se hata diya");
     } else {
       FAVQ.push(qKey);
       qFavBtn.classList.add("on");
-      qFavBtn.innerHTML = "❤️ پسندیدہ";
-      showToast("❤️ پسندیدہ میں محفوظ");
+      qFavBtn.innerHTML = "❤️ Pasand";
+      showToast("❤️ Pasandida mein mehfooz");
     }
     saveFavQ();
   };
@@ -646,7 +517,7 @@ app.onclick = e => {
     else if (a === "fav") namesPage({ fav: true });
     else if (a === "today") todayName();
     else if (a === "tasbeeh") location.href = "tasbeeh.html";
-    else if (a === "more") showModal("<b>جلد آنے والے فیچرز</b><br>• روزانہ نوٹیفکیشن<br>• اسلامی معلومات<br>• مزید نام، شاعری اور کہانیاں");
+    else if (a === "more") showModal("<b>Jald aane wale features</b><br>• Rozana notification<br>• Mazeed naam, shayari aur maloomat");
   }
 };
 nav.onclick = e => {
@@ -661,7 +532,7 @@ nav.onclick = e => {
 function openCard(k) {
   if (k === "names") { namesPage(); return; }
   if (DATA[k]) { category(k); return; }
-  showModal("<b>" + META[k].title + "</b><br>یہ حصہ جلد آ رہا ہے۔");
+  showModal("<b>" + META[k].title + "</b><br>Yeh hissa jald aa raha hai.");
 }
 
 function category(key) {
@@ -675,7 +546,7 @@ function category(key) {
   setNav(key);
   app.innerHTML = "";
   if (!d.items || !d.items.length) {
-    app.innerHTML = "<div class='card' style='text-align:center;color:var(--text-secondary)'>یہاں ابھی کچھ نہیں۔ جلد اضافہ ہوگا۔</div>";
+    app.innerHTML = "<div class='card' style='text-align:center;color:var(--text-secondary)'>Yahan abhi kuch nahi. Jald izafa hoga.</div>";
     return;
   }
   d.items.forEach(item => {
@@ -699,18 +570,18 @@ function detail(key, item) {
   const actions = document.createElement("div");
   actions.style.cssText = "display:flex;gap:8px;margin-top:12px;justify-content:center;flex-wrap:wrap";
   actions.innerHTML =
-    "<button class='qs' style='background:var(--primary);color:#fff;border:0;border-radius:999px;padding:10px 18px;font-family:inherit;font-size:14px;display:inline-flex;align-items:center;gap:6px'>📤 شیئر</button>" +
-    "<button class='qc' style='background:var(--surface-tint);color:var(--primary-deep);border:0;border-radius:999px;padding:10px 18px;font-family:inherit;font-size:14px;display:inline-flex;align-items:center;gap:6px'>📋 کاپی</button>";
+    "<button class='qs' style='background:var(--primary);color:#fff;border:0;border-radius:999px;padding:10px 18px;font-family:inherit;font-size:14px;display:inline-flex;align-items:center;gap:6px'>📤 Share</button>" +
+    "<button class='qc' style='background:var(--surface-tint);color:var(--primary-deep);border:0;border-radius:999px;padding:10px 18px;font-family:inherit;font-size:14px;display:inline-flex;align-items:center;gap:6px'>📋 Copy</button>";
   app.appendChild(actions);
-  const textShare = item.t + "\n\n" + item.d + "\n\n— میری اسلامی ایپ";
+  const textShare = item.t + "\n\n" + item.d + "\n\n— Meri Islamic App";
   actions.querySelector(".qs").onclick = () => shareText(textShare, item.t);
-  actions.querySelector(".qc").onclick = () => { copyText(textShare); showToast("📋 کاپی ہو گیا"); };
+  actions.querySelector(".qc").onclick = () => { copyText(textShare); showToast("📋 Copy ho gaya"); };
 }
 
 function namesPage(opts) {
   opts = opts || {};
   setMode("dark");
-  title.textContent = opts.fav ? "پسندیدہ نام" : META.names.title;
+  title.textContent = opts.fav ? "Pasandida Naam" : META.names.title;
   sub.textContent = "";
   back.style.display = "flex";
   back.onclick = home;
@@ -718,21 +589,21 @@ function namesPage(opts) {
   app.innerHTML = `
     <div class="panel">
       <div class="two">
-        <select id="fLetter"><option value="">حرف (سب)</option></select>
+        <select id="fLetter"><option value="">Harf (Sab)</option></select>
         <select id="fGender">
-          <option value="">جنس (سب)</option>
-          <option value="لڑکا">لڑکا</option>
-          <option value="لڑکی">لڑکی</option>
+          <option value="">Jins (Sab)</option>
+          <option value="لڑکا">Larka</option>
+          <option value="لڑکی">Larki</option>
         </select>
       </div>
       <div class="srch">
-        <input id="fSearch" type="search" placeholder="نام یا معنی تلاش کریں">
+        <input id="fSearch" type="search" placeholder="Naam ya meaning talash karein">
         <button id="fBtn">🔍</button>
       </div>
     </div>
     <div class="bar">
-      <span class="count" id="count">لوڈ ہو رہا ہے...</span>
-      <button class="chip" id="fFav">🤍 پسندیدہ</button>
+      <span class="count" id="count">Load ho raha hai...</span>
+      <button class="chip" id="fFav">🤍 Pasandida</button>
     </div>
     <div class="list" id="list"></div>
     <button class="more" id="more"></button>`;
@@ -747,7 +618,7 @@ function namesPage(opts) {
   let onlyFav = !!opts.fav;
   let shown = PAGE;
   let current = [];
-  if (onlyFav) { fFav.classList.add("on"); fFav.textContent = "❤️ پسندیدہ"; }
+  if (onlyFav) { fFav.classList.add("on"); fFav.textContent = "❤️ Pasandida"; }
   fSearch.value = opts.q || "";
   function render(reset) {
     if (reset) shown = PAGE;
@@ -760,9 +631,9 @@ function namesPage(opts) {
       (!G || x.g === G) &&
       (!Q || x.n.includes(Q) || x.e.toLowerCase().includes(Q) || x.m.includes(Q))
     );
-    count.textContent = current.length + " نام";
+    count.textContent = current.length + " Naam";
     if (!current.length) {
-      list.innerHTML = "<div class='empty'>" + (onlyFav ? "ابھی کوئی پسندیدہ نام نہیں۔ کسی نام کے ساتھ 🤍 دبائیں۔" : "کوئی نام نہیں ملا۔") + "</div>";
+      list.innerHTML = "<div class='empty'>" + (onlyFav ? "Abhi koi pasandida naam nahi. Kisi naam ke sath 🤍 dabayein." : "Koi naam nahi mila.") + "</div>";
     } else {
       list.innerHTML = current.slice(0, shown).map((x, i) =>
         "<div class='r' data-idx='" + i + "'>" +
@@ -776,7 +647,7 @@ function namesPage(opts) {
         "</div>"
       ).join("");
     }
-    if (current.length > shown) { more.style.display = "block"; more.textContent = "مزید دکھائیں (" + (current.length - shown) + " باقی)"; }
+    if (current.length > shown) { more.style.display = "block"; more.textContent = "Mazeed dikhayein (" + (current.length - shown) + " baqi)"; }
     else { more.style.display = "none"; }
   }
   list.onclick = e => {
@@ -805,18 +676,18 @@ function namesPage(opts) {
   fFav.onclick = () => {
     onlyFav = !onlyFav;
     fFav.classList.toggle("on", onlyFav);
-    fFav.textContent = (onlyFav ? "❤️" : "🤍") + " پسندیدہ";
+    fFav.textContent = (onlyFav ? "❤️" : "🤍") + " Pasandida";
     render(true);
   };
   loadNames().then(names => {
     const letters = [...new Set(names.map(x => x.n.charAt(0)))].sort((a, b) => a.localeCompare(b, "ur"));
-    fLetter.innerHTML = '<option value="">حرف (سب)</option>' + letters.map(l => '<option value="' + esc(l) + '">' + esc(l) + '</option>').join("");
+    fLetter.innerHTML = '<option value="">Harf (Sab)</option>' + letters.map(l => '<option value="' + esc(l) + '">' + esc(l) + '</option>').join("");
     fLetter.onchange = () => render(true);
     fGender.onchange = () => render(true);
     fSearch.oninput = () => render(true);
     fBtn.onclick = () => render(true);
     render(true);
-  }).catch(() => { count.textContent = "names.json لوڈ نہیں ہوئی۔ فائل میں کوئی غلطی ہو سکتی ہے۔"; });
+  }).catch(() => { count.textContent = "names.json load nahi hui."; });
 }
 
 function nameDetailPage(x) {
@@ -835,28 +706,28 @@ function nameDetailPage(x) {
       <div class="nd-gender">${esc(x.g)}</div>
       <div class="nd-meaning">${esc(x.m)}</div>
       <div class="nd-actions">
-        <button id="ndFav">${isFav ? "❤️ پسندیدہ" : "🤍 پسندیدہ"}</button>
-        <button id="ndCopy" class="ghost" style="background:var(--surface-tint);color:var(--primary-deep)">📋 کاپی</button>
-        <button id="ndShare" class="ghost" style="background:var(--surface-tint);color:var(--primary-deep)">📤 شیئر</button>
+        <button id="ndFav">${isFav ? "❤️ Pasandida" : "🤍 Pasandida"}</button>
+        <button id="ndCopy" class="ghost" style="background:var(--surface-tint);color:var(--primary-deep)">📋 Copy</button>
+        <button id="ndShare" class="ghost" style="background:var(--surface-tint);color:var(--primary-deep)">📤 Share</button>
       </div>
     </div>`;
   document.getElementById("ndFav").onclick = () => {
     const at = FAV.indexOf(k);
     const btn = document.getElementById("ndFav");
-    if (at >= 0) { FAV.splice(at, 1); btn.textContent = "🤍 پسندیدہ"; showToast("پسندیدہ سے ہٹا دیا"); }
-    else { FAV.push(k); btn.textContent = "❤️ پسندیدہ"; showToast("❤️ پسندیدہ میں محفوظ"); }
+    if (at >= 0) { FAV.splice(at, 1); btn.textContent = "🤍 Pasandida"; showToast("Pasandida se hata diya"); }
+    else { FAV.push(k); btn.textContent = "❤️ Pasandida"; showToast("❤️ Pasandida mein mehfooz"); }
     saveFav();
   };
   document.getElementById("ndCopy").onclick = () => {
-    copyText(x.n + " (" + x.e + ")\nمعنی: " + x.m);
-    showToast("📋 کاپی ہو گیا");
+    copyText(x.n + " (" + x.e + ")\nMeaning: " + x.m);
+    showToast("📋 Copy ho gaya");
   };
   document.getElementById("ndShare").onclick = () => shareName(x);
 }
 
 function settingsPage() {
   setMode("inner");
-  title.textContent = "سیٹنگز";
+  title.textContent = "Settings";
   sub.textContent = "";
   back.style.display = "flex";
   back.onclick = home;
@@ -868,54 +739,54 @@ function settingsPage() {
   app.innerHTML = `
     <div class="settings-list">
       <div class="set-item" id="sAbout">
-        <div class="set-label"><span class="set-ic">ℹ️</span><span>ایپ کے بارے میں</span></div>
+        <div class="set-label"><span class="set-ic">ℹ️</span><span>App ke baare mein</span></div>
         <div class="set-arrow">‹</div>
       </div>
       <div class="set-item" id="sShare">
-        <div class="set-label"><span class="set-ic">📤</span><span>ایپ شیئر کریں</span></div>
+        <div class="set-label"><span class="set-ic">📤</span><span>App share karein</span></div>
         <div class="set-arrow">‹</div>
       </div>
       <div class="set-item" id="sDark">
-        <div class="set-label"><span class="set-ic">🌙</span><span>ڈارک موڈ</span></div>
+        <div class="set-label"><span class="set-ic">🌙</span><span>Dark Mode</span></div>
         <div class="toggle ${dark ? "on" : ""}" id="sDarkToggle"></div>
       </div>
       <div class="set-item" style="flex-direction:column;align-items:stretch;cursor:default">
-        <div class="set-label" style="margin-bottom:8px"><span class="set-ic">🔤</span><span>فونٹ سائز</span></div>
+        <div class="set-label" style="margin-bottom:8px"><span class="set-ic">🔤</span><span>Font Size</span></div>
         <div class="fs-row">
           <button class="fs-opt fs-s ${fsClass === "small" ? "on" : ""}" data-fs="0.88">
-            <div class="fs-preview">آ</div>
-            <div class="fs-label">چھوٹا</div>
+            <div class="fs-preview" style="font-size:14px">Aa</div>
+            <div class="fs-label">Chhota</div>
           </button>
           <button class="fs-opt fs-m ${fsClass === "medium" ? "on" : ""}" data-fs="1">
-            <div class="fs-preview">آ</div>
-            <div class="fs-label">درمیانہ</div>
+            <div class="fs-preview" style="font-size:18px">Aa</div>
+            <div class="fs-label">Darmiyana</div>
           </button>
           <button class="fs-opt fs-l ${fsClass === "large" ? "on" : ""}" data-fs="1.18">
-            <div class="fs-preview">آ</div>
-            <div class="fs-label">بڑا</div>
+            <div class="fs-preview" style="font-size:22px">Aa</div>
+            <div class="fs-label">Bara</div>
           </button>
         </div>
       </div>
       <div class="set-item" id="sPrivacy">
-        <div class="set-label"><span class="set-ic">🔒</span><span>پرائیویسی پالیسی</span></div>
+        <div class="set-label"><span class="set-ic">🔒</span><span>Privacy Policy</span></div>
         <div class="set-arrow">‹</div>
       </div>
       <div class="set-item" id="sTerms">
-        <div class="set-label"><span class="set-ic">📄</span><span>استعمال کی شرائط</span></div>
+        <div class="set-label"><span class="set-ic">📄</span><span>Terms of Use</span></div>
         <div class="set-arrow">‹</div>
       </div>
       <div class="set-item" id="sFeedback">
-        <div class="set-label"><span class="set-ic">✉️</span><span>فیڈبیک</span></div>
+        <div class="set-label"><span class="set-ic">✉️</span><span>Feedback</span></div>
         <div class="set-arrow">‹</div>
       </div>
       <div class="set-item" id="sRate">
-        <div class="set-label"><span class="set-ic">⭐</span><span>ایپ ریٹنگ</span></div>
-        <div class="set-val">جلد آ رہا ہے</div>
+        <div class="set-label"><span class="set-ic">⭐</span><span>App Rating</span></div>
+        <div class="set-val">Jald aa raha hai</div>
       </div>
     </div>
   `;
 
-  document.getElementById("sAbout").onclick = () => showModal("<b>میری اسلامی ایپ</b><br>اسلامی نام، شاعری اور کہانیاں<br>ورژن " + APP_VERSION + "<br><br><small style='color:#64756C'>یہ ایک مفت اسلامی ایپ ہے۔ اللہ قبول فرمائے۔</small>");
+  document.getElementById("sAbout").onclick = () => showModal("<b>Meri Islamic App</b><br>Islami Naam, Shayari aur Maloomat<br>Version " + APP_VERSION + "<br><br><small style='color:#64756C'>Yeh ek muft Islami app hai. Allah qubool farmaye.</small>");
   document.getElementById("sShare").onclick = () => shareApp();
   document.getElementById("sDark").onclick = () => {
     const wasDark = localStorage.getItem("theme") === "dark";
@@ -923,7 +794,7 @@ function settingsPage() {
     applyTheme();
     document.getElementById("sDarkToggle").classList.toggle("on", !wasDark);
     setMode("inner");
-    title.textContent = "سیٹنگز";
+    title.textContent = "Settings";
   };
   document.querySelectorAll(".fs-opt").forEach(b => {
     b.onclick = () => {
@@ -932,15 +803,15 @@ function settingsPage() {
       document.documentElement.style.setProperty("--font-scale", v);
       document.querySelectorAll(".fs-opt").forEach(x => x.classList.remove("on"));
       b.classList.add("on");
-      showToast("فونٹ سائز تبدیل ہو گیا");
+      showToast("Font size tabdeel ho gaya");
     };
   });
-  document.getElementById("sPrivacy").onclick = () => showModal("<b>پرائیویسی پالیسی</b><br><br><small style='text-align:right;display:block;line-height:2'>یہ ایپ آپ کی ذاتی معلومات جمع نہیں کرتی۔ آپ کے پسندیدہ نام اور سیٹنگز صرف آپ کے فون میں محفوظ ہوتے ہیں۔ ہم Google Analytics استعمال کرتے ہیں جو گمنام استعمال کی معلومات جمع کرتا ہے۔</small>");
-  document.getElementById("sTerms").onclick = () => showModal("<b>استعمال کی شرائط</b><br><br><small style='text-align:right;display:block;line-height:2'>یہ ایپ مفت ہے۔ اسلامی نام اور معنی مشہور کتابوں سے لیے گئے ہیں، لیکن کسی بھی نام کے معنی کی حتمی تصدیق کے لیے کسی مستند عالم سے رجوع کریں۔</small>");
+  document.getElementById("sPrivacy").onclick = () => showModal("<b>Privacy Policy</b><br><br><small style='text-align:right;display:block;line-height:2'>Yeh app aap ki zaati maloomat jama nahi karti. Aap ke pasandida naam aur settings sirf aap ke phone mein mehfooz hote hain. Hum Google Analytics istemal karte hain jo gumnaam istemal ki maloomat jama karta hai.</small>");
+  document.getElementById("sTerms").onclick = () => showModal("<b>Terms of Use</b><br><br><small style='text-align:right;display:block;line-height:2'>Yeh app muft hai. Islami naam aur meaning mashhoor kitabon se liye gaye hain, lekin kisi bhi naam ke meaning ki hatmi tasdeeq ke liye kisi mustanad aalim se rujoo karein.</small>");
   document.getElementById("sFeedback").onclick = () => {
-    window.location.href = "mailto:?subject=" + encodeURIComponent("میری اسلامی ایپ - فیڈبیک") + "&body=" + encodeURIComponent("السلام علیکم،\n\nمیری رائے:\n\n");
+    window.location.href = "mailto:?subject=" + encodeURIComponent("Meri Islamic App - Feedback") + "&body=" + encodeURIComponent("Assalam o Alaikum,\n\nMeri raye:\n\n");
   };
-  document.getElementById("sRate").onclick = () => showToast("Play Store پر آنے کے بعد ریٹنگ ممکن ہوگی");
+  document.getElementById("sRate").onclick = () => showToast("Play Store par aane ke baad rating mumkin hogi");
 }
 applyTheme();
 applyFontScale();
