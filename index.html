@@ -73,7 +73,6 @@ body {
 }
 body.dark { background: var(--dark-bg); color: var(--dark-text); }
 
-/* ===== 1. HEADER (Fixed: Decorations moved back) ===== */
 #hdr { background: var(--primary); color: var(--text-on-primary); padding: 22px 16px; text-align: center; position: relative; }
 #hdr h1 { margin: 0 0 4px; font-size: 24px; line-height: 1.9; position: relative; z-index: 2; }
 #hdr p { margin: 0; opacity: 0.85; line-height: 1.8; position: relative; z-index: 2; }
@@ -107,7 +106,6 @@ body.dark { background: var(--dark-bg); color: var(--dark-text); }
 #hdr.hero #back { top: 30px; transform: none; }
 #hdr.hero #back:active { transform: scale(0.92); }
 
-/* ===== 3. MENU (Fixed: Small, Sleek, All options) ===== */
 #menu { display: none; position: absolute; left: 16px; top: 85px; background: var(--surface); color: var(--text); border-radius: var(--r-lg); box-shadow: 0 10px 30px rgba(0,0,0,0.15); min-width: 190px; z-index: 25; overflow: hidden; animation: menuIn 180ms ease both; border: 1px solid var(--surface-border); }
 @keyframes menuIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
 #hdr.hero #menu { top: 88px; }
@@ -135,7 +133,6 @@ body.home #app { padding: 0 16px 20px; gap: 14px; }
 .clear-sb { flex: 0 0 auto; border: 0; background: none; color: var(--text-secondary); font-size: 18px; padding: 4px 8px; display: none; }
 .clear-sb.show { display: block; }
 
-/* ===== 2. CATEGORY CARDS (Fixed: Sleek & Professional) ===== */
 .hgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .hc { min-width: 0; position: relative; display: flex; flex-direction: column; background: var(--surface); border-radius: 16px; padding: 12px 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); border: 1.5px solid var(--gold); cursor: pointer; overflow: hidden; transition: transform 0.15s; }
 .hc:active { transform: scale(0.96); }
@@ -153,7 +150,6 @@ body.home #app { padding: 0 16px 20px; gap: 14px; }
 .hc .go { width: 24px; height: 24px; border-radius: 50%; background: var(--gold-gradient); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; box-shadow: 0 2px 6px rgba(160,125,18,0.3); }
 .hc.full-width .go { width: 32px; height: 32px; font-size: 16px; }
 
-/* ===== 5. QUOTE CARD (Fixed: Icons + Like) ===== */
 .quote { position: relative; background: var(--primary-gradient); border: 2px solid var(--gold); border-radius: 20px; padding: 32px 16px 16px; text-align: center; color: #fff; box-shadow: 0 8px 20px rgba(0,60,30,0.2); overflow: hidden; }
 .qlabel { position: absolute; top: -2px; right: 20px; background: var(--gold-gradient); color: #4a3200; font-weight: 700; font-size: 13px; padding: 2px 16px; border-radius: 0 0 12px 12px; line-height: 1.8; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
 .qtext { font-size: 17px; line-height: 2.2; padding: 0 4px 16px; font-weight: 500; }
@@ -163,7 +159,6 @@ body.home #app { padding: 0 16px 20px; gap: 14px; }
 .qactions button:active { transform: scale(0.9); }
 .qactions button.on { background: var(--gold-gradient); color: #4a3200; border-color: var(--gold); font-weight: 700; }
 
-/* ===== 4. SHORTCUTS (Fixed: Smaller & Sleek) ===== */
 .shortcuts { display: flex; gap: 8px; overflow-x: auto; overflow-y: hidden; padding: 4px 2px 8px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
 .shortcuts::-webkit-scrollbar { display: none; }
 .sc { flex: 0 0 auto; min-width: 75px; background: var(--surface); border: 1px solid var(--gold); border-radius: 14px; padding: 10px 6px 8px; text-align: center; font-size: 10.5px; line-height: 1.5; color: var(--primary-deep); box-shadow: 0 2px 6px rgba(0,0,0,0.04); transition: transform 0.15s; }
@@ -257,7 +252,7 @@ body.dark #app { padding: 16px; gap: 12px; }
 const APP_TITLE = "Islamic Naam";
 const APP_SUB = "Meri Islamic App";
 const GREETING = "Assalam o Alaikum! 💚 Allah Ta'ala aap ke sath ho";
-const APP_VERSION = "2.1";
+const APP_VERSION = "2.2";
 
 let QUOTES = [
 "Allah par bharosa rakho, woh hamesha behtar karta hai.",
@@ -281,7 +276,6 @@ const ICON_SVG = {
   info: '<svg class="ic-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="48" fill="#F4F8F5"/><path d="M25 50c0-10 10-20 25-20s25 10 25 20-10 20-25 20c-5 0-10-1-15-3l-10 3 3-10c-2-3-3-6-3-10z" fill="#0f6b4a"/><path d="M50 45v15M50 38v2" stroke="#E5C15B" stroke-width="5" stroke-linecap="round"/></svg>'
 };
 
-// Removed "stories" from ORDER
 const ORDER = ["poetry", "names", "info"];
 const PAGE = 100;
 
@@ -468,6 +462,7 @@ function home() {
     "<div class='sc' data-a='share'><div class='sc-ic'>📤</div><div class='sc-label'>Share Karein</div></div>" +
     "<div class='sc' data-a='fav'><div class='sc-ic'>❤️</div><div class='sc-label'>Pasandida</div></div>" +
     "<div class='sc' data-a='tasbeeh'><div class='sc-ic'>📿</div><div class='sc-label'>Tasbeeh</div></div>" +
+    "<div class='sc' data-a='qibla'><div class='sc-ic'>🕋</div><div class='sc-label'>Qibla</div></div>" +
     "<div class='sc' data-a='today'><div class='sc-ic'>📅</div><div class='sc-label'>Aaj ka Naam</div></div>" +
     "<div class='sc' data-a='more'><div class='sc-ic'>⭐</div><div class='sc-label'>Mazeed</div></div>" +
     "</div>";
@@ -494,7 +489,6 @@ function home() {
     };
   }
 
-  // Actions
   const qLikeBtn = document.getElementById("qLike");
   if (isLiked) qLikeBtn.classList.add("on");
   qLikeBtn.onclick = () => {
@@ -547,6 +541,7 @@ app.onclick = e => {
     else if (a === "fav") namesPage({ fav: true });
     else if (a === "today") todayName();
     else if (a === "tasbeeh") location.href = "tasbeeh.html";
+    else if (a === "qibla") location.href = "qibla.html";
     else if (a === "more") showModal("<b>Jald aane wale features</b><br>• Rozana notification<br>• Mazeed naam, shayari aur maloomat");
   }
 };
