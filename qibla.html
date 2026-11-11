@@ -8,7 +8,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
 body {
@@ -76,7 +76,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.1s ease-out;
 }
 
 /* Inner compass design */
@@ -109,15 +108,6 @@ body {
   width: 100%; height: 100%;
   border-radius: 50%;
 }
-.degree-marks::before {
-  content: "";
-  position: absolute;
-  top: 5px; left: 50%;
-  width: 2px; height: 10px;
-  background: #555;
-  transform: translateX(-50%);
-  box-shadow: 0 0 0 0 #fff; /* to center */
-}
 .tick {
   position: absolute;
   width: 2px; height: 6px;
@@ -127,7 +117,17 @@ body {
   transform-origin: 50% 145px; /* Radius */
 }
 
-/* Kaaba Arrow (Needle) */
+/* Kaaba Arrow (Needle) - Fixed to Qibla */
+.needle-wrap {
+  position: absolute;
+  width: 100%; height: 100%;
+  top: 0; left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 10;
+}
 .needle {
   position: absolute;
   width: 0; height: 0;
@@ -135,10 +135,9 @@ body {
   border-right: 15px solid transparent;
   border-bottom: 110px solid #27ae60;
   transform-origin: 50% 100%;
-  transition: transform 0.2s ease-out;
-  top: 40px;
-  z-index: 10;
+  bottom: 50%;
   filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+  transition: transform 0.1s linear;
 }
 .needle::after {
   content: '';
@@ -151,7 +150,7 @@ body {
 }
 .kaaba-icon-in-compass {
   position: absolute;
-  top: -45px;
+  top: -40px;
   left: 50%;
   transform: translateX(-50%);
   font-size: 28px;
@@ -273,30 +272,6 @@ body {
 .hijri-card .text h4 { font-size: 14px; color: #333; margin-bottom: 2px;}
 .hijri-card .text p { font-size: 12px; color: #888; }
 
-/* Bottom Nav */
-.bottom-nav {
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
-  background: #fff;
-  display: flex;
-  justify-content: space-around;
-  padding: 10px 0 20px;
-  border-top: 1px solid #eee;
-  box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-  z-index: 100;
-}
-.nav-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #999;
-  font-size: 10px;
-  text-decoration: none;
-  gap: 4px;
-}
-.nav-item.active { color: #0f6b4a; font-weight: 600; }
-.nav-item svg { width: 22px; height: 22px; fill: currentColor;}
-
 /* Error/Overlay */
 #overlay {
   position: fixed;
@@ -352,6 +327,7 @@ body {
     Qibla Direction<br>Kaaba
   </div>
 
+  <!-- Compass Background (Ghoomega) -->
   <div class="compass-container" id="compass">
     <div class="compass-inner"></div>
     <div class="degree-marks" id="degreeMarks"></div>
@@ -364,10 +340,13 @@ body {
     <div class="compass-marking mark-nw">NW</div>
     <div class="compass-marking mark-se">SE</div>
     <div class="compass-marking mark-sw">SW</div>
+  </div>
 
-    <div class="needle" id="needle">
-      <div class="kaaba-icon-in-compass">🕋</div>
-    </div>
+  <!-- Needle (Kaaba ki taraf lock rahega) -->
+  <div class="needle-wrap" style="position: absolute; top: 10px; width: 300px; height: 300px;">
+      <div class="needle" id="needle">
+        <div class="kaaba-icon-in-compass">🕋</div>
+      </div>
   </div>
 
   <div class="compass-info">
@@ -394,6 +373,7 @@ body {
     <h3>Today's Prayer Times</h3>
     <div id="prayerList">
       <div class="prayer-row"><div class="p-left"><span>🌙</span>Fajr</div><div class="p-right">--:--</div></div>
+      <div class="prayer-row"><div class="p-left"><span>☀️</span>Sunrise</div><div class="p-right">--:--</div></div>
       <div class="prayer-row"><div class="p-left"><span>☀️</span>Dhuhr</div><div class="p-right">--:--</div></div>
       <div class="prayer-row"><div class="p-left"><span>⛅</span>Asr</div><div class="p-right">--:--</div></div>
       <div class="prayer-row"><div class="p-left"><span>🌇</span>Maghrib</div><div class="p-right">--:--</div></div>
@@ -410,29 +390,6 @@ body {
   </div>
 
 </div>
-
-<nav class="bottom-nav">
-  <a href="index.html" class="nav-item">
-    <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-    Home
-  </a>
-  <a href="#" class="nav-item" onclick="alert('Coming Soon')">
-    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-    Quran
-  </a>
-  <a href="#" class="nav-item" onclick="alert('Coming Soon')">
-    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
-    Duas
-  </a>
-  <a href="tasbeeh.html" class="nav-item">
-    <svg viewBox="0 0 24 24"><path d="M12 2c-5.52 0-10 4.48-10 10s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
-    Tasbih
-  </a>
-  <a href="#" class="nav-item" onclick="alert('Coming Soon')">
-    <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-    Profile
-  </a>
-</nav>
 
 <div id="overlay">
   <h2>Location Required</h2>
@@ -537,8 +494,10 @@ function renderPrayerTimes(timings) {
     return;
   }
 
+  // ADDED SUNRISE HERE
   prayerDataArray = [
     { name: "Fajr", key: "Fajr", icon: "🌙" },
+    { name: "Sunrise", key: "Sunrise", icon: "🌅" },
     { name: "Dhuhr", key: "Dhuhr", icon: "☀️" },
     { name: "Asr", key: "Asr", icon: "⛅" },
     { name: "Maghrib", key: "Maghrib", icon: "🌇" },
@@ -562,8 +521,11 @@ function updateNextPrayer() {
   let next = null;
   let nextTime = null;
 
-  for (let i = 0; i < prayerDataArray.length; i++) {
-    const p = prayerDataArray[i];
+  // We ignore Sunrise for "Next Prayer" box because Sunrise is not a prayer
+  const validPrayers = prayerDataArray.filter(p => p.name !== "Sunrise");
+
+  for (let i = 0; i < validPrayers.length; i++) {
+    const p = validPrayers[i];
     const [h, m] = prayerTimings[p.key].split(":");
     const pTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), parseInt(h), parseInt(m));
     
@@ -576,7 +538,7 @@ function updateNextPrayer() {
 
   if (!next) {
     // Next is tomorrow's Fajr
-    next = prayerDataArray[0];
+    next = validPrayers[0];
     const [h, m] = prayerTimings["Fajr"].split(":");
     nextTime = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, parseInt(h), parseInt(m));
   }
@@ -607,11 +569,11 @@ function handleOrientation(event) {
 }
 
 function updateCompassUI() {
-  // Rotate whole compass so North points to real north
+  // 1. Rotate compass background so North points to actual North
   el.compass.style.transform = `rotate(${-currentHeading}deg)`;
   
-  // Arrow rotation: Qibla bearing relative to North
-  const relativeAngle = currentQibla;
+  // 2. Keep Needle locked to Qibla (relative to phone screen)
+  const relativeAngle = currentQibla - currentHeading;
   el.needle.style.transform = `rotate(${relativeAngle}deg)`;
 }
 
@@ -657,14 +619,11 @@ function initLocation() {
       el.loadingText.style.display = 'none';
       el.overlay.style.display = 'none';
 
-      // Load Prayer Times
       prayerTimings = await getPrayerTimes(currentLat, currentLng);
       renderPrayerTimes(prayerTimings);
 
-      // Load Hijri Date
       el.hijriDate.textContent = await getHijriDate();
 
-      // Compass Setup
       if (window.DeviceOrientationEvent) {
         requestCompassPermission();
       } else {
@@ -687,8 +646,6 @@ document.getElementById('refreshBtn').onclick = () => {
 
 // Initialize App
 initLocation();
-
-// Update remaining time every minute
 setInterval(updateNextPrayer, 60000);
 </script>
 </body>
