@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Duain</title>
+<meta name="theme-color" content="#0f6b4a">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #075B43; --primary-light: #117A58; --primary-deep: #064B38;
+  --gold: #E5C15B; --gold-light: #f2cf6b;
+  --bg: #F8F9F6; --surface: #FFFFFF; --text: #123F32; --text-secondary: #64756C;
+  --shadow-sm: 0 2px 6px rgba(0,60,30,0.05); --shadow-md: 0 4px 12px rgba(0,60,30,0.08);
+  --r-md: 12px; --r-lg: 16px; --r-full: 999px;
+  --font-urdu: "Noto Nastaliq Urdu", sans-serif;
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
+body { font-family: var(--font-urdu); background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+
+.header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; background: var(--primary); color: #fff; }
+.header h1 { font-size: 20px; font-weight: 700; color: var(--gold-light); margin: 0; }
+.header a { color: #fff; text-decoration: none; font-size: 20px; }
+
+.container { padding: 16px; flex: 1; display: flex; flex-direction: column; gap: 16px; overflow-y: auto; }
+
+/* Search Bar */
+.search-bar { display: flex; align-items: center; gap: 8px; background: #fff; border-radius: var(--r-full); padding: 6px 8px; box-shadow: var(--shadow-sm); border: 1.5px solid var(--gold); }
+.search-bar input { flex: 1; border: none; outline: none; background: transparent; font-family: inherit; font-size: 14px; padding: 6px; color: var(--text); }
+.search-bar button { background: var(--primary); color: #fff; border: none; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+
+/* Dua List */
+.dua-list { display: flex; flex-direction: column; gap: 12px; }
+.dua-item { display: flex; align-items: center; justify-content: space-between; background: #fff; border: 1px solid #e0e0e0; border-radius: var(--r-md); padding: 12px 16px; box-shadow: var(--shadow-sm); cursor: pointer; }
+.dua-item:active { transform: scale(0.98); background: #f8f9f6; }
+.dua-left { display: flex; align-items: center; gap: 12px; }
+.dua-num { background: var(--primary); color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-family: sans-serif; font-weight: bold; flex-shrink: 0; }
+.dua-title { font-size: 16px; font-weight: 600; color: var(--primary-deep); }
+.dua-actions { display: flex; gap: 8px; flex-shrink: 0; }
+.dua-actions button { background: none; border: none; font-size: 18px; color: var(--text-secondary); cursor: pointer; padding: 4px; }
+.dua-actions button.fav { color: #e74c3c; }
+
+/* Dua Detail Page */
+.detail-page { display: none; flex-direction: column; gap: 16px; height: 100%; }
+.detail-page.active { display: flex; }
+.list-page.hidden { display: none; }
+
+.dua-detail-card { background: #fff; border-radius: var(--r-lg); padding: 24px; box-shadow: var(--shadow-md); border: 1.5px solid var(--gold); text-align: center; }
+.dua-detail-card h2 { font-size: 20px; color: var(--primary); margin-bottom: 16px; }
+.dua-arabic { font-size: 26px; line-height: 2.5; color: var(--text); margin-bottom: 16px; font-weight: 600; }
+.dua-urdu { font-size: 16px; line-height: 2.2; color: var(--text-secondary); margin-bottom: 16px; background: var(--bg); padding: 12px; border-radius: var(--r-md); }
+.detail-actions { display: flex; justify-content: center; gap: 12px; margin-top: 20px; }
+.detail-actions button { background: var(--primary); color: #fff; border: none; border-radius: var(--r-full); padding: 10px 20px; font-family: inherit; font-size: 14px; display: flex; align-items: center; gap: 6px; }
+.detail-actions button.ghost { background: #e8f1eb; color: var(--primary-deep); }
+
+.back-btn { background: var(--gold); color: #4a3200; border: none; border-radius: var(--r-md); padding: 10px; font-family: inherit; font-size: 16px; font-weight: bold; cursor: pointer; margin-bottom: 10px; }
+
+.empty-state { text-align: center; padding: 30px; color: var(--text-secondary); font-size: 14px; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div style="width:24px;"></div>
+  <h1>مسنون دعائیں</h1>
+  <a href="index.html">←</a>
+</header>
+
+<div class="container">
+  
+  <!-- Dua List Page -->
+  <div class="list-page" id="listPage">
+    <div class="search-bar">
+      <button>🔍</button>
+      <input type="text" id="searchInput" placeholder="دعا تلاش کریں...">
+    </div>
+    <div class="dua-list" id="duaList">
+      <!-- Duas injected here -->
+    </div>
+    <div class="empty-state" id="emptyState" style="display:none;">کوئی دعا نہیں ملی</div>
+  </div>
+
+  <!-- Dua Detail Page -->
+  <div class="detail-page" id="detailPage">
+    <button class="back-btn" id="backBtn">← واپس فہرست میں</button>
+    <div class="dua-detail-card">
+      <h2 id="dTitle"></h2>
+      <div class="dua-arabic" id="dArabic"></div>
+      <div class="dua-urdu" id="dUrdu"></div>
+      <div class="detail-actions">
+        <button id="dFav">🤍 پسندیدہ</button>
+        <button id="dCopy" class="ghost">📋 کاپی</button>
+        <button id="dShare" class="ghost">📤 شیئر</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+let allDuas = [];
+let currentDuaIndex = -1;
+let FAV_DUAS = [];
+try { FAV_DUAS = JSON.parse(localStorage.getItem("fav_duas") || "[]"); } catch(e) { FAV_DUAS = []; }
+
+const listPage = document.getElementById('listPage');
+const detailPage = document.getElementById('detailPage');
+const duaList = document.getElementById('duaList');
+const searchInput = document.getElementById('searchInput');
+const emptyState = document.getElementById('emptyState');
+
+function saveFavDuas() {
+  localStorage.setItem("fav_duas", JSON.stringify(FAV_DUAS));
+}
+
+// Fetch Data from data.json
+async function loadData() {
+  try {
+    const res = await fetch("data.json");
+    const data = await res.json();
+    if (data.info && data.info.items) {
+      allDuas = data.info.items;
+      renderList(allDuas);
+    }
+  } catch (e) {
+    duaList.innerHTML = "<div class='empty-state'>ڈیٹا لوڈ نہیں ہو سکا</div>";
+  }
+}
+
+function renderList(items) {
+  duaList.innerHTML = "";
+  if (items.length === 0) {
+    emptyState.style.display = "block";
+    return;
+  }
+  emptyState.style.display = "none";
+
+  items.forEach((dua, index) => {
+    const isFav = FAV_DUAS.includes(dua.t);
+    const div = document.createElement('div');
+    div.className = 'dua-item';
+    div.innerHTML = `
+      <div class="dua-left">
+        <div class="dua-num">${index + 1}</div>
+        <div class="dua-title">${dua.t}</div>
+      </div>
+      <div class="dua-actions">
+        <button class="fav-btn ${isFav ? 'fav' : ''}" data-title="${dua.t}">${isFav ? '❤️' : '🤍'}</button>
+        <button class="share-btn" data-title="${dua.t}">📤</button>
+      </div>
+    `;
+
+    // Open detail on click
+    div.onclick = (e) => {
+      if (e.target.closest('button')) return; // Ignore if clicked button
+      openDetail(dua);
+    };
+
+    // Favorite button click
+    const favBtn = div.querySelector('.fav-btn');
+    favBtn.onclick = (e) => {
+      e.stopPropagation();
+      toggleFav(dua.t, favBtn);
+    };
+
+    // Share button click
+    const shareBtn = div.querySelector('.share-btn');
+    shareBtn.onclick = (e) => {
+      e.stopPropagation();
+      shareDua(dua);
+    };
+
+    duaList.appendChild(div);
+  });
+}
+
+function toggleFav(title, btn) {
+  const idx = FAV_DUAS.indexOf(title);
+  if (idx >= 0) {
+    FAV_DUAS.splice(idx, 1);
+    btn.classList.remove('fav');
+    btn.innerText = '🤍';
+  } else {
+    FAV_DUAS.push(title);
+    btn.classList.add('fav');
+    btn.innerText = '❤️';
+  }
+  saveFavDuas();
+}
+
+function shareDua(dua) {
+  const text = dua.t + "\n\n" + dua.d + "\n\n— Meri Islamic App";
+  if (navigator.share) {
+    navigator.share({ title: dua.t, text: text });
+  } else {
+    window.open("https://wa.me/?text=" + encodeURIComponent(text));
+  }
+}
+
+function openDetail(dua) {
+  currentDuaIndex = allDuas.indexOf(dua);
+  listPage.classList.add('hidden');
+  detailPage.classList.add('active');
+
+  document.getElementById('dTitle').innerText = dua.t;
+  
+  // Split Arabic and Urdu (Assuming \n\n separates them)
+  const parts = dua.d.split("\n\n");
+  const arabicPart = parts[0] || "";
+  const urduPart = parts[1] || "";
+
+  document.getElementById('dArabic').innerText = arabicPart;
+  document.getElementById('dUrdu').innerText = urduPart;
+
+  // Set Favorite state
+  const isFav = FAV_DUAS.includes(dua.t);
+  const favBtn = document.getElementById('dFav');
+  favBtn.innerHTML = isFav ? "❤️ پسندیدہ" : "🤍 پسندیدہ";
+  favBtn.onclick = () => {
+    const idx = FAV_DUAS.indexOf(dua.t);
+    if (idx >= 0) { FAV_DUAS.splice(idx, 1); favBtn.innerHTML = "🤍 پسندیدہ"; }
+    else { FAV_DUAS.push(dua.t); favBtn.innerHTML = "❤️ پسندیدہ"; }
+    saveFavDuas();
+    renderList(allDuas); // update list
+  };
+
+  // Copy
+  document.getElementById('dCopy').onclick = () => {
+    const text = dua.t + "\n\n" + dua.d;
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(() => alert("کاپی ہو گیا!"));
+    } else {
+      alert("کاپی نہیں ہو سکا");
+    }
+  };
+
+  // Share
+  document.getElementById('dShare').onclick = () => shareDua(dua);
+}
+
+document.getElementById('backBtn').onclick = () => {
+  detailPage.classList.remove('active');
+  listPage.classList.remove('hidden');
+};
+
+// Search functionality
+searchInput.oninput = (e) => {
+  const query = e.target.value.toLowerCase();
+  const filtered = allDuas.filter(d => d.t.toLowerCase().includes(query) || d.d.toLowerCase().includes(query));
+  renderList(filtered);
+};
+
+// Init
+loadData();
+</script>
+</body>
+</html>
