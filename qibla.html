@@ -31,7 +31,7 @@ body {
 .kaaba-top-label { position: absolute; top: 20px; right: 20px; text-align: center; font-size: 11px; font-weight: 600; color: #0f6b4a; }
 .kaaba-top-label span { display: block; font-size: 24px; margin-bottom: 4px; }
 
-/* Compass Fix */
+/* Compass Container */
 .compass-container {
   position: relative; width: 300px; height: 300px; border-radius: 50%;
   background: #fdfaf2; border: 12px solid #d4af37;
@@ -54,7 +54,6 @@ body {
 .degree-marks { position: absolute; width: 100%; height: 100%; border-radius: 50%; }
 .tick { position: absolute; width: 2px; height: 6px; background: #999; top: 5px; left: 50%; transform-origin: 50% 145px; }
 
-/* Center Fixed Needle Fix */
 .needle-center-wrapper {
   position: absolute;
   top: 50%; left: 50%;
@@ -178,7 +177,6 @@ body {
       <div class="compass-marking mark-sw">SW</div>
     </div>
 
-    <!-- Fixed Center Needle -->
     <div class="needle-center-wrapper">
       <div class="needle-rotator" id="needleRotator">
         <div class="needle-shape">
@@ -231,7 +229,7 @@ body {
   <button onclick="initLocation()">Try Again</button>
 </div>
 
-<div id="calibToast">📱 Phone ko 8 ki shakal mein ghumayen</div>
+<div id="calibToast">📱 Phone ko hawa mein 8 ki shakal mein ghumayen</div>
 
 <script>
 const KAABA_LAT = 21.4225;
@@ -289,31 +287,17 @@ function calculateQibla(lat, lng) {
   return (bearing + 360) % 360;
 }
 
-// Better Location Fetching
 async function getCityName(lat, lng) {
   try {
     const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=10&addressdetails=1`, {
       headers: { 'Accept-Language': 'en' }
     });
     const data = await res.json();
-    
-    // Check multiple fields for city name
-    let city = data.address.city || 
-               data.address.town || 
-               data.address.village || 
-               data.address.county || 
-               data.address.state_district || 
-               data.address.state;
-               
-    if (!city && data.display_name) {
-      city = data.display_name.split(',')[0];
-    }
-    
+    let city = data.address.city || data.address.town || data.address.village || data.address.county || data.address.state_district || data.address.state;
+    if (!city && data.display_name) city = data.display_name.split(',')[0];
     const country = data.address.country || "";
     return `${city || 'Unknown'}, ${country}`;
-  } catch (e) { 
-    return "Location detected"; 
-  }
+  } catch (e) { return "Location detected"; }
 }
 
 async function getHijriDate() {
@@ -398,27 +382,36 @@ function updateNextPrayer() {
   el.timeRemaining.textContent = `${diffH}h ${diffM}m`;
 }
 
+// --- EXACT DEVICE SENSOR FIX ---
 function handleOrientation(event) {
   let heading = null;
+  
+  // 1. iOS Safari (Most Accurate)
   if (event.webkitCompassHeading) {
-    heading = event.webkitCompassHeading; 
-  } else if (event.absolute && event.alpha !== null) {
-    heading = 360 - event.alpha; 
-  } else if (event.alpha !== null) {
-    heading = 360 - event.alpha; 
+    heading = event.webkitCompassHeading;
+  } 
+  // 2. Android Chrome (Absolute Orientation)
+  else if (event.absolute && event.alpha !== null) {
+    heading = 360 - event.alpha;
+  } 
+  // 3. Fallback for other browsers
+  else if (event.alpha !== null) {
+    heading = 360 - event.alpha;
   }
 
   if (heading !== null) {
+    // Normalize to 0-360
+    heading = (heading + 360) % 360;
     currentHeading = heading;
     updateCompassUI();
   }
 }
 
 function updateCompassUI() {
-  // Rotate the background
+  // Rotate compass background to point True North to top
   el.compassBg.style.transform = `rotate(${-currentHeading}deg)`;
   
-  // Rotate only the needle within the fixed center
+  // Keep the Qibla needle locked
   const relativeAngle = currentQibla - currentHeading;
   el.needleRotator.style.transform = `rotate(${relativeAngle}deg)`;
 }
@@ -427,6 +420,8 @@ function requestCompassPermission() {
   if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
     DeviceOrientationEvent.requestPermission().then(permission => {
       if (permission === "granted") {
+        // Use 'true' to get absolute orientation on iOS
+        window.addEventListener("deviceorientationabsolute", handleOrientation, true);
         window.addEventListener("deviceorientation", handleOrientation, true);
         document.getElementById('overlay').style.display = 'none';
       }
@@ -441,9 +436,16 @@ function requestCompassPermission() {
 el.calibrateBtn.onclick = () => {
   el.calibToast.classList.add('show');
   setTimeout(() => { el.calibToast.classList.remove('show'); }, 4000);
+  
+  // Force reset listeners to re-calibrate sensor
   if (window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === 'function') {
     DeviceOrientationEvent.requestPermission().then(permission => {
-      if (permission === "granted") window.addEventListener("deviceorientation", handleOrientation, true);
+      if (permission === "granted") {
+        window.removeEventListener("deviceorientationabsolute", handleOrientation, true);
+        window.removeEventListener("deviceorientation", handleOrientation, true);
+        window.addEventListener("deviceorientationabsolute", handleOrientation, true);
+        window.addEventListener("deviceorientation", handleOrientation, true);
+      }
     });
   } else {
     window.removeEventListener("deviceorientationabsolute", handleOrientation, true);
