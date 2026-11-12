@@ -24,6 +24,22 @@ body { font-family: var(--font-urdu); background: var(--bg); color: var(--text);
 .header h1 { font-size: 20px; font-weight: 700; color: var(--gold-light); margin: 0; }
 .header a, .header button { color: #fff; text-decoration: none; font-size: 20px; background: none; border: none; cursor: pointer; }
 .container { padding: 16px; flex: 1; display: flex; flex-direction: column; gap: 16px; overflow-y: auto; }
+
+/* Note Banner */
+.correction-note {
+  background: #e8f4fd;
+  border: 1px solid #b6d4fe;
+  border-radius: var(--r-md);
+  padding: 12px 16px;
+  color: #084298;
+  font-size: 13px;
+  line-height: 1.8;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.correction-note .icon { font-size: 18px; }
+
 .search-bar { display: flex; align-items: center; gap: 8px; background: #fff; border-radius: var(--r-full); padding: 6px 8px; box-shadow: var(--shadow-sm); border: 1.5px solid var(--gold); }
 .search-bar input { flex: 1; border: none; outline: none; background: transparent; font-family: inherit; font-size: 14px; padding: 6px; color: var(--text); }
 .search-bar button { background: var(--primary); color: #fff; border: none; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
@@ -36,7 +52,7 @@ body { font-family: var(--font-urdu); background: var(--bg); color: var(--text);
 .dua-actions { display: flex; gap: 8px; flex-shrink: 0; }
 .dua-actions button { background: none; border: none; font-size: 18px; color: var(--text-secondary); cursor: pointer; padding: 4px; }
 .dua-actions button.fav { color: #e74c3c; }
-.dua-actions button.edit-btn { color: #3498db; }
+
 .detail-page { display: none; flex-direction: column; gap: 16px; height: 100%; }
 .detail-page.active { display: flex; }
 .list-page.hidden { display: none; }
@@ -82,6 +98,15 @@ body { font-family: var(--font-urdu); background: var(--bg); color: var(--text);
 <div class="container">
   <!-- Dua List Page -->
   <div class="list-page" id="listPage">
+    
+    <!-- Correction Note -->
+    <div class="correction-note">
+      <span class="icon">ℹ️</span>
+      <div>
+        <b>پیارے صارفین:</b> ان دعاؤں کا متن مستند کتب سے لیا گیا ہے، تاہم اگر آپ کو کسی دعا کے عربی الفاظ میں کوئی غلطی نظر آئے تو براہ کرم ہمیں ایپ کے مینو سے "فیڈبیک" کے ذریعے اطلاع دیں تاکہ اسے درست کیا جا سکے۔ آپ کے تعاون کا شکریہ!
+      </div>
+    </div>
+
     <div class="search-bar">
       <button>🔍</button>
       <input type="text" id="searchInput" placeholder="دعا تلاش کریں...">
@@ -282,7 +307,7 @@ searchInput.oninput = (e) => {
 };
 
 // ---- ADMIN PANEL LOGIC ----
-const SECRET_PIN = "786"; // Aap yahan apna PIN badal sakte hain
+const SECRET_PIN = "786"; 
 const adminToggle = document.getElementById('adminToggle');
 const closeAdmin = document.getElementById('closeAdmin');
 const addNewDua = document.getElementById('addNewDua');
@@ -321,19 +346,27 @@ cancelEditBtn.onclick = () => {
   editForm.style.display = 'none';
 };
 
+// DUPLICATE CHECK LOGIC
 saveDuaBtn.onclick = () => {
   const title = inpTitle.value.trim();
   const detail = inpDetail.value.trim();
+  
   if (!title || !detail) {
     alert("عنوان اور تفصیل دونوں لکھنا ضروری ہے!");
     return;
   }
 
+  // Check for duplicate title (ignore case)
+  const duplicate = allDuas.find((d, i) => d.t.trim().toLowerCase() === title.toLowerCase() && i !== currentEditIndex);
+  
+  if (duplicate) {
+    alert("⚠️ یہ دعا پہلے سے موجود ہے!\n\nعنوان: " + duplicate.t);
+    return;
+  }
+
   if (currentEditIndex === -1) {
-    // Add new
     allDuas.push({ t: title, d: detail });
   } else {
-    // Edit existing
     allDuas[currentEditIndex] = { t: title, d: detail };
   }
 
@@ -341,7 +374,7 @@ saveDuaBtn.onclick = () => {
   renderAdminList();
   updateJsonOutput();
   editForm.style.display = 'none';
-  alert("محفوظ ہو گیا! اب نیچے سے کوڈ کاپی کریں اور GitHub پر اپڈیٹ کریں۔");
+  alert("✓ محفوظ ہو گیا! اب نیچے سے کوڈ کاپی کریں اور GitHub پر اپڈیٹ کریں۔");
 };
 
 function renderAdminList() {
@@ -362,6 +395,7 @@ function renderAdminList() {
       inpTitle.value = dua.t;
       inpDetail.value = dua.d;
       editForm.style.display = 'block';
+      window.scrollTo(0,0);
     };
 
     div.querySelector('.del-btn').onclick = () => {
