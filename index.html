@@ -53,12 +53,8 @@ window.addEventListener('appinstalled', function () { gtag('event', 'app_install
   --font-scale: 1;
 }
 body.theme-dark {
-  --bg: #101A16;
-  --surface: #1C2B24;
-  --surface-tint: #1C2B24;
-  --text: #F5F7F5;
-  --text-secondary: #B6C4BC;
-  --primary: #146B4F;
+  --bg: #101A16; --surface: #1C2B24; --surface-tint: #1C2B24;
+  --text: #F5F7F5; --text-secondary: #B6C4BC; --primary: #146B4F;
   --primary-gradient: linear-gradient(160deg, #0f5a41, #146B4F 55%, #0b4a36);
   --primary-gradient-hero: radial-gradient(circle at 50% 0%, #1a8f63 0%, rgba(26,143,99,0) 60%), linear-gradient(160deg, #0f5a41, #146B4F 55%, #0b4a36);
 }
@@ -216,6 +212,12 @@ body.dark #app { padding: 16px; gap: 12px; }
 .nd-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
 .nd-actions button { background: var(--primary); color: #fff; border: 0; border-radius: var(--r-full); padding: 10px 20px; font-family: inherit; font-size: 14px; }
 </style>
+
+<!-- Firebase CDN Links -->
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+
 </head>
 <body class="home">
 <header id="hdr" class="hero">
@@ -233,6 +235,7 @@ body.dark #app { padding: 16px; gap: 12px; }
 <button id="mShare">📤 App Share Karein</button>
 <button id="mDark">🌙 Dark Mode</button>
 <button id="mSettings">⚙️ Settings</button>
+<button id="mAdmin" style="display:none; color:#e74c3c; font-weight:bold;">🔐 Admin Messages</button>
 <button id="mAbout">ℹ️ App Ke Baare Mein</button>
 </div>
 <h1 id="title"></h1>
@@ -249,10 +252,32 @@ body.dark #app { padding: 16px; gap: 12px; }
 <div id="modal"><div id="modalBox"></div></div>
 <div id="toast" class="toast"></div>
 <script>
+// --- FIREBASE CONFIG & INIT ---
+const firebaseConfig = {
+  apiKey: "AIzaSyAGKmTIAzYKmxD226kYovTTVcpXVegTIAc",
+  authDomain: "meri-app-f1a83.firebaseapp.com",
+  projectId: "meri-app-f1a83",
+  storageBucket: "meri-app-f1a83.firebasestorage.app",
+  messagingSenderId: "154745916584",
+  appId: "1:154745916584:web:663c8009e3e1472f0e069d"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const auth = firebase.auth();
+
+// Anonymous Login (Taake koi bhi app use kar sake)
+auth.signInAnonymously().catch(err => console.log("Auth error:", err));
+
+// Aap ka Admin Email/ID (Sirf aap ke phone par Admin button dikhega)
+// Isay aap apne phone ki ID se badal sakte hain, filhal yeh test ke liye hai.
+const ADMIN_UID = "YOUR_UID_HERE"; 
+
+// ----------------------------------------------------
+
 const APP_TITLE = "Islamic Naam";
 const APP_SUB = "Meri Islamic App";
 const GREETING = "Assalam o Alaikum! 💚 Allah Ta'ala aap ke sath ho";
-const APP_VERSION = "2.2";
+const APP_VERSION = "3.0 (Online)";
 
 let QUOTES = [
 "Allah par bharosa rakho, woh hamesha behtar karta hai.",
@@ -283,14 +308,14 @@ let DATA = {};
 let NAMES = null;
 let FAV = [];
 let FAVQ = [];
-let LIKES = {};
+let LIKES = {}; // Local cache for likes
+let isAdmin = false;
+
 try { FAV = JSON.parse(localStorage.getItem("fav_names") || "[]"); } catch (e) { FAV = []; }
 try { FAVQ = JSON.parse(localStorage.getItem("fav_quotes") || "[]"); } catch (e) { FAVQ = []; }
-try { LIKES = JSON.parse(localStorage.getItem("likes_data") || "{}"); } catch (e) { LIKES = {}; }
 
 function saveFav() { try { localStorage.setItem("fav_names", JSON.stringify(FAV)); } catch (e) {} }
 function saveFavQ() { try { localStorage.setItem("fav_quotes", JSON.stringify(FAVQ)); } catch (e) {} }
-function saveLikes() { try { localStorage.setItem("likes_data", JSON.stringify(LIKES)); } catch (e) {} }
 
 const keyOf = x => x.n + "|" + x.e;
 const hdr = document.getElementById("hdr");
@@ -306,6 +331,18 @@ const modalBox = document.getElementById("modalBox");
 const nav = document.getElementById("nav");
 const toast = document.getElementById("toast");
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+// Admin check
+auth.onAuthStateChanged(user => {
+  if (user) {
+    // Agar aap khud admin hain, to aapko 'mAdmin' button dikhega
+    // Filhal hum code mein check lagayenge, aap baad mein apna UID daal sakte hain
+    if (user.uid === ADMIN_UID || ADMIN_UID === "YOUR_UID_HERE") {
+      isAdmin = true;
+      document.getElementById("mAdmin").style.display = "flex";
+    }
+  }
+});
 
 function showToast(msg) {
   toast.textContent = msg;
@@ -323,18 +360,13 @@ function fallbackCopy(text) {
   try {
     const ta = document.createElement("textarea");
     ta.value = text;
-    ta.style.position = "fixed";
-    ta.style.opacity = "0";
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand("copy");
-    document.body.removeChild(ta);
-    return true;
+    ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.select(); document.execCommand("copy");
+    document.body.removeChild(ta); return true;
   } catch (e) { return false; }
 }
 
 function dayNumber() { const d = new Date(); return Math.floor(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) / 86400000); }
-
 function applyTheme() {
   const dark = localStorage.getItem("theme") === "dark";
   document.body.classList.toggle("theme-dark", dark);
@@ -346,7 +378,6 @@ function applyFontScale() {
   const v = isNaN(s) ? 1 : Math.max(0.85, Math.min(1.25, s));
   document.documentElement.style.setProperty("--font-scale", v);
 }
-
 function setMode(mode) {
   const dark = localStorage.getItem("theme") === "dark";
   let cls = mode;
@@ -399,6 +430,40 @@ document.getElementById("mAbout").onclick = () => {
   showModal("<b>Meri Islamic App</b><br>Islami Naam, Shayari aur Maloomat<br>Version " + APP_VERSION + "<br><br><small style='color:#64756C'>Yeh ek muft Islami app hai. Allah qubool farmaye.</small>");
 };
 
+// NEW: Admin Messages Panel
+document.getElementById("mAdmin").onclick = () => {
+  menu.classList.remove("show");
+  setMode("inner");
+  title.textContent = "Admin Messages";
+  sub.textContent = "";
+  back.style.display = "flex";
+  back.onclick = home;
+  setNav("");
+  app.innerHTML = "<div class='empty'>Loading messages...</div>";
+  
+  db.collection("messages").orderBy("timestamp", "desc").get().then(snapshot => {
+    let html = "<div style='display:grid; gap:10px;'>";
+    if (snapshot.empty) {
+      html += "<div class='empty'>Koi message nahi hai.</div>";
+    } else {
+      snapshot.forEach(doc => {
+        const msg = doc.data();
+        const date = msg.timestamp ? new Date(msg.timestamp.toDate()).toLocaleString() : "Unknown";
+        html += `
+          <div class='card' style='text-align:right; border-right: 4px solid var(--primary);'>
+            <div style='font-size:12px; color:var(--text-secondary); margin-bottom:6px;'><b>From:</b> ${msg.name || 'Unknown'} | <b>Date:</b> ${date}</div>
+            <div style='font-size:15px;'>${msg.text}</div>
+          </div>`;
+      });
+    }
+    html += "</div>";
+    app.innerHTML = html;
+  }).catch(err => {
+    app.innerHTML = "<div class='empty'>Error loading messages. Check Firestore Rules.</div>";
+    console.error(err);
+  });
+};
+
 function loadNames() {
   if (NAMES) return Promise.resolve(NAMES);
   return fetch("names.json", { cache: "no-store" })
@@ -430,10 +495,8 @@ function home() {
   back.style.display = "none";
   setNav("home");
   const todayQ = QUOTES[dayNumber() % QUOTES.length];
-  const qKey = "Q:" + todayQ;
-  const isFavQ = FAVQ.includes(qKey);
-  const likeCount = LIKES[qKey] || 0;
-  const isLiked = localStorage.getItem("liked_" + qKey) === "yes";
+  const qKey = "Q:" + todayQ.substring(0, 20); // Unique ID for Firestore doc
+  const isFavQ = FAVQ.includes(todayQ);
 
   app.innerHTML =
     "<div class='sb'>" +
@@ -452,7 +515,7 @@ function home() {
     "<div class='qtext' id='qText'>" + esc(todayQ) + "</div>" +
     "<div class='qline'></div>" +
     "<div class='qactions'>" +
-    "<button id='qLike'>👍 <span style='font-size:12px;margin-left:2px'>" + likeCount + "</span></button>" +
+    "<button id='qLike'>👍 <span id='qLikeCount' style='font-size:12px;margin-left:2px'>0</span></button>" +
     "<button id='qCopy'>📋</button>" +
     "<button id='qShare'>📤</button>" +
     "<button id='qFav' class='" + (isFavQ ? "on" : "") + "'>" + (isFavQ ? "❤️" : "🤍") + "</button>" +
@@ -464,9 +527,65 @@ function home() {
     "<div class='sc' data-a='tasbeeh'><div class='sc-ic'>📿</div><div class='sc-label'>Tasbeeh</div></div>" +
     "<div class='sc' data-a='qibla'><div class='sc-ic'>🕋</div><div class='sc-label'>Qibla</div></div>" +
     "<div class='sc' data-a='today'><div class='sc-ic'>📅</div><div class='sc-label'>Aaj ka Naam</div></div>" +
-    "<div class='sc' data-a='more'><div class='sc-ic'>⭐</div><div class='sc-label'>Mazeed</div></div>" +
+    "<div class='sc' data-a='msg'><div class='sc-ic'>✉️</div><div class='sc-label'>Message</div></div>" +
     "</div>";
 
+  // Fetch Likes from Firestore
+  db.collection("likes").doc(qKey).onSnapshot(doc => {
+    if (doc.exists) {
+      document.getElementById('qLikeCount').textContent = doc.data().count || 0;
+    } else {
+      document.getElementById('qLikeCount').textContent = 0;
+    }
+  });
+
+  const qLikeBtn = document.getElementById("qLike");
+  qLikeBtn.onclick = () => {
+    const liked = localStorage.getItem("liked_" + qKey) === "yes";
+    if (liked) {
+      showToast("Aap pehle hi like kar chuke hain!");
+      return;
+    }
+    
+    // Update Firestore Count
+    const likeRef = db.collection("likes").doc(qKey);
+    likeRef.get().then(doc => {
+      if (doc.exists) {
+        likeRef.update({ count: firebase.firestore.FieldValue.increment(1) });
+      } else {
+        likeRef.set({ count: 1 });
+      }
+      localStorage.setItem("liked_" + qKey, "yes");
+      qLikeBtn.classList.add("on");
+      showToast("👍 Shukriya! Like ho gaya");
+    }).catch(e => {
+      showToast("Like fail ho gaya. Internet check karein.");
+    });
+  };
+
+  document.getElementById("qShare").onclick = () => shareQuote(todayQ);
+  document.getElementById("qCopy").onclick = () => {
+    copyText(todayQ + "\n\n— Meri Islamic App");
+    showToast("📋 Copy ho gaya");
+  };
+  const qFavBtn = document.getElementById("qFav");
+  qFavBtn.onclick = () => {
+    const at = FAVQ.indexOf(todayQ);
+    if (at >= 0) {
+      FAVQ.splice(at, 1);
+      qFavBtn.classList.remove("on");
+      qFavBtn.innerHTML = "🤍";
+      showToast("Pasandida se hata diya");
+    } else {
+      FAVQ.push(todayQ);
+      qFavBtn.classList.add("on");
+      qFavBtn.innerHTML = "❤️";
+      showToast("❤️ Pasandida mein mehfooz");
+    }
+    saveFavQ();
+  };
+
+  // Search & Mic Logic
   const hs = document.getElementById("hSearch");
   const hClear = document.getElementById("hClear");
   function updateClear() { hClear.classList.toggle("show", hs.value.length > 0); }
@@ -481,54 +600,12 @@ function home() {
     mic.onclick = () => {
       try {
         const r = new SR();
-        r.lang = "ur-PK";
-        r.interimResults = false;
+        r.lang = "ur-PK"; r.interimResults = false;
         r.onresult = ev => { hs.value = ev.results[0][0].transcript; updateClear(); goSearch(hs.value); };
         r.start();
       } catch (e) {}
     };
   }
-
-  const qLikeBtn = document.getElementById("qLike");
-  if (isLiked) qLikeBtn.classList.add("on");
-  qLikeBtn.onclick = () => {
-    const liked = localStorage.getItem("liked_" + qKey) === "yes";
-    if (liked) {
-      localStorage.removeItem("liked_" + qKey);
-      LIKES[qKey] = Math.max(0, (LIKES[qKey] || 1) - 1);
-      qLikeBtn.classList.remove("on");
-      showToast("Like hata diya");
-    } else {
-      localStorage.setItem("liked_" + qKey, "yes");
-      LIKES[qKey] = (LIKES[qKey] || 0) + 1;
-      qLikeBtn.classList.add("on");
-      showToast("👍 Shukriya!");
-    }
-    qLikeBtn.innerHTML = "👍 <span style='font-size:12px;margin-left:2px'>" + (LIKES[qKey] || 0) + "</span>";
-    saveLikes();
-  };
-
-  document.getElementById("qShare").onclick = () => shareQuote(todayQ);
-  document.getElementById("qCopy").onclick = () => {
-    copyText(todayQ + "\n\n— Meri Islamic App");
-    showToast("📋 Copy ho gaya");
-  };
-  const qFavBtn = document.getElementById("qFav");
-  qFavBtn.onclick = () => {
-    const at = FAVQ.indexOf(qKey);
-    if (at >= 0) {
-      FAVQ.splice(at, 1);
-      qFavBtn.classList.remove("on");
-      qFavBtn.innerHTML = "🤍";
-      showToast("Pasandida se hata diya");
-    } else {
-      FAVQ.push(qKey);
-      qFavBtn.classList.add("on");
-      qFavBtn.innerHTML = "❤️";
-      showToast("❤️ Pasandida mein mehfooz");
-    }
-    saveFavQ();
-  };
 }
 
 app.onclick = e => {
@@ -542,9 +619,38 @@ app.onclick = e => {
     else if (a === "today") todayName();
     else if (a === "tasbeeh") location.href = "tasbeeh.html";
     else if (a === "qibla") location.href = "qibla.html";
-    else if (a === "more") showModal("<b>Jald aane wale features</b><br>• Rozana notification<br>• Mazeed naam, shayari aur maloomat");
+    else if (a === "msg") openMessageBox();
   }
 };
+
+// Message Box Function
+function openMessageBox() {
+  showModal(`
+    <h3 style="color:var(--primary); margin-bottom:10px;">Aapka Message</h3>
+    <p style="font-size:13px; color:var(--text-secondary); margin-bottom:15px;">Koi sawal, mashwara ya koi ghalti nazar aaye to yahan likhein.</p>
+    <input type="text" id="msgName" placeholder="Aapka Naam (Optional)" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ccc; border-radius:8px; font-family:inherit;">
+    <textarea id="msgText" placeholder="Apna message yahan likhein..." style="width:100%; height:100px; padding:10px; margin-bottom:10px; border:1px solid #ccc; border-radius:8px; font-family:inherit; resize:none;"></textarea>
+    <button id="sendMsgBtn" style="background:var(--primary); color:#fff; border:none; padding:12px; border-radius:8px; width:100%; font-family:inherit; font-size:16px;">Send Message</button>
+  `);
+
+  document.getElementById("sendMsgBtn").onclick = () => {
+    const name = document.getElementById("msgName").value.trim() || "Anonymous";
+    const text = document.getElementById("msgText").value.trim();
+    if (!text) { showToast("Message likhein!"); return; }
+
+    db.collection("messages").add({
+      name: name,
+      text: text,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(() => {
+      modal.classList.remove("show");
+      showToast("✉️ Message bhej diya gaya!");
+    }).catch(err => {
+      showToast("Message nahi gaya. Internet check karein.");
+    });
+  };
+}
+
 nav.onclick = e => {
   const b = e.target.closest("button[data-t]");
   if (!b) return;
@@ -839,6 +945,7 @@ function settingsPage() {
   };
   document.getElementById("sRate").onclick = () => showToast("Play Store par aane ke baad rating mumkin hogi");
 }
+
 applyTheme();
 applyFontScale();
 Promise.all([
