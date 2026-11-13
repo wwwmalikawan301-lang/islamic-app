@@ -1,0 +1,17 @@
+{
+  "appTitle": "Islamic Naam",
+  "appSub": "Meri Islamic App",
+  "greeting": "Assalam o Alaikum! 💚 Allah Ta'ala aap ke sath ho",
+  "cards": [
+    { "id": "names", "title": "Islami Naam", "desc": "Larkon aur larkiyon ke naam", "icon": "📖", "link": "names" },
+    { "id": "poetry", "title": "Shayari", "desc": "Islami aur sabaq aamoz shayari", "icon": "✍️", "link": "poetry" },
+    { "id": "duas", "title": "Islami Maloomat", "desc": "Sawalat aur dilchasp maloomat", "icon": "🕌", "link": "duas.html" }
+  ],
+  "shortcuts": [
+    { "title": "Share Karein", "icon": "📤", "action": "share" },
+    { "title": "Pasandida", "icon": "❤️", "action": "fav" },
+    { "title": "Tasbeeh", "icon": "📿", "action": "tasbeeh.html" },
+    { "title": "Qibla", "icon": "🕋", "action": "qibla.html" },
+    { "title": "Message", "icon": "✉️", "action": "msg" }
+  ]
+}
