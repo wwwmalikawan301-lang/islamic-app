@@ -55,7 +55,6 @@ body {
 }
 body.dark { background: var(--dark-bg); color: var(--dark-text); }
 
-/* Header Styles */
 #hdr { background: var(--primary); color: var(--text-on-primary); padding: 22px 16px; text-align: center; position: relative; }
 #hdr h1 { margin: 0 0 4px; font-size: 24px; line-height: 1.9; position: relative; z-index: 2; }
 #hdr p { margin: 0; opacity: 0.85; line-height: 1.8; position: relative; z-index: 2; }
@@ -156,7 +155,6 @@ body.home #app { padding: 0 16px 20px; gap: 14px; }
 #nav button.on span { filter: grayscale(0) opacity(1); transform: translateY(-2px); }
 #nav button.on::before { content: ""; position: absolute; top: -8px; left: 50%; transform: translateX(-50%); width: 24px; height: 4px; background: var(--gold); border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
 
-/* Inner pages & names (kept as-is) */
 body.dark #app { padding: 16px; gap: 12px; }
 .panel { background: var(--dark-panel); border: 1px solid var(--dark-border); border-radius: var(--r-lg); padding: 10px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
 .two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
@@ -200,7 +198,6 @@ body.dark #app { padding: 16px; gap: 12px; }
 .nd-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
 .nd-actions button { background: var(--primary); color: #fff; border: 0; border-radius: var(--r-full); padding: 10px 20px; font-family: inherit; font-size: 14px; }
 
-/* Admin Panel Styles */
 #adminPanel { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--bg); z-index: 100; flex-direction: column; padding: 16px; overflow-y: auto; }
 #adminPanel.active { display: flex; }
 .admin-hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: var(--primary); color: #fff; padding: 14px; border-radius: var(--r-md); }
@@ -214,7 +211,6 @@ body.dark #app { padding: 16px; gap: 12px; }
 .copy-btn { background: #2980b9; color: #fff; border: none; border-radius: 8px; padding: 12px; font-family: inherit; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; width: 100%; }
 </style>
 
-<!-- Firebase CDN -->
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
@@ -253,7 +249,6 @@ body.dark #app { padding: 16px; gap: 12px; }
 <div id="modal"><div id="modalBox"></div></div>
 <div id="toast" class="toast"></div>
 
-<!-- Admin Panel (App Manager) -->
 <div id="adminPanel">
   <div class="admin-hdr">
     <h2>App Manager (Admin)</h2>
@@ -304,7 +299,6 @@ auth.signInAnonymously().catch(err => console.log("Auth error:", err));
 const ADMIN_UID = "YOUR_UID_HERE"; 
 let isAdmin = false;
 
-// Variables
 let APP_CONFIG = null;
 let QUOTES = [];
 let DATA = {};
@@ -329,7 +323,6 @@ const nav = document.getElementById("nav");
 const toast = document.getElementById("toast");
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
-// Admin check
 auth.onAuthStateChanged(user => {
   if (user) {
     if (user.uid === ADMIN_UID || ADMIN_UID === "YOUR_UID_HERE") {
@@ -423,7 +416,6 @@ document.getElementById("mAbout").onclick = () => {
   showModal("<b>Meri Islamic App</b><br>Version 3.0 (Dynamic)<br><br><small style='color:#64756C'>Yeh ek muft Islami app hai.</small>");
 };
 
-// ---- ADMIN MESSAGES (From previous code) ----
 document.getElementById("mAdmin").onclick = () => {
   if (!isAdmin) return;
   menu.classList.remove("show");
@@ -431,7 +423,6 @@ document.getElementById("mAdmin").onclick = () => {
   renderAdminPanel();
 };
 
-// ---- DYNAMIC HOME PAGE ----
 function home() {
   if (!APP_CONFIG) return;
   setMode("home");
@@ -446,7 +437,7 @@ function home() {
 
   let cardsHtml = "";
   APP_CONFIG.cards.forEach(c => {
-    const isFull = (c.id === "duas"); // Full width for the 3rd card (Duain)
+    const isFull = (c.id === "duas"); 
     cardsHtml += `
       <div class='hc ${isFull ? 'full-width' : ''}' data-k='${c.link}'>
         <div class='card-icon'>${c.icon}</div>
@@ -485,7 +476,6 @@ function home() {
     <div class='shortcuts'>${shortcutsHtml}</div>
   `;
 
-  // Logic for likes, search, etc. (Same as previous code)
   db.collection("likes").doc(qKey).onSnapshot(doc => {
     const elc = document.getElementById('qLikeCount');
     if (elc) elc.textContent = doc.exists ? (doc.data().count || 0) : 0;
@@ -517,7 +507,6 @@ function home() {
     localStorage.setItem("fav_quotes", JSON.stringify(FAVQ));
   };
 
-  // Search logic
   const hs = document.getElementById("hSearch");
   const hClear = document.getElementById("hClear");
   hs.addEventListener("input", () => hClear.classList.toggle("show", hs.value.length > 0));
@@ -535,11 +524,10 @@ app.onclick = e => {
     if (a === "share") shareApp();
     else if (a === "fav") namesPage({ fav: true });
     else if (a === "msg") openMessageBox();
-    else location.href = a; // Handles tasbeeh.html, qibla.html, etc.
+    else location.href = a;
   }
 };
 
-// Message Box
 function openMessageBox() {
   showModal(`
     <h3 style="color:var(--primary); margin-bottom:10px;">Aapka Message</h3>
@@ -556,16 +544,292 @@ function openMessageBox() {
   };
 }
 
-// Placeholder for other functions (keep your previous logic)
 function openCard(k) {
-  if (k === "names" || k === "poetry") { /* Existing logic */ }
-  else if (k === "duas") { location.href = "duas.html"; }
-  else if (DATA[k]) { category(k); }
-  else { window.location.href = k; } // Handles custom links
+  if (k === "names") { namesPage(); return; }
+  if (k === "duas") { location.href = "duas.html"; return; }
+  if (DATA[k]) { category(k); return; }
+  window.location.href = k; 
 }
-function namesPage(opts) { /* Keep your existing namesPage logic */ }
-function category(k) { /* Keep existing */ }
-function settingsPage() { /* Keep existing */ }
+
+function category(key) {
+  const d = DATA[key];
+  if (!d) { openCard(key); return; }
+  setMode("inner");
+  title.textContent = d.title;
+  sub.textContent = "";
+  back.style.display = "flex";
+  back.onclick = home;
+  setNav(key);
+  app.innerHTML = "";
+  if (!d.items || !d.items.length) {
+    app.innerHTML = "<div class='card' style='text-align:center;color:var(--text-secondary)'>Yahan abhi kuch nahi. Jald izafa hoga.</div>";
+    return;
+  }
+  d.items.forEach(item => {
+    const c = document.createElement("div");
+    c.className = "card";
+    c.textContent = item.t;
+    c.onclick = () => detail(key, item);
+    app.appendChild(c);
+  });
+}
+
+function detail(key, item) {
+  setMode("inner");
+  title.textContent = item.t;
+  sub.textContent = "";
+  back.onclick = () => category(key);
+  app.innerHTML = "";
+  const d = document.createElement("div");
+  d.className = "detail";
+  d.textContent = item.d;
+  app.appendChild(d);
+  const actions = document.createElement("div");
+  actions.style.cssText = "display:flex;gap:8px;margin-top:12px;justify-content:center;flex-wrap:wrap";
+  actions.innerHTML =
+    "<button class='qs' style='background:var(--primary);color:#fff;border:0;border-radius:999px;padding:10px 18px;font-family:inherit;font-size:14px;display:inline-flex;align-items:center;gap:6px'>📤 Share</button>" +
+    "<button class='qc' style='background:var(--surface-tint);color:var(--primary-deep);border:0;border-radius:999px;padding:10px 18px;font-family:inherit;font-size:14px;display:inline-flex;align-items:center;gap:6px'>📋 Copy</button>";
+  app.appendChild(actions);
+  const textShare = item.t + "\n\n" + item.d + "\n\n— Meri Islamic App";
+  actions.querySelector(".qs").onclick = () => shareText(textShare, item.t);
+  actions.querySelector(".qc").onclick = () => { copyText(textShare); showToast("📋 Copy ho gaya"); };
+}
+
+function namesPage(opts) {
+  opts = opts || {};
+  setMode("dark");
+  title.textContent = opts.fav ? "Pasandida Naam" : "Islami Naam";
+  sub.textContent = "";
+  back.style.display = "flex";
+  back.onclick = home;
+  setNav(opts.fav ? "fav" : "names");
+  app.innerHTML = `
+    <div class="panel">
+      <div class="two">
+        <select id="fLetter"><option value="">Harf (Sab)</option></select>
+        <select id="fGender">
+          <option value="">Jins (Sab)</option>
+          <option value="لڑکا">Larka</option>
+          <option value="لڑکی">Larki</option>
+        </select>
+      </div>
+      <div class="srch">
+        <input id="fSearch" type="search" placeholder="Naam ya meaning talash karein">
+        <button id="fBtn">🔍</button>
+      </div>
+    </div>
+    <div class="bar">
+      <span class="count" id="count">Load ho raha hai...</span>
+      <button class="chip" id="fFav">🤍 Pasandida</button>
+    </div>
+    <div class="list" id="list"></div>
+    <button class="more" id="more"></button>`;
+  const fLetter = document.getElementById("fLetter");
+  const fGender = document.getElementById("fGender");
+  const fSearch = document.getElementById("fSearch");
+  const fBtn = document.getElementById("fBtn");
+  const fFav = document.getElementById("fFav");
+  const count = document.getElementById("count");
+  const list = document.getElementById("list");
+  const more = document.getElementById("more");
+  let onlyFav = !!opts.fav;
+  let shown = 100;
+  let current = [];
+  if (onlyFav) { fFav.classList.add("on"); fFav.textContent = "❤️ Pasandida"; }
+  fSearch.value = opts.q || "";
+  function render(reset) {
+    if (reset) shown = 100;
+    const L = fLetter.value;
+    const G = fGender.value;
+    const Q = fSearch.value.trim().toLowerCase();
+    current = NAMES.filter(x =>
+      (!onlyFav || FAV.includes(keyOf(x))) &&
+      (!L || x.n.charAt(0) === L) &&
+      (!G || x.g === G) &&
+      (!Q || x.n.includes(Q) || x.e.toLowerCase().includes(Q) || x.m.includes(Q))
+    );
+    count.textContent = current.length + " Naam";
+    if (!current.length) {
+      list.innerHTML = "<div class='empty'>" + (onlyFav ? "Abhi koi pasandida naam nahi. Kisi naam ke sath 🤍 dabayein." : "Koi naam nahi mila.") + "</div>";
+    } else {
+      list.innerHTML = current.slice(0, shown).map((x, i) =>
+        "<div class='r' data-idx='" + i + "'>" +
+        "<div class='nm'>" + esc(x.n) + "</div>" +
+        "<div class='en'>" + esc(x.e) + "</div>" +
+        "<div class='mn'>" + esc(x.m) + "</div>" +
+        "<div class='ac'>" +
+        "<button data-a='fav' data-i='" + i + "'>" + (FAV.includes(keyOf(x)) ? "❤️" : "🤍") + "</button>" +
+        "<button data-a='share' data-i='" + i + "'>📤</button>" +
+        "</div>" +
+        "</div>"
+      ).join("");
+    }
+    if (current.length > shown) { more.style.display = "block"; more.textContent = "Mazeed dikhayein (" + (current.length - shown) + " baqi)"; }
+    else { more.style.display = "none"; }
+  }
+  list.onclick = e => {
+    const btn = e.target.closest("button[data-a]");
+    if (btn) {
+      const x = current[Number(btn.dataset.i)];
+      if (!x) return;
+      if (btn.dataset.a === "share") { shareName(x); }
+      else {
+        const k = keyOf(x);
+        const at = FAV.indexOf(k);
+        if (at >= 0) FAV.splice(at, 1); else FAV.push(k);
+        localStorage.setItem("fav_names", JSON.stringify(FAV));
+        if (onlyFav) render(false);
+        else btn.textContent = FAV.includes(k) ? "❤️" : "🤍";
+      }
+      return;
+    }
+    const row = e.target.closest(".r");
+    if (row) {
+      const x = current[Number(row.dataset.idx)];
+      if (x) nameDetailPage(x);
+    }
+  };
+  more.onclick = () => { shown += 100; render(false); };
+  fFav.onclick = () => {
+    onlyFav = !onlyFav;
+    fFav.classList.toggle("on", onlyFav);
+    fFav.textContent = (onlyFav ? "❤️" : "🤍") + " Pasandida";
+    render(true);
+  };
+  loadNames().then(names => {
+    const letters = [...new Set(names.map(x => x.n.charAt(0)))].sort((a, b) => a.localeCompare(b, "ur"));
+    fLetter.innerHTML = '<option value="">Harf (Sab)</option>' + letters.map(l => '<option value="' + esc(l) + '">' + esc(l) + '</option>').join("");
+    fLetter.onchange = () => render(true);
+    fGender.onchange = () => render(true);
+    fSearch.oninput = () => render(true);
+    fBtn.onclick = () => render(true);
+    render(true);
+  }).catch(() => { count.textContent = "names.json load nahi hui."; });
+}
+
+function nameDetailPage(x) {
+  setMode("inner");
+  title.textContent = x.n;
+  sub.textContent = "";
+  back.style.display = "flex";
+  back.onclick = () => namesPage();
+  setNav("names");
+  const k = keyOf(x);
+  const isFav = FAV.includes(k);
+  app.innerHTML = `
+    <div class="name-detail">
+      <div class="nd-name">${esc(x.n)}</div>
+      <div class="nd-en">${esc(x.e)}</div>
+      <div class="nd-gender">${esc(x.g)}</div>
+      <div class="nd-meaning">${esc(x.m)}</div>
+      <div class="nd-actions">
+        <button id="ndFav">${isFav ? "❤️ Pasandida" : "🤍 Pasandida"}</button>
+        <button id="ndCopy" class="ghost" style="background:var(--surface-tint);color:var(--primary-deep)">📋 Copy</button>
+        <button id="ndShare" class="ghost" style="background:var(--surface-tint);color:var(--primary-deep)">📤 Share</button>
+      </div>
+    </div>`;
+  document.getElementById("ndFav").onclick = () => {
+    const at = FAV.indexOf(k);
+    const btn = document.getElementById("ndFav");
+    if (at >= 0) { FAV.splice(at, 1); btn.textContent = "🤍 Pasandida"; showToast("Pasandida se hata diya"); }
+    else { FAV.push(k); btn.textContent = "❤️ Pasandida"; showToast("❤️ Pasandida mein mehfooz"); }
+    localStorage.setItem("fav_names", JSON.stringify(FAV));
+  };
+  document.getElementById("ndCopy").onclick = () => {
+    copyText(x.n + " (" + x.e + ")\nMeaning: " + x.m);
+    showToast("📋 Copy ho gaya");
+  };
+  document.getElementById("ndShare").onclick = () => shareName(x);
+}
+
+function settingsPage() {
+  setMode("inner");
+  title.textContent = "Settings";
+  sub.textContent = "";
+  back.style.display = "flex";
+  back.onclick = home;
+  setNav("");
+  const dark = localStorage.getItem("theme") === "dark";
+  const fs = parseFloat(localStorage.getItem("fontScale") || "1");
+  const fsClass = fs >= 1.15 ? "large" : (fs <= 0.9 ? "small" : "medium");
+
+  app.innerHTML = `
+    <div class="settings-list">
+      <div class="set-item" id="sAbout">
+        <div class="set-label"><span class="set-ic">ℹ️</span><span>App ke baare mein</span></div>
+        <div class="set-arrow">‹</div>
+      </div>
+      <div class="set-item" id="sShare">
+        <div class="set-label"><span class="set-ic">📤</span><span>App share karein</span></div>
+        <div class="set-arrow">‹</div>
+      </div>
+      <div class="set-item" id="sDark">
+        <div class="set-label"><span class="set-ic">🌙</span><span>Dark Mode</span></div>
+        <div class="toggle ${dark ? "on" : ""}" id="sDarkToggle"></div>
+      </div>
+      <div class="set-item" style="flex-direction:column;align-items:stretch;cursor:default">
+        <div class="set-label" style="margin-bottom:8px"><span class="set-ic">🔤</span><span>Font Size</span></div>
+        <div class="fs-row">
+          <button class="fs-opt fs-s ${fsClass === "small" ? "on" : ""}" data-fs="0.88">
+            <div class="fs-preview" style="font-size:14px">Aa</div>
+            <div class="fs-label">Chhota</div>
+          </button>
+          <button class="fs-opt fs-m ${fsClass === "medium" ? "on" : ""}" data-fs="1">
+            <div class="fs-preview" style="font-size:18px">Aa</div>
+            <div class="fs-label">Darmiyana</div>
+          </button>
+          <button class="fs-opt fs-l ${fsClass === "large" ? "on" : ""}" data-fs="1.18">
+            <div class="fs-preview" style="font-size:22px">Aa</div>
+            <div class="fs-label">Bara</div>
+          </button>
+        </div>
+      </div>
+      <div class="set-item" id="sPrivacy">
+        <div class="set-label"><span class="set-ic">🔒</span><span>Privacy Policy</span></div>
+        <div class="set-arrow">‹</div>
+      </div>
+      <div class="set-item" id="sTerms">
+        <div class="set-label"><span class="set-ic">📄</span><span>Terms of Use</span></div>
+        <div class="set-arrow">‹</div>
+      </div>
+      <div class="set-item" id="sFeedback">
+        <div class="set-label"><span class="set-ic">✉️</span><span>Feedback</span></div>
+        <div class="set-arrow">‹</div>
+      </div>
+      <div class="set-item" id="sRate">
+        <div class="set-label"><span class="set-ic">⭐</span><span>App Rating</span></div>
+        <div class="set-val">Jald aa raha hai</div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById("sAbout").onclick = () => showModal("<b>Meri Islamic App</b><br>Version 3.0<br><br><small style='color:#64756C'>Yeh ek muft Islami app hai. Allah qubool farmaye.</small>");
+  document.getElementById("sShare").onclick = () => shareApp();
+  document.getElementById("sDark").onclick = () => {
+    const wasDark = localStorage.getItem("theme") === "dark";
+    localStorage.setItem("theme", wasDark ? "light" : "dark");
+    applyTheme();
+    document.getElementById("sDarkToggle").classList.toggle("on", !wasDark);
+    setMode("inner");
+    title.textContent = "Settings";
+  };
+  document.querySelectorAll(".fs-opt").forEach(b => {
+    b.onclick = () => {
+      const v = parseFloat(b.dataset.fs);
+      localStorage.setItem("fontScale", String(v));
+      document.documentElement.style.setProperty("--font-scale", v);
+      document.querySelectorAll(".fs-opt").forEach(x => x.classList.remove("on"));
+      b.classList.add("on");
+      showToast("Font size tabdeel ho gaya");
+    };
+  });
+  document.getElementById("sPrivacy").onclick = () => showModal("<b>Privacy Policy</b><br><br><small style='text-align:right;display:block;line-height:2'>Yeh app aap ki zaati maloomat jama nahi karti. Aap ke pasandida naam aur settings sirf aap ke phone mein mehfooz hote hain.</small>");
+  document.getElementById("sTerms").onclick = () => showModal("<b>Terms of Use</b><br><br><small style='text-align:right;display:block;line-height:2'>Yeh app muft hai. Kisi bhi naam ke meaning ki hatmi tasdeeq ke liye kisi mustanad aalim se rujoo karein.</small>");
+  document.getElementById("sFeedback").onclick = () => {
+    window.location.href = "mailto:?subject=" + encodeURIComponent("Meri Islamic App - Feedback") + "&body=" + encodeURIComponent("Assalam o Alaikum,\n\nMeri raye:\n\n");
+  };
+  document.getElementById("sRate").onclick = () => showToast("Play Store par aane ke baad rating mumkin hogi");
+}
 
 // ---- ADMIN PANEL LOGIC ----
 const adminPanel = document.getElementById('adminPanel');
@@ -630,7 +894,7 @@ saveConfigBtn.onclick = () => {
   const jsonStr = JSON.stringify(APP_CONFIG, null, 2);
   jsonOutput.value = jsonStr;
   showToast("Settings Saved! Copy the code below.");
-  home(); // Refresh UI
+  home(); 
 };
 
 copyJsonBtn.onclick = () => {
@@ -639,14 +903,11 @@ copyJsonBtn.onclick = () => {
   showToast("Code Copied!");
 };
 
-// INIT
 async function init() {
   try {
-    // Load config
     const res = await fetch("config.json", { cache: "no-store" });
     APP_CONFIG = await res.json();
     
-    // Load data
     const d = await fetch("data.json", { cache: "no-store" }).then(r => r.json());
     DATA = d;
     const q = await fetch("quotes.json", { cache: "no-store" }).then(r => r.json()).catch(() => null);
@@ -664,4 +925,4 @@ init();
 if ("serviceWorker" in navigator) { navigator.serviceWorker.register("sw.js"); }
 </script>
 </body>
-</html>
+                                                                                                                                                                                                                                                                                                                      </html>
