@@ -18,6 +18,7 @@ window.addEventListener('appinstalled', function () { gtag('event', 'app_install
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+@font-face { font-family: "LatinSans"; src: local("Roboto"), local("Inter"), local("Segoe UI"), local("Helvetica Neue"), local("Arial"); unicode-range: U+0000-024F, U+2013-2014, U+2018-201D, U+2026; }
 :root {
   --primary: #075B43; --primary-light: #117A58; --primary-deep: #064B38;
   --primary-gradient: linear-gradient(160deg, #0b5b3c, #0d6f48 55%, #0a4a31);
@@ -34,7 +35,8 @@ window.addEventListener('appinstalled', function () { gtag('event', 'app_install
   --shadow-sm: 0 2px 6px rgba(0,60,30,0.05);
   --shadow-md: 0 4px 12px rgba(0,60,30,0.08);
   --shadow-lg: 0 8px 24px rgba(0,60,30,0.12);
-  --font-urdu: "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", serif;
+  --font-urdu: "LatinSans", "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", sans-serif;
+  --t-fast: 150ms; --t-med: 250ms; --surface-border: rgba(0,0,0,0.06);
   --font-num: Georgia, "Times New Roman", serif;
   --font-scale: 1;
 }
@@ -61,12 +63,15 @@ body.dark { background: var(--dark-bg); color: var(--dark-text); }
 #greet { display: none; }
 .decos { display: none; position: absolute; top: 0; right: 0; bottom: 0; left: 0; overflow: hidden; pointer-events: none; z-index: 0; }
 .deco { position: absolute; height: auto; }
-#hdr.hero { background: var(--primary-gradient-hero); padding: 42px 16px 65px; border-radius: 0 0 36px 36px; box-shadow: 0 10px 30px rgba(0,40,20,0.25); overflow: hidden; }
-#hdr.hero .decos { display: block; border-radius: 0 0 36px 36px; }
-#hdr.hero h1 { font-size: 34px; line-height: 1.4; margin-bottom: 0; font-weight: 700; color: var(--gold-light); text-shadow: 0 2px 10px rgba(0,0,0,0.5); z-index: 5; }
-#hdr.hero p { font-size: 18px; line-height: 1.6; color: var(--gold-light); opacity: 1; font-weight: 700; z-index: 5; }
-#hdr.hero #greet { display: block; margin-top: 12px; font-size: 14px; line-height: 1.9; color: #e9f7ee; position: relative; z-index: 5; }
-#hdr.hero #greet::before { content: ""; display: block; width: 80px; height: 2px; margin: 0 auto 8px; background: var(--gold-gradient); border-radius: 2px; }
+#hdr.hero { background: var(--primary-gradient-hero); padding: 22px 16px 58px; border-radius: 0 0 28px 28px; box-shadow: 0 8px 24px rgba(0,40,20,0.2); overflow: hidden; display: flex; flex-direction: column; align-items: center; }
+#hdr.hero .decos { display: block; border-radius: 0 0 28px 28px; }
+#hdr.hero h1 { font-size: 27px; line-height: 1.4; margin: 2px 0 0; font-weight: 700; color: var(--gold-light); text-shadow: 0 2px 8px rgba(0,0,0,0.35); z-index: 5; }
+#hdr.hero p { font-size: 13px; line-height: 1.6; color: #dff3e8; opacity: 0.9; font-weight: 500; z-index: 5; }
+#hdr.hero #greet { display: block; order: -1; margin: 0; font-size: 13px; line-height: 1.6; color: #e9f7ee; opacity: 0.85; position: relative; z-index: 5; }
+#hdr.hero #greet::before { display: none; }
+#hdr.hero .lantern { display: none; }
+#hdr.hero .moon { opacity: 0.2; width: 44px; top: 10px; }
+#hdr.hero .mosque { opacity: 0.18; }
 
 .moon { top: 15px; left: 50%; transform: translateX(-50%); width: 60px; filter: drop-shadow(0 0 15px rgba(247,224,140,0.9)); animation: moonGlow 4s ease-in-out infinite; opacity: 0.3; z-index: 0; }
 .mosque { left: 0; bottom: 0; width: 100%; opacity: 0.4; z-index: 0; }
@@ -83,14 +88,14 @@ body.dark { background: var(--dark-bg); color: var(--dark-text); }
 #back svg { width: 22px; height: 22px; }
 #menuBtn { left: 16px; font-size: 28px; line-height: 1; padding: 0 0 8px 0; font-family: sans-serif; }
 #back:active, #menuBtn:active { background: rgba(255,255,255,0.3); transform: translateY(-50%) scale(0.92); }
-#hdr.hero #menuBtn { top: 30px; transform: none; }
+#hdr.hero #menuBtn { top: 16px; transform: none; }
 #hdr.hero #menuBtn:active { transform: scale(0.92); }
-#hdr.hero #back { top: 30px; transform: none; }
+#hdr.hero #back { top: 16px; transform: none; }
 #hdr.hero #back:active { transform: scale(0.92); }
 
 #menu { display: none; position: absolute; left: 16px; top: 85px; background: var(--surface); color: var(--text); border-radius: var(--r-lg); box-shadow: 0 10px 30px rgba(0,0,0,0.15); min-width: 190px; z-index: 25; overflow: hidden; animation: menuIn 180ms ease both; border: 1px solid var(--surface-border); }
 @keyframes menuIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
-#hdr.hero #menu { top: 88px; }
+#hdr.hero #menu { top: 64px; }
 #menu.show { display: block; }
 #menu button { display: flex; align-items: center; gap: 12px; width: 100%; text-align: right; padding: 12px 16px; border: 0; background: none; font-family: inherit; font-size: 15px; color: inherit; line-height: 1.8; font-weight: 500; }
 #menu button + button { border-top: 1px solid rgba(0,0,0,0.05); }
@@ -107,53 +112,55 @@ body.theme-dark #menu button + button { border-top-color: rgba(255,255,255,0.08)
 body.home #app { padding: 0 16px 20px; gap: 14px; }
 #app > * { min-width: 0; max-width: 100%; }
 
-.sb { display: flex; align-items: center; gap: 8px; background: var(--surface); border-radius: var(--r-full); padding: 6px 8px; box-shadow: 0 8px 24px rgba(0,60,30,0.12); margin-top: -35px; position: relative; z-index: 3; border: 1.5px solid var(--gold); }
-.sb input { flex: 1 1 auto; width: 0; min-width: 0; border: 0; outline: 0; background: none; font-family: inherit; font-size: 15px; color: var(--text); padding: 8px 6px; line-height: 1.6; text-align: right; }
-.sb input::placeholder { color: var(--text-secondary); opacity: 0.8; }
-.sgo { flex: 0 0 auto; width: 42px; height: 42px; border-radius: 50%; border: 0; background: var(--primary); color: var(--text-on-primary); font-size: 18px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
-.mic { flex: 0 0 auto; border: 0; background: none; font-size: 20px; color: var(--primary); padding: 4px 8px; }
-.clear-sb { flex: 0 0 auto; border: 0; background: none; color: var(--text-secondary); font-size: 18px; padding: 4px 8px; display: none; }
-.clear-sb.show { display: block; }
+.sb { display: flex; align-items: center; gap: 4px; background: var(--surface); border-radius: var(--r-full); padding: 4px 4px 4px 16px; box-shadow: 0 6px 18px rgba(0,60,30,0.12); margin-top: -28px; position: relative; z-index: 3; border: 1px solid var(--surface-border); }
+.sb input { flex: 1 1 auto; width: 0; min-width: 0; border: 0; outline: 0; background: none; font-family: inherit; font-size: 15px; color: var(--text); padding: 10px 4px; line-height: 1.4; text-align: left; }
+.sb input::placeholder { color: var(--text-secondary); opacity: 0.85; }
+.sgo { flex: 0 0 auto; width: 40px; height: 40px; border-radius: 50%; border: 0; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; }
+.mic { flex: 0 0 auto; border: 0; background: none; color: var(--primary); padding: 8px; display: flex; align-items: center; }
+.clear-sb { flex: 0 0 auto; border: 0; background: none; color: var(--text-secondary); padding: 8px; display: none; align-items: center; }
+.clear-sb.show { display: flex; }
+svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: 0 0 auto; }
+body.theme-dark .mic { color: #6fd3aa; }
 
-.hgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-.hc { min-width: 0; position: relative; display: flex; flex-direction: column; background: var(--surface); border-radius: 16px; padding: 12px 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); border: 1.5px solid var(--gold); cursor: pointer; overflow: hidden; transition: transform 0.15s; }
-.hc:active { transform: scale(0.96); }
-.hc.full-width { grid-column: span 2; flex-direction: row; align-items: center; padding: 16px; gap: 16px; }
-.hc .card-icon { font-size: 32px; margin: 0 auto 4px; display: block; }
-.hc.full-width .card-icon { margin: 0; font-size: 40px; }
-.hc .card-content { display: flex; flex-direction: column; flex: 1; align-items: center; }
-.hc.full-width .card-content { align-items: flex-start; }
-.hc .tt { font-size: 15px; font-weight: 700; color: var(--primary-deep); line-height: 1.5; text-align: center; margin-bottom: 2px; }
-.hc.full-width .tt { font-size: 18px; text-align: right; }
-.hc .ds { font-size: 11px; color: var(--text-secondary); line-height: 1.5; text-align: center; }
-.hc.full-width .ds { font-size: 12.5px; text-align: right; }
-.hc .ft { margin-top: 8px; display: flex; justify-content: center; }
-.hc.full-width .ft { margin-top: 0; margin-left: auto; }
-.hc .go { width: 24px; height: 24px; border-radius: 50%; background: var(--gold-gradient); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; box-shadow: 0 2px 6px rgba(160,125,18,0.3); }
-.hc.full-width .go { width: 32px; height: 32px; font-size: 16px; }
+.np { display: flex; align-items: center; justify-content: space-between; background: var(--primary-gradient); color: #fff; border-radius: 18px; padding: 14px 18px; box-shadow: var(--shadow-md); cursor: pointer; position: relative; overflow: hidden; }
+.np::after { content: ""; position: absolute; right: -34px; top: -34px; width: 120px; height: 120px; border-radius: 50%; background: rgba(255,255,255,0.06); pointer-events: none; }
+.np:active { transform: scale(0.98); }
+.np-l, .np-r { position: relative; z-index: 1; }
+.np-k { font-size: 12px; line-height: 1.5; opacity: 0.8; letter-spacing: 0.3px; }
+.np-n { font-size: 22px; font-weight: 700; line-height: 1.35; }
+.np-t { font-size: 13px; line-height: 1.5; color: var(--gold-light); font-weight: 600; }
+.np-r { text-align: right; }
+.np-cd { font-size: 25px; font-weight: 700; line-height: 1.3; font-variant-numeric: tabular-nums; color: var(--gold-light); }
+.np-sub { font-size: 11.5px; line-height: 1.5; opacity: 0.8; }
 
-.quote { position: relative; background: var(--primary-gradient); border: 2px solid var(--gold); border-radius: 20px; padding: 32px 16px 16px; text-align: center; color: #fff; box-shadow: 0 8px 20px rgba(0,60,30,0.2); overflow: hidden; }
-.qlabel { position: absolute; top: -2px; right: 20px; background: var(--gold-gradient); color: #4a3200; font-weight: 700; font-size: 13px; padding: 2px 16px; border-radius: 0 0 12px 12px; line-height: 1.8; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
-.qtext { font-size: 17px; line-height: 2.2; padding: 0 4px 16px; font-weight: 500; }
-.qline { width: 80px; height: 2px; margin: 0 auto 12px; background: var(--gold-gradient); border-radius: 2px; opacity: 0.8; }
-.qactions { display: flex; justify-content: center; gap: 12px; align-items: center; }
-.qactions button { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; border-radius: 50%; width: 42px; height: 42px; font-family: inherit; font-size: 18px; display: flex; align-items: center; justify-content: center; transition: transform 0.1s; }
-.qactions button:active { transform: scale(0.9); }
-.qactions button.on { background: var(--gold-gradient); color: #4a3200; border-color: var(--gold); font-weight: 700; }
+.qa-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.qa { background: var(--surface); border: 1px solid var(--surface-border); border-radius: 16px; padding: 12px 2px 10px; text-align: center; box-shadow: var(--shadow-sm); cursor: pointer; transition: transform 0.15s; }
+.qa:active { transform: scale(0.95); }
+.qa .qi { width: 42px; height: 42px; margin: 0 auto 6px; border-radius: 14px; background: var(--surface-tint); color: var(--primary); display: flex; align-items: center; justify-content: center; }
+.qa .ql { font-size: 11.5px; font-weight: 600; line-height: 1.4; color: var(--text); }
+body.theme-dark .qa .qi { color: #6fd3aa; }
 
-.shortcuts { display: flex; gap: 8px; overflow-x: auto; overflow-y: hidden; padding: 4px 2px 8px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-.shortcuts::-webkit-scrollbar { display: none; }
-.sc { flex: 0 0 auto; min-width: 75px; background: var(--surface); border: 1px solid var(--gold); border-radius: 14px; padding: 10px 6px 8px; text-align: center; font-size: 10.5px; line-height: 1.5; color: var(--primary-deep); box-shadow: 0 2px 6px rgba(0,0,0,0.04); transition: transform 0.15s; cursor: pointer; }
-.sc:active { transform: scale(0.94); }
-.sc .sc-ic { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; margin: 0 auto 4px; border-radius: 50%; background: var(--surface-tint); font-size: 14px; }
-.sc .sc-label { font-weight: 700; }
+.quote { position: relative; background: var(--primary-gradient); border-radius: 20px; padding: 18px 16px 14px; text-align: center; color: #fff; box-shadow: var(--shadow-md); overflow: hidden; }
+.qlabel { font-size: 12px; line-height: 1.6; letter-spacing: 0.7px; color: var(--gold-light); font-weight: 600; text-transform: uppercase; margin-bottom: 6px; }
+.qtext { unicode-bidi: plaintext; font-size: 18px; line-height: 2.1; padding: 0 4px 10px; font-weight: 500; }
+.qline { display: none; }
+.qactions { display: flex; justify-content: center; gap: 10px; align-items: center; }
+.qactions button { background: rgba(255,255,255,0.14); border: 0; color: #fff; border-radius: 12px; min-width: 44px; height: 38px; padding: 0 12px; font-family: inherit; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px; transition: transform 0.1s; }
+.qactions button svg.i { width: 19px; height: 19px; }
+.qactions button:active { transform: scale(0.92); }
+.qactions button.on { background: var(--gold-gradient); color: #4a3200; }
+.qactions button.on svg.i { fill: currentColor; }
 
-#nav { position: fixed; left: 0; right: 0; bottom: 0; width: 100%; z-index: 15; display: flex; background: var(--primary-deep); border-radius: 24px 24px 0 0; padding: 8px 4px calc(8px + env(safe-area-inset-bottom)); box-shadow: 0 -4px 20px rgba(0,0,0,0.15); }
-#nav button { flex: 1 1 0; min-width: 0; background: none; border: 0; color: #a3c2b2; font-family: inherit; font-size: 11px; line-height: 1.6; padding: 4px 2px; position: relative; transition: color 0.2s; }
-#nav button span { display: block; font-size: 22px; line-height: 1.3; margin-bottom: 2px; filter: grayscale(1) opacity(0.7); transition: 0.2s; }
-#nav button.on { color: var(--gold-light); }
-#nav button.on span { filter: grayscale(0) opacity(1); transform: translateY(-2px); }
-#nav button.on::before { content: ""; position: absolute; top: -8px; left: 50%; transform: translateX(-50%); width: 24px; height: 4px; background: var(--gold); border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
+#nav { position: fixed; left: 0; right: 0; bottom: 0; width: 100%; z-index: 15; display: flex; background: var(--surface); border-top: 1px solid var(--surface-border); padding: 8px 4px calc(6px + env(safe-area-inset-bottom)); box-shadow: 0 -4px 16px rgba(0,0,0,0.06); }
+#nav button { flex: 1 1 0; min-width: 0; background: none; border: 0; color: var(--text-secondary); font-family: inherit; font-size: 11px; line-height: 1.4; padding: 4px 2px 2px; position: relative; display: flex; flex-direction: column; align-items: center; gap: 3px; transition: color 0.2s; }
+#nav button svg.i { width: 24px; height: 24px; }
+#nav button.on { color: var(--primary); font-weight: 700; }
+#nav button.on::before { content: ""; position: absolute; top: -9px; left: 50%; transform: translateX(-50%); width: 26px; height: 3px; background: var(--gold); border-radius: 3px; }
+body.theme-dark #nav { background: var(--surface); border-top-color: rgba(255,255,255,0.08); }
+body.dark #nav { background: var(--dark-panel); border-top-color: var(--dark-border); }
+body.theme-dark #nav button.on, body.dark #nav button.on { color: #6fd3aa; }
+body.dark #nav button { color: var(--dark-text-muted); }
+body.dark #nav button.on { color: #6fd3aa; }
 
 body.dark #app { padding: 16px; gap: 12px; }
 .panel { background: var(--dark-panel); border: 1px solid var(--dark-border); border-radius: var(--r-lg); padding: 10px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
@@ -227,12 +234,7 @@ body.dark #app { padding: 16px; gap: 12px; }
 <div id="greet"></div>
 </header>
 <div id="app"></div>
-<nav id="nav">
-<button data-t="home"><span>🏠</span>Home</button>
-<button data-t="names"><span>📖</span>Naam</button>
-<button data-t="poetry"><span>✍️</span>Shayari</button>
-<button data-t="fav"><span>❤️</span>Pasandida</button>
-</nav>
+<nav id="nav" dir="ltr"></nav>
 <div id="modal"><div id="modalBox"></div></div>
 <div id="toast" class="toast"></div>
 
@@ -245,10 +247,13 @@ const firebaseConfig = {
   messagingSenderId: "154745916584",
   appId: "1:154745916584:web:663c8009e3e1472f0e069d"
 };
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-const auth = firebase.auth();
-auth.signInAnonymously().catch(err => console.log("Auth error:", err));
+let db = null, auth = null;
+try {
+  firebase.initializeApp(firebaseConfig);
+  db = firebase.firestore();
+  auth = firebase.auth();
+  auth.signInAnonymously().catch(err => console.log("Auth error:", err));
+} catch (e) { console.log("Firebase available nahi (offline?):", e); }
 
 const APP_TITLE = "Islamic Naam";
 const APP_SUB = "Meri Islamic App";
@@ -266,18 +271,11 @@ let QUOTES = [
 ];
 
 const META = {
-  poetry: { title: "Shayari", icon: "✍️", desc: "Islami aur sabaq aamoz shayari" },
   names: { title: "Islami Naam", icon: "📖", desc: "Larkon aur larkiyon ke naam" },
   info: { title: "Islami Maloomat", icon: "🕌", desc: "Sawalat aur dilchasp maloomat" }
 };
 
-const ICON_SVG = {
-  names: '<svg class="ic-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="48" fill="#F4F8F5"/><path d="M30 30v40c10-3 15-8 20-15V30c0 8-10 12-20 15z" fill="#0f6b4a"/><path d="M70 30v40c-10-3-15-8-20-15V30c0 8 10 12 20 15z" fill="#117a58"/><path d="M50 30v40" stroke="#E5C15B" stroke-width="3" stroke-linecap="round"/></svg>',
-  poetry: '<svg class="ic-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="48" fill="#F4F8F5"/><path d="M65 28l-28 28-3 12 12-3 28-28z" fill="#0f6b4a"/><path d="M65 28l8 8" stroke="#E5C15B" stroke-width="4" stroke-linecap="round"/><path d="M30 70h15" stroke="#117a58" stroke-width="4" stroke-linecap="round"/></svg>',
-  info: '<svg class="ic-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="48" fill="#F4F8F5"/><path d="M25 50c0-10 10-20 25-20s25 10 25 20-10 20-25 20c-5 0-10-1-15-3l-10 3 3-10c-2-3-3-6-3-10z" fill="#0f6b4a"/><path d="M50 45v15M50 38v2" stroke="#E5C15B" stroke-width="5" stroke-linecap="round"/></svg>'
-};
-
-const ORDER = ["poetry", "names", "info"];
+const ORDER = ["names", "info"];
 const PAGE = 100;
 
 let DATA = {};
@@ -341,6 +339,7 @@ function applyFontScale() {
   document.documentElement.style.setProperty("--font-scale", v);
 }
 function setMode(mode) {
+  hdr.removeAttribute("dir"); app.removeAttribute("dir");
   const dark = localStorage.getItem("theme") === "dark";
   let cls = mode;
   if (mode === "dark") cls = "dark";
@@ -414,77 +413,245 @@ function todayName() {
 }
 function goSearch(q) { namesPage({ q: String(q || "").trim() }); }
 
+const ICONS = {
+  home: '<path d="M3 11l9-8 9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/>',
+  book: '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+  heart: '<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>',
+  moon: '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>',
+  compass: '<circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>',
+  clock: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+  search: '<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>',
+  mic: '<path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/>',
+  share: '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>',
+  copy: '<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
+  thumb: '<path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/>',
+  beads: '<circle cx="12" cy="4" r="1.7"/><circle cx="18.2" cy="7" r="1.7"/><circle cx="19.5" cy="14" r="1.7"/><circle cx="15.2" cy="19.6" r="1.7"/><circle cx="8.8" cy="19.6" r="1.7"/><circle cx="4.5" cy="14" r="1.7"/><circle cx="5.8" cy="7" r="1.7"/>',
+  cal: '<rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',
+  mail: '<path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><polyline points="22 6 12 13 2 6"/>',
+  x: '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>'
+};
+const ic = n => '<svg class="i" viewBox="0 0 24 24" aria-hidden="true">' + ICONS[n] + '</svg>';
+
+// Neeche ki bar
+nav.innerHTML = [["home", "home", "Home"], ["names", "book", "Naam"], ["duas", "moon", "Duain"], ["fav", "heart", "Pasandida"]]
+  .map(a => "<button data-t='" + a[0] + "'>" + ic(a[1]) + "<span>" + a[2] + "</span></button>").join("");
+
+/* ===== Agli namaz (qibla.html wala hi hisaab, location wahi se milti hai) ===== */
+/* ==CALC START== */
+const D2R = Math.PI / 180, R2D = 180 / Math.PI;
+const sin = d => Math.sin(d * D2R), cos = d => Math.cos(d * D2R), tan = d => Math.tan(d * D2R);
+const asin = x => Math.asin(x) * R2D, acos = x => Math.acos(x) * R2D, atan2 = (y, x) => Math.atan2(y, x) * R2D;
+const arccot = x => Math.atan(1 / x) * R2D;
+const fixAngle = a => { a = a - 360 * Math.floor(a / 360); return a; };
+const fixHour = a => { a = a - 24 * Math.floor(a / 24); return a; };
+
+const KAABA = { lat: 21.4225, lng: 39.8262 };
+
+function qiblaBearing(lat, lng) {
+  const dl = (KAABA.lng - lng);
+  const y = sin(dl) * cos(KAABA.lat);
+  const x = cos(lat) * sin(KAABA.lat) - sin(lat) * cos(KAABA.lat) * cos(dl);
+  return fixAngle(atan2(y, x));
+}
+function distanceKm(lat, lng) {
+  const dLat = (KAABA.lat - lat) * D2R, dLng = (KAABA.lng - lng) * D2R;
+  const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat * D2R) * Math.cos(KAABA.lat * D2R) * Math.sin(dLng / 2) ** 2;
+  return 6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+function julian(y, m, d) {
+  if (m <= 2) { y -= 1; m += 12; }
+  const A = Math.floor(y / 100), B = 2 - A + Math.floor(A / 4);
+  return Math.floor(365.25 * (y + 4716)) + Math.floor(30.6001 * (m + 1)) + d + B - 1524.5;
+}
+function sunPos(jd) {
+  const D = jd - 2451545.0;
+  const g = fixAngle(357.529 + 0.98560028 * D);
+  const q = fixAngle(280.459 + 0.98564736 * D);
+  const L = fixAngle(q + 1.915 * sin(g) + 0.020 * sin(2 * g));
+  const e = 23.439 - 0.00000036 * D;
+  const RA = fixHour(atan2(cos(e) * sin(L), cos(L)) / 15);
+  const eqt = q / 15 - RA;
+  const decl = asin(sin(e) * sin(L));
+  return { decl, eqt };
+}
+
+const METHODS = {
+  karachi: { fajr: 18, isha: 18 },
+  mwl:     { fajr: 18, isha: 17 },
+  isna:    { fajr: 15, isha: 15 },
+  egypt:   { fajr: 19.5, isha: 17.5 },
+  makkah:  { fajr: 18.5, ishaMin: 90 }
+};
+
+// y, m (1-12), d = local tareekh; natija: Date objects (UTC waqt) ya NaN
+function calcTimes(y, m, d, lat, lng, method, asrFactor) {
+  const M = METHODS[method] || METHODS.karachi;
+  const jd0 = julian(y, m, d) - lng / (15 * 24);
+  const decl = t => sunPos(jd0 + t).decl;
+  const noon = t => fixHour(12 - sunPos(jd0 + t).eqt);
+  function ang(angle, t, ccw) {
+    const dc = decl(t);
+    const v = (-sin(angle) - sin(dc) * sin(lat)) / (cos(dc) * cos(lat));
+    if (v < -1 || v > 1) return NaN;
+    return noon(t) + (ccw ? -1 : 1) * acos(v) / 15;
+  }
+  function asr(f, t) {
+    const dc = decl(t);
+    return ang(-arccot(f + tan(Math.abs(lat - dc))), t, false);
+  }
+  const raw = {
+    fajr: ang(M.fajr, 5 / 24, true),
+    sunrise: ang(0.833, 6 / 24, true),
+    zuhr: noon(12 / 24),
+    asr: asr(asrFactor, 13 / 24),
+    maghrib: ang(0.833, 18 / 24, false)
+  };
+  raw.isha = M.ishaMin ? raw.maghrib + M.ishaMin / 60 : ang(M.isha, 18 / 24, false);
+  const base = Date.UTC(y, m - 1, d);
+  const out = {};
+  for (const k in raw) {
+    const utc = raw[k] - lng / 15;
+    out[k] = isNaN(utc) ? NaN : Math.round((base + utc * 3600000) / 60000) * 60000;
+  }
+  return out;
+}
+/* ==CALC END== */
+function homeTz(l) { try { return (l && l.tz) || Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC"; } catch (e) { return "UTC"; } }
+function homeYmd(date, tz) {
+  const p = new Intl.DateTimeFormat("en-CA", { timeZone: tz, year: "numeric", month: "2-digit", day: "2-digit" }).formatToParts(date);
+  const g = t => parseInt(p.find(x => x.type === t).value, 10);
+  return { y: g("year"), m: g("month"), d: g("day") };
+}
+function homeFmt(ms, tz) { return new Intl.DateTimeFormat("en-US", { timeZone: tz, hour: "numeric", minute: "2-digit", hour12: true }).format(new Date(ms)); }
+function npLoad() { try { const l = JSON.parse(localStorage.getItem("qibla_loc") || "null"); return (l && typeof l.lat === "number") ? l : null; } catch (e) { return null; } }
+const NP_NAMES = { fajr: "Fajr", zuhr: "Zuhr", asr: "Asr", maghrib: "Maghrib", isha: "Isha" };
+function npNext(l) {
+  const method = localStorage.getItem("q_method") || "karachi";
+  const asr = parseInt(localStorage.getItem("q_asr") || "2", 10);
+  const tz = homeTz(l), now = Date.now();
+  const p = homeYmd(new Date(now), tz);
+  const t = calcTimes(p.y, p.m, p.d, l.lat, l.lng, method, asr);
+  for (const k of ["fajr", "zuhr", "asr", "maghrib", "isha"]) if (t[k] > now) return { k, t: t[k], tz };
+  const n = new Date(Date.UTC(p.y, p.m - 1, p.d) + 86400000);
+  const t2 = calcTimes(n.getUTCFullYear(), n.getUTCMonth() + 1, n.getUTCDate(), l.lat, l.lng, method, asr);
+  return { k: "fajr", t: t2.fajr, tz, tomorrow: true };
+}
+let npTimer = null;
+function npRender() {
+  const nEl = document.getElementById("npName");
+  if (!nEl) { if (npTimer) { clearInterval(npTimer); npTimer = null; } return; }
+  const l = npLoad();
+  if (!l) {
+    nEl.textContent = "Namaz ke auqaat";
+    document.getElementById("npTime").textContent = "Location chunein";
+    document.getElementById("npCd").textContent = "Dekhein ›";
+    document.getElementById("npSub").textContent = "";
+    return;
+  }
+  try {
+    const x = npNext(l);
+    const s = Math.max(0, Math.floor((x.t - Date.now()) / 1000));
+    const hh = Math.floor(s / 3600), mm = Math.floor((s % 3600) / 60), ss = s % 60;
+    nEl.textContent = NP_NAMES[x.k] + (x.tomorrow ? " (kal)" : "");
+    document.getElementById("npTime").textContent = homeFmt(x.t, x.tz);
+    document.getElementById("npCd").textContent = String(hh).padStart(2, "0") + ":" + String(mm).padStart(2, "0") + ":" + String(ss).padStart(2, "0");
+    document.getElementById("npSub").textContent = "baqi";
+  } catch (e) { nEl.textContent = "Namaz ke auqaat"; }
+}
+function hijriLine() {
+  try {
+    const tz = homeTz(npLoad());
+    const adj = parseInt(localStorage.getItem("q_hadj") || "0", 10);
+    const p = new Intl.DateTimeFormat("en-u-ca-islamic-umalqura", { timeZone: tz, day: "numeric", month: "long", year: "numeric" }).formatToParts(new Date(Date.now() + adj * 86400000));
+    const g = t => (p.find(x => x.type === t) || {}).value || "";
+    const eng = new Intl.DateTimeFormat("en-GB", { timeZone: tz, weekday: "long", day: "numeric", month: "long" }).format(new Date());
+    return g("day") + " " + g("month") + " " + g("year") + " AH  •  " + eng;
+  } catch (e) { return APP_SUB; }
+}
+
 function home() {
   setMode("home");
+  hdr.dir = "ltr"; app.dir = "ltr";
   title.textContent = APP_TITLE;
-  sub.textContent = APP_SUB;
-  greet.textContent = GREETING;
+  sub.textContent = hijriLine();
+  greet.textContent = "Assalam o Alaikum";
   back.style.display = "none";
   setNav("home");
   const todayQ = QUOTES[dayNumber() % QUOTES.length];
   const qKey = "Q:" + todayQ.substring(0, 20);
   const isFavQ = FAVQ.includes(todayQ);
+  const tiles = [
+    ["names", "book", "Naam"], ["duas", "moon", "Duain"], ["qibla", "compass", "Qibla"], ["times", "clock", "Auqaat"],
+    ["tasbeeh", "beads", "Tasbeeh"], ["today", "cal", "Aaj ka Naam"], ["fav", "heart", "Pasandida"], ["msg", "mail", "Message"]
+  ];
 
   app.innerHTML =
     "<div class='sb'>" +
-    "<button class='mic' id='hMic'>🎤</button>" +
-    "<input id='hSearch' type='search' placeholder='Apna pasandida naam talash karein...'>" +
-    "<button class='clear-sb' id='hClear'>✕</button>" +
-    "<button class='sgo' id='hGo'>🔍</button>" +
+    "<input id='hSearch' type='search' placeholder='Naam talash karein...'>" +
+    "<button class='clear-sb' id='hClear' aria-label='Saaf'>" + ic("x") + "</button>" +
+    "<button class='mic' id='hMic' aria-label='Awaaz'>" + ic("mic") + "</button>" +
+    "<button class='sgo' id='hGo' aria-label='Talash'>" + ic("search") + "</button>" +
     "</div>" +
-    "<div class='hgrid'>" +
-    "<div class='hc' data-k='names'>" + ICON_SVG.names + "<div class='card-content'><div class='tt'>Islami Naam</div><div class='ds'>Larkon aur larkiyon ke naam</div></div><div class='ft'><span class='go'>❤</span></div></div>" +
-    "<div class='hc' data-k='poetry'>" + ICON_SVG.poetry + "<div class='card-content'><div class='tt'>Shayari</div><div class='ds'>Islami aur sabaq aamoz shayari</div></div><div class='ft'><span class='go'>❤</span></div></div>" +
-    "<div class='hc full-width' data-k='duas'>" + ICON_SVG.info + "<div class='card-content'><div class='tt'>Islami Maloomat</div><div class='ds'>Sawalat aur dilchasp maloomat</div></div><div class='ft'><span class='go'>❤</span></div></div>" +
+    "<div class='np' id='npCard'>" +
+    "<div class='np-l'><div class='np-k'>Agli namaz</div><div class='np-n' id='npName'>--</div><div class='np-t' id='npTime'></div></div>" +
+    "<div class='np-r'><div class='np-cd' id='npCd'>--:--:--</div><div class='np-sub' id='npSub'></div></div>" +
+    "</div>" +
+    "<div class='qa-grid'>" +
+    tiles.map(t => "<div class='qa' data-a='" + t[0] + "'><div class='qi'>" + ic(t[1]) + "</div><div class='ql'>" + t[2] + "</div></div>").join("") +
     "</div>" +
     "<div class='quote'>" +
-    "<div class='qlabel'>Aaj ki Khoobsurat Baat</div>" +
+    "<div class='qlabel'>Aaj ki khoobsurat baat</div>" +
     "<div class='qtext' id='qText'>" + esc(todayQ) + "</div>" +
-    "<div class='qline'></div>" +
     "<div class='qactions'>" +
-    "<button id='qLike'>👍 <span id='qLikeCount' style='font-size:12px;margin-left:2px'>0</span></button>" +
-    "<button id='qCopy'>📋</button>" +
-    "<button id='qShare'>📤</button>" +
-    "<button id='qFav' class='" + (isFavQ ? "on" : "") + "'>" + (isFavQ ? "❤️" : "🤍") + "</button>" +
+    "<button id='qLike' aria-label='Like'>" + ic("thumb") + "<span id='qLikeCount'>0</span></button>" +
+    "<button id='qCopy' aria-label='Copy'>" + ic("copy") + "</button>" +
+    "<button id='qShare' aria-label='Share'>" + ic("share") + "</button>" +
+    "<button id='qFav' aria-label='Pasandida' class='" + (isFavQ ? "on" : "") + "'>" + ic("heart") + "</button>" +
     "</div>" +
-    "</div>" +
-    "<div class='shortcuts'>" +
-    "<div class='sc' data-a='share'><div class='sc-ic'>📤</div><div class='sc-label'>Share Karein</div></div>" +
-    "<div class='sc' data-a='fav'><div class='sc-ic'>❤️</div><div class='sc-label'>Pasandida</div></div>" +
-    "<div class='sc' data-a='tasbeeh'><div class='sc-ic'>📿</div><div class='sc-label'>Tasbeeh</div></div>" +
-    "<div class='sc' data-a='qibla'><div class='sc-ic'>🕋</div><div class='sc-label'>Qibla</div></div>" +
-    "<div class='sc' data-a='today'><div class='sc-ic'>📅</div><div class='sc-label'>Aaj ka Naam</div></div>" +
-    "<div class='sc' data-a='msg'><div class='sc-ic'>✉️</div><div class='sc-label'>Message</div></div>" +
     "</div>";
 
-  db.collection("likes").doc(qKey).onSnapshot(doc => {
-    const elc = document.getElementById('qLikeCount');
-    if (elc) elc.textContent = doc.exists ? (doc.data().count || 0) : 0;
-  });
+  npRender();
+  if (npTimer) clearInterval(npTimer);
+  npTimer = setInterval(npRender, 1000);
+  // Agar location pehle se allow hai aur save nahi, to chup-chap le lo
+  if (!npLoad() && navigator.permissions && navigator.geolocation) {
+    navigator.permissions.query({ name: "geolocation" }).then(r => {
+      if (r.state === "granted") navigator.geolocation.getCurrentPosition(p => {
+        try { localStorage.setItem("qibla_loc", JSON.stringify({ lat: p.coords.latitude, lng: p.coords.longitude, tz: homeTz(null), src: "gps", name: "Meri location" })); } catch (e) {}
+        npRender();
+      }, () => {});
+    }).catch(() => {});
+  }
 
-  const qLikeBtn = document.getElementById("qLike");
-  qLikeBtn.onclick = () => {
+  const likeBtn = document.getElementById("qLike");
+  if (localStorage.getItem("liked_" + qKey) === "yes") likeBtn.classList.add("on");
+  if (db) {
+    db.collection("likes").doc(qKey).onSnapshot(doc => {
+      const elc = document.getElementById("qLikeCount");
+      if (elc) elc.textContent = doc.exists ? (doc.data().count || 0) : 0;
+    }, () => {});
+  }
+  likeBtn.onclick = () => {
     if (localStorage.getItem("liked_" + qKey) === "yes") { showToast("Pehle hi like kar chuke hain!"); return; }
+    if (!db) { showToast("Like ke liye internet chahiye"); return; }
     const ref = db.collection("likes").doc(qKey);
     ref.get().then(doc => {
       if (doc.exists) ref.update({ count: firebase.firestore.FieldValue.increment(1) });
       else ref.set({ count: 1 });
       localStorage.setItem("liked_" + qKey, "yes");
-      qLikeBtn.classList.add("on");
-      showToast("👍 Shukriya!");
-    });
+      likeBtn.classList.add("on");
+      showToast("Shukriya!");
+    }).catch(() => showToast("Like nahi ho saka"));
   };
 
   document.getElementById("qShare").onclick = () => shareQuote(todayQ);
-  document.getElementById("qCopy").onclick = () => {
-    copyText(todayQ + "\n\n— Meri Islamic App");
-    showToast("📋 Copy ho gaya");
-  };
+  document.getElementById("qCopy").onclick = () => { copyText(todayQ + "\n\n— Meri Islamic App"); showToast("Copy ho gaya"); };
   const qFavBtn = document.getElementById("qFav");
   qFavBtn.onclick = () => {
     const at = FAVQ.indexOf(todayQ);
-    if (at >= 0) { FAVQ.splice(at, 1); qFavBtn.classList.remove("on"); qFavBtn.innerHTML = "🤍"; }
-    else { FAVQ.push(todayQ); qFavBtn.classList.add("on"); qFavBtn.innerHTML = "❤️"; }
+    if (at >= 0) { FAVQ.splice(at, 1); qFavBtn.classList.remove("on"); }
+    else { FAVQ.push(todayQ); qFavBtn.classList.add("on"); }
     saveFavQ();
   };
 
@@ -510,21 +677,22 @@ function home() {
 }
 
 app.onclick = e => {
-  const hc = e.target.closest(".hc");
-  if (hc) { openCard(hc.dataset.k); return; }
-  const sc = e.target.closest(".sc");
-  if (sc) {
-    const a = sc.dataset.a;
-    if (a === "share") shareApp();
-    else if (a === "fav") namesPage({ fav: true });
-    else if (a === "today") todayName();
-    else if (a === "tasbeeh") location.href = "tasbeeh.html";
-    else if (a === "qibla") location.href = "qibla.html";
-    else if (a === "msg") openMessageBox();
-  }
+  if (e.target.closest("#npCard")) { location.href = "qibla.html#auqaat"; return; }
+  const q = e.target.closest(".qa");
+  if (!q) return;
+  const a = q.dataset.a;
+  if (a === "names") namesPage();
+  else if (a === "duas") location.href = "duas.html";
+  else if (a === "qibla") location.href = "qibla.html";
+  else if (a === "times") location.href = "qibla.html#auqaat";
+  else if (a === "tasbeeh") location.href = "tasbeeh.html";
+  else if (a === "today") todayName();
+  else if (a === "fav") namesPage({ fav: true });
+  else if (a === "msg") openMessageBox();
 };
 
 function openMessageBox() {
+  if (!db) { showToast("Message ke liye internet chahiye"); return; }
   showModal(`
     <h3 style="color:var(--primary); margin-bottom:10px;">Aapka Message</h3>
     <input type="text" id="msgName" placeholder="Naam (Optional)" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ccc; border-radius:8px; font-family:inherit;">
