@@ -743,6 +743,7 @@ try { screen.orientation && screen.orientation.lock && screen.orientation.lock('
   const needBtn = typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function';
   if (needBtn) { $('startBtn').style.display = 'block'; setStatus('Compass chalane ke liye upar wala button dabayein'); }
   else beginSensor();
+  if (location.hash === '#auqaat') document.querySelector('.tab[data-p="pT"]').click();
 })();
 </script>
 </body>
