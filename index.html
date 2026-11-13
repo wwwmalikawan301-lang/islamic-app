@@ -198,7 +198,6 @@ body.dark #app { padding: 16px; gap: 12px; }
 .nd-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
 .nd-actions button { background: var(--primary); color: #fff; border: 0; border-radius: var(--r-full); padding: 10px 20px; font-family: inherit; font-size: 14px; }
 
-/* Admin Panel Styles */
 #adminPanel { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--bg); z-index: 100; flex-direction: column; padding: 16px; overflow-y: auto; }
 #adminPanel.active { display: flex; }
 .admin-hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: var(--primary); color: #fff; padding: 14px; border-radius: var(--r-md); }
@@ -434,7 +433,10 @@ let APP_CONFIG = {
 };
 try {
   const savedCfg = localStorage.getItem("app_config");
-  if (savedCfg) APP_CONFIG = JSON.parse(savedCfg);
+  if (savedCfg) {
+    const parsed = JSON.parse(savedCfg);
+    if (parsed && parsed.cards && parsed.shortcuts) APP_CONFIG = parsed;
+  }
 } catch(e) {}
 
 document.getElementById("mAdmin").onclick = () => {
@@ -930,4 +932,4 @@ function generateFullCode() {
 }
 </script>
 </body>
-</html>
+  </html>
