@@ -282,7 +282,6 @@ body.dark #app { padding: 16px; gap: 12px; }
 </div>
 
 <script>
-// Firebase Config
 const firebaseConfig = {
   apiKey: "AIzaSyAGKmTIAzYKmxD226kYovTTVcpXVegTIAc",
   authDomain: "meri-app-f1a83.firebaseapp.com",
@@ -598,7 +597,7 @@ function detail(key, item) {
 function namesPage(opts) {
   opts = opts || {};
   setMode("dark");
-  title.textContent = opts.fav ? "Pasandida Naam" : "Islami Naam";
+  title.textContent = opts.fav ? "Pasandida Naam" : (APP_CONFIG ? "Islami Naam" : "Islami Naam");
   sub.textContent = "";
   back.style.display = "flex";
   back.onclick = home;
@@ -925,4 +924,4 @@ init();
 if ("serviceWorker" in navigator) { navigator.serviceWorker.register("sw.js"); }
 </script>
 </body>
-                                                                                                                                                                                                                                                                                                                      </html>
+</html>
