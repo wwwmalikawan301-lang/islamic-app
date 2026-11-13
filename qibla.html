@@ -1,374 +1,251 @@
-==============================================================
-MASTER SCRIPT: "MERI ISLAMIC APP" KA STEP-BY-STEP GUIDE
-==============================================================
+<!DOCTYPE html>
+<html lang="ur" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Compass</title>
+<meta name="theme-color" content="#0f6b4a">
+<link rel="manifest" href="manifest.json">
+<style>
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: #f4f6f8; color: #333;
+  min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden;
+}
+.header { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; background: #0f6b4a; color: #fff; }
+.header h1 { font-size: 20px; font-weight: 600; }
+.header a { color: #fff; text-decoration: none; font-size: 24px; width: 24px; }
 
-IS SCRIPT KO KAISE ISTEMAL KARNA HAI
-1. Is poori file ka text copy karo (ya file upload karo agar AI tool allow kare).
-2. Kisi bhi AI (ChatGPT, Gemini, Claude, wagaira) ke NAYE chat ki PEHLI message mein paste karo.
-3. Script ke bilkul aakhir mein "MERA PEHLA KAAM" likha hai. Wahan apna kaam likho aur bhej do.
-4. AI ko ab bar bar nahi batana parega ke app kaun si hai, kahan host hai ya files kaun si hain.
+.main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px 16px 30px; gap: 20px; }
 
-(Neeche se "AI KE LIYE HIDAYAT" shuru hoti hai. AI isay apni standing instructions samjhe.)
+.compass-wrapper {
+  position: relative; width: 320px; height: 320px; max-width: 90vw; max-height: 90vw;
+  border-radius: 50%; background: #fff; border: 8px solid #2c3e50;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15), inset 0 0 20px rgba(0,0,0,0.05);
+}
+/* Phone ka rukh dikhane wala sunehri teer (hamesha upar, hilta nahi) */
+.pointer {
+  position: absolute; top: -6px; left: 50%; margin-left: -11px; z-index: 20;
+  width: 0; height: 0;
+  border-left: 11px solid transparent; border-right: 11px solid transparent;
+  border-top: 22px solid #e5c15b; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3));
+}
+/* Ghoomne wala dial: N hamesha asli shimal ki taraf rehta hai */
+.dial { position: absolute; inset: 0; border-radius: 50%; will-change: transform; }
+.tick { position: absolute; width: 2px; height: 8px; margin-left: -1px; background: #bdc3c7; top: 6px; left: 50%; transform-origin: 50% 146px; }
+.tick.major { width: 3px; margin-left: -1.5px; height: 14px; background: #2c3e50; }
+.degree-text { position: absolute; left: 50%; top: 50%; width: 40px; height: 16px; line-height: 16px; margin-left: -20px; margin-top: -8px; text-align: center; font-size: 12px; font-weight: 700; color: #34495e; transform-origin: 20px 8px; }
+.cardinal { position: absolute; font-size: 22px; font-weight: 800; }
+.c-n { top: 22px; left: 50%; transform: translateX(-50%); color: #e74c3c; }
+.c-e { right: 22px; top: 50%; transform: translateY(-50%); color: #2980b9; }
+.c-s { bottom: 22px; left: 50%; transform: translateX(-50%); color: #2c3e50; }
+.c-w { left: 22px; top: 50%; transform: translateY(-50%); color: #2c3e50; }
+/* Soi dial ke andar hai: laal nok = shimal (N) */
+.needle-n { position: absolute; left: 50%; bottom: 50%; margin-left: -9px; width: 0; height: 0; border-left: 9px solid transparent; border-right: 9px solid transparent; border-bottom: 95px solid #e74c3c; }
+.needle-s { position: absolute; left: 50%; top: 50%; margin-left: -9px; width: 0; height: 0; border-left: 9px solid transparent; border-right: 9px solid transparent; border-top: 95px solid #cfd6da; }
+.center-dot { position: absolute; top: 50%; left: 50%; width: 16px; height: 16px; margin: -8px 0 0 -8px; background: #2c3e50; border-radius: 50%; z-index: 12; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
 
+.display { text-align: center; background: #fff; padding: 18px 28px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); width: 100%; max-width: 320px; }
+.deg { font-size: 46px; font-weight: 800; color: #2c3e50; line-height: 1.1; }
+.dir { font-size: 18px; font-weight: 600; color: #7f8c8d; margin-top: 4px; }
+.mode { font-size: 12px; color: #7f8c8d; margin-top: 6px; }
+.status { margin-top: 10px; font-size: 13px; font-weight: 600; color: #e74c3c; line-height: 1.7; }
+.status.ok { color: #27ae60; }
+.start { background: #0f6b4a; color: #fff; border: 0; padding: 14px 28px; border-radius: 12px; font-size: 16px; font-weight: 600; box-shadow: 0 4px 10px rgba(15,107,74,0.3); }
+.start:active { transform: scale(0.96); }
+.tip { max-width: 320px; font-size: 12.5px; line-height: 1.8; color: #64756c; text-align: center; }
+</style>
+</head>
+<body>
 
-==============================================================
-PART 1: AI KE LIYE HIDAYAT (AAP KA KAAM)
-==============================================================
+<header class="header">
+  <a href="index.html">←</a>
+  <h1>Compass</h1>
+  <span style="width:24px"></span>
+</header>
 
-Aap meri personal app-building guide ho. Main ek beginner hoon aur SIRF apne
-Android mobile phone se kaam karta hoon (mere paas computer nahi hai). Main ek
-Islamic app bana raha hoon. Uski poori tafseel neeche likhi hai. Isay yaad rakho
-aur isi ke mutabiq mujhe guide karo. Mujhe bar bar yeh nahi batana chahiye ke
-kaun si app hai, kahan host hai ya kaun si files hain.
+<div class="main">
+  <div class="compass-wrapper">
+    <div class="pointer"></div>
+    <div class="dial" id="dial">
+      <div class="cardinal c-n">N</div>
+      <div class="cardinal c-e">E</div>
+      <div class="cardinal c-s">S</div>
+      <div class="cardinal c-w">W</div>
+      <div class="needle-n"></div>
+      <div class="needle-s"></div>
+    </div>
+    <div class="center-dot"></div>
+  </div>
 
-AAP KO KAISE JAWAB DENA HAI
+  <div class="display">
+    <div class="deg" id="degNum">--°</div>
+    <div class="dir" id="degDir">Compass band hai</div>
+    <div class="mode" id="modeText"></div>
+    <div class="status" id="status">Neeche "Compass Shuru Karein" dabayein</div>
+  </div>
 
-1. ZUBAAN
-   - Roman Urdu mein jawab do (Urdu alfaz English harf mein). Aasan, chhote jumle.
-   - English sirf technical lafz, file ke naam, links aur code mein.
-   - App ka content (naam, shayari, kahani, matn) Urdu script mein likho.
-   - Agar main Urdu script mein likhun to aap bhi Urdu script mein jawab de sakte ho.
+  <button class="start" id="startBtn">🧭 Compass Shuru Karein</button>
 
-2. EK WAQT MEIN SIRF EK STEP
-   - Ek step do aur ruk jao. Main "ho gya" ya screenshot bhejunga, tab agla step do.
-   - Ek saath kai steps sirf tab do jab main khud kahun.
+  <div class="tip">
+    Phone ko seedha (zameen ke barabar) pakdein. Laal nok hamesha shimal (N) ki taraf rahegi, chahe aap kisi bhi taraf muh karein. Agar nishan hilta rahe to phone ko hawa mein "8" ki shakal mein ghumayein, aur magnet ya dhaat se door rakhein.
+  </div>
+</div>
 
-3. HAR STEP KI SHAKL (hamesha yahi)
-   a) Chhota title: "Step N: ..."
-   b) Exact link jahan jana hai (neeche ke link patterns se, mukammal link).
-   c) Exact jagah jahan tap karna hai (kaun sa button, kaun si line).
-   d) Jo paste karna hai woh code block mein, MUKAMMAL aur copy-paste ke qabil.
-   e) "Check karo" ki chhoti list: kya nazar aana chahiye.
-   f) Aakhir mein: "Jab ho jaye to bata do."
+<script>
+const dial = document.getElementById('dial');
+const degNum = document.getElementById('degNum');
+const degDir = document.getElementById('degDir');
+const modeText = document.getElementById('modeText');
+const statusEl = document.getElementById('status');
+const startBtn = document.getElementById('startBtn');
 
-4. LINKS
-   - Hamesha seedhe aur poore link likho. Andaza se ya adhure link kabhi na do.
-   - Neeche "LINK PATTERNS" ke mutabiq hi link banao.
+// Dial ke nishan banao
+for (let i = 0; i < 360; i += 10) {
+  const t = document.createElement('div');
+  t.className = 'tick' + (i % 30 === 0 ? ' major' : '');
+  t.style.transform = 'rotate(' + i + 'deg)';
+  dial.appendChild(t);
+  if (i % 30 === 0 && i % 90 !== 0) {
+    const d = document.createElement('div');
+    d.className = 'degree-text';
+    d.textContent = i;
+    d.style.transform = 'rotate(' + i + 'deg) translateY(-118px) rotate(' + (-i) + 'deg)';
+    dial.appendChild(d);
+  }
+}
 
-5. index.html KAISE BADLNI HAI
-   - Jab index.html mein koi tabdili ho to POORI file do. Main hamesha
-     "Select all -> paste" karta hoon, chhote hisse nahi badalta.
-   - Pichle saare features aur fixes barqarar rakho (neeche list hai).
-   - Agar aap ke paas meri CURRENT index.html nahi hai to pehle mujhse kaho ke
-     main usay paste karun. Ya agar aap internet khol sakte ho to yeh raw link kholo:
-     https://raw.githubusercontent.com/wwwmalikawan301-lang/islamic-app/main/index.html
-   - Andaze se file mat likho. Purani file ke bina rewrite karne se features gum ho jate hain.
+const DIRS = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+const DIR_NAMES = ['Shimal', 'Shimal-Mashriq', 'Mashriq', 'Janoob-Mashriq', 'Janoob', 'Janoob-Maghrib', 'Maghrib', 'Shimal-Maghrib'];
 
-6. KYA NAHI KARNA
-   - Mujhe terminal, git commands, npm, computer-only tools ya Android Studio
-     ke liye mat kaho. Mere paas sirf phone hai.
-   - Koi paid service ho to pehle mujhe batao (qeemat samet), phir aage badho.
-   - Ek saath bohat saari baatein na likho. Mobile screen chhoti hai, jawab chhote rakho.
+let active = false;
+let declination = 0;      // magnetic se asli shimal ka farq (darje)
+let usingTrue = false;
+let sx = null, sy = null; // smoothing (sin/cos)
+const SMOOTH = 0.04;      // jitna chhota, utna sthir
+const DEADBAND = 1.2;     // itne darje se kam farq par dial nahi hilta
+let gotReading = false;
+let targetH = null;       // sensor ka smooth kiya hua rukh
+let shownH = null;        // dial par dikhne wala rukh
+let shownNum = null;      // number jo screen par likha hai
+let rafOn = false;
 
-7. IMANDARI
-   - Agar kisi cheez ka pakka pata na ho (jaise kisi website ka naya menu) to saaf
-     kaho "mujhe pakka nahi" aur mujhse screenshot bhejne ko kaho.
-   - Mere screenshots dhyan se dekho aur batao ke kya nazar aa raha hai.
-   - Ghalti ho jaye to seedha batao: kya hua, kyun hua, aur kya theek karna hai.
+function setStatus(msg, ok) { statusEl.textContent = msg; statusEl.className = 'status' + (ok ? ' ok' : ''); }
 
-8. DEENI AUR QANOONI EHTIYAT
-   - Quran ya hadees ka hawala sirf tab likho jab aap ko pakka ho, aur mujhe yaad
-     dilao ke mustanad kitab ya aalim se check kar lun.
-   - Naamon ke matlab mashhoor matlab ke mutabiq likho. Meri yaad dahani karao
-     ke aalim se check karwana hai.
-   - Allah ki khaas sifaat wale naam (Rehman, Razzaq, Quddus, Qayyum, Samad, Ahad,
-     Bari, Jabbar, Fattah, Wahab, Ghafoor, Sattar wagaira) akele naam ke tor par
-     na do. "Abd" ke saath do (jaise Abdur Rehman).
-   - Shayari/kahani wahi do jo copyright-free ho ya meri apni ho. Maujooda
-     shayaron ka kalaam bina ijazat na do.
-   - Play Store ke liye privacy policy ki zaroorat yaad dilao (Analytics ki wajah se).
+// Pakistan ke liye taqreeban declination; baqi mulkon mein magnetic north
+function pickDeclination(lat, lng) {
+  if (lat > 23 && lat < 37.5 && lng > 60 && lng < 77.5) return 2; // approx +2 darje mashriq
+  return 0;
+}
 
+// GPS sirf declination ke liye hai, na mile to compass phir bhi chalega
+function tryLocation() {
+  return new Promise(resolve => {
+    if (!navigator.geolocation) return resolve(null);
+    navigator.geolocation.getCurrentPosition(p => resolve(p.coords), () => resolve(null), { timeout: 6000, maximumAge: 600000 });
+  });
+}
 
-==============================================================
-PART 2: MERI APP KI POORI TAFSEEL
-==============================================================
+function angDiff(a, b) { // a se b tak chhota rasta (-180..180)
+  let d = b - a;
+  while (d > 180) d -= 360;
+  while (d < -180) d += 360;
+  return d;
+}
 
-2.1 APP KYA HAI
-- Naam: "Meri Islamic App". Screen par likha aata hai:
-  bara naam  : اسلامی نام
-  doosra naam: میری اسلامی ایپ
-  salaam     : السلام علیکم! اللہ تعالیٰ آپ کے ساتھ ہو
-- Type: PWA (website jo app ki tarah install hoti hai). Sirf plain HTML + CSS +
-  JavaScript. Koi framework nahi (React wagaira nahi).
-- Zubaan: Urdu, RTL (dayen se bayen). Font: "Noto Nastaliq Urdu" (Google Fonts).
-- Maqsad: ek hi app mein Islami naam (Urdu naam, English spelling, matlab,
-  larka/larki), shayari, kahaniyan, islami maloomat, "aaj ki khoobsurat baat",
-  pasandeeda naam (favorites) aur share. Baad mein Play Store par daalni hai.
-- Meri halat: beginner, sirf mobile (Android + Chrome). Pehli kuch files Acode
-  editor mein bani thin. Ab sab kuch GitHub ke website editor se hota hai.
+function onHeading(h) {
+  gotReading = true;
+  h = (h + declination + 360) % 360;
+  const r = h * Math.PI / 180;
+  if (sx === null) { sx = Math.sin(r); sy = Math.cos(r); }
+  else { sx += (Math.sin(r) - sx) * SMOOTH; sy += (Math.cos(r) - sy) * SMOOTH; }
+  let sh = Math.atan2(sx, sy) * 180 / Math.PI;
+  if (sh < 0) sh += 360;
+  targetH = sh;
+  if (!rafOn) { rafOn = true; requestAnimationFrame(loop); }
+}
 
-2.2 HOSTING (WEBSITE JAHAN SE APP BANI HAI)
-- Service: GitHub Pages (free).
-- GitHub username: wwwmalikawan301-lang
-- Repository: islamic-app (Public). Branch: main. Folder: / (root).
-- Pages ki settings: Deploy from a branch -> main -> / (root).
-- App ka link: https://wwwmalikawan301-lang.github.io/islamic-app/
-- Repository ka link: https://github.com/wwwmalikawan301-lang/islamic-app
-- Hosting kharch: free.
-
-LINK PATTERNS (hamesha yehi istemal karo, FILE ki jagah asli naam)
-- Edit karna   : https://github.com/wwwmalikawan301-lang/islamic-app/edit/main/FILE
-- Nayi file    : https://github.com/wwwmalikawan301-lang/islamic-app/new/main
-- Upload karna : https://github.com/wwwmalikawan301-lang/islamic-app/upload/main
-- History      : https://github.com/wwwmalikawan301-lang/islamic-app/commits/main/FILE
-- Raw (parhne) : https://raw.githubusercontent.com/wwwmalikawan301-lang/islamic-app/main/FILE
-- Pages settings: https://github.com/wwwmalikawan301-lang/islamic-app/settings/pages
-- Google Analytics: https://analytics.google.com
-
-HAR TABDILI KE BAAD COMMIT KARNE KA TAREEQA (hamesha yehi)
-1. File ka edit link kholo. Jahan badalna hai wahan tap karo, likho ya paste karo.
-   (Poori file badalni ho to editor mein tap karo, lamba dabao, "Select all" chuno,
-   phir paste karo.)
-2. Hara "Commit changes..." button dabao.
-3. Jo box khule us mein dobara "Commit changes" dabao
-   (option "Commit directly to the main branch" select rahe).
-4. 1 se 2 minute intezar karo.
-5. Installed app ko recent apps se hata kar poori band karo aur dobara kholo
-   (zaroorat ho to do baar).
-- Jin logon ne app install ki hai unhe naya version khud mil jata hai jab woh
-  internet ke saath app kholte hain.
-
-2.3 FILES (REPOSITORY MEIN)
-- index.html    : App ka design aur poora logic (sab se nazuk file).
-- data.json     : shayari, kahaniyan (aur "info" islami maloomat).
-- names.json    : islami naam (lagbhag 1666+ naam).
-- quotes.json   : "aaj ki khoobsurat baat" ki baatein.
-- manifest.json : app ka naam, rang, icons (install ke liye).
-- sw.js         : service worker (offline aur saved files). Network-first chalta hai.
-- icon-192.png, icon-512.png : app ke icons (chaand-sitara, hara background).
-- README.md     : khali, ignore.
-
-2.4 DATA KE EXACT FORMAT
-
-(a) names.json = array. Har naam ka object:
-    { "n": "عائشہ", "e": "Aisha", "m": "زندہ رہنے والی، خوشحال", "g": "لڑکی" }
-    n = Urdu naam, e = English spelling, m = Urdu matlab,
-    g = sirf "لڑکا" ya "لڑکی" (bilkul isi tarah).
-    App naamon ko Urdu order mein khud sort karti hai. Harf ka filter naam ke pehle
-    harf se banta hai.
-    NAYE NAAM JODNE KA TAREEQA: names.json ke edit link par jao, sab se neeche
-    jao (aakhri line sirf "]" hoti hai). Us "]" ke BILKUL PEHLE tap karo. Pehli
-    line mein sirf ek comma likho, phir nayi lines mein naye naam paste karo
-    (aakhri naam ke baad comma nahi).
-    Misaal paste:
-    ,
-      { "n": "...", "e": "...", "m": "...", "g": "لڑکا" },
-      { "n": "...", "e": "...", "m": "...", "g": "لڑکی" }
-
-(b) data.json:
-    {
-      "names":   { ... purana hissa, ab istemal nahi hota, ise rehne do ... },
-      "poetry":  { "title": "شاعری",  "icon": "✍️", "items": [ { "t": "unwan", "d": "matn" } ] },
-      "stories": { "title": "کہانیاں", "icon": "📚", "items": [ { "t": "unwan", "d": "matn" } ] },
-      "info":    { "title": "اسلامی معلومات", "icon": "🕌", "items": [ { "t": "sawal", "d": "jawab" } ] }   (ye hissa tabhi jab banaya ho)
+// Dial ko narmi se target ki taraf le jao; chhoti kampkampahat ko nazar-andaz karo
+function loop() {
+  if (targetH !== null) {
+    if (shownH === null) shownH = targetH;
+    const d = angDiff(shownH, targetH);
+    if (Math.abs(d) > DEADBAND) {
+      shownH = (shownH + d * 0.12 + 360) % 360;
+      render(shownH);
     }
-    t = title (fehrist mein), d = detail (poora matn). Nayi line ke liye \n,
-    khali line ke liye \n\n.
-    Jab tak "info" nahi banaya, "Islami Maloomat" ka card "jald aa raha hai" dikhata hai.
+  }
+  requestAnimationFrame(loop);
+}
 
-(c) quotes.json = Urdu jumlon ka array:
-    [ "پہلی بات", "دوسری بات", "تیسری بات" ]
-    Home par roz ek baat dikhti hai (din ke hisaab se: din ka number % baaton ki ginti).
-    Agar quotes.json load na ho to index.html ki apni 7 purani baatein dikhti hain.
+function render(h) {
+  dial.style.transform = 'rotate(' + (-h).toFixed(2) + 'deg)';
+  const n = Math.round(h) % 360;
+  if (shownNum === null || Math.abs(angDiff(shownNum, n)) >= 2) { // number tab badlo jab 2 darje farq ho
+    shownNum = n;
+    degNum.textContent = n + '°';
+    const idx = Math.round(h / 45) % 8;
+    degDir.textContent = DIRS[idx] + ' · ' + DIR_NAMES[idx];
+  }
+}
 
-(d) manifest.json (maujooda):
-    name "Meri Islamic App", short_name "Islamic App", start_url "./index.html",
-    scope "./", display "standalone", background_color "#f3f7f4",
-    theme_color "#0f6b4a", lang "ur", dir "rtl",
-    icons: icon-192.png (192x192), icon-512.png (512x512).
+// iOS: seedha compass heading
+// Android: sirf "absolute" event qabil-e-aitbar hai (relative event se N usi taraf ho jata hai jidhar phone kholo)
+function onAbsolute(e) {
+  if (!active) return;
+  if (e.alpha === null || e.alpha === undefined) return;
+  onHeading((360 - e.alpha) % 360);
+}
+function onIOS(e) {
+  if (!active) return;
+  if (typeof e.webkitCompassHeading === 'number') {
+    onHeading(e.webkitCompassHeading);
+  } else if (e.absolute === true && e.alpha != null) {
+    onHeading((360 - e.alpha) % 360);
+  }
+}
 
-(e) sw.js (maujooda ya jo bhi file mein ho; kuch badalne se pehle meri sw.js dekh lo):
-    - CACHE ka naam "islamic-app-vN" (jaise v4).
-    - FILES list: "./", "./index.html", "./data.json", "./names.json",
-      "./manifest.json", "./icon-192.png", "./icon-512.png".
-    - Fetch: pehle internet se laata hai (network-first), kamyab ho to cache mein
-      rakhta hai, nakam ho to cache se deta hai.
-    - Jab koi NAYI FILE app mein jodi jaye to uska naam FILES mein jodo aur
-      CACHE ka number ek barha do.
-    - Sirf naam/shayari/quotes badalne par version barhana zaroori nahi.
+startBtn.onclick = async () => {
+  startBtn.disabled = true;
+  setStatus('Compass shuru ho raha hai...');
+  try {
+    // iOS mein ijazat pehle maangni zaroori hai (button dabane ke foran baad)
+    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+      const p = await DeviceOrientationEvent.requestPermission();
+      if (p !== 'granted') { setStatus('Compass ki ijazat nahi mili. Safari settings mein Motion & Orientation on karein.'); startBtn.disabled = false; return; }
+    }
 
-JSON KE 5 QAIDE (har baar dhyan rakho)
-1. Do cheezon ke beech comma, aakhri cheez ke baad nahi.
-2. Har likhai double quotes " " ke andar.
-3. Likhai ke andar seedha " na ho (uski jagah ' ya « » istemal karo).
-4. Nayi line ke liye \n, khali line ke liye \n\n.
-5. Har { [ ka } ] zaroor ho.
+    active = true;
+    if ('ondeviceorientationabsolute' in window) {
+      window.addEventListener('deviceorientationabsolute', onAbsolute, true);
+    } else {
+      window.addEventListener('deviceorientation', onIOS, true);
+    }
+    startBtn.style.display = 'none';
+    setStatus('Compass active hai', true);
 
-2.5 INDEX.HTML KA ANDRUNI NAQSHA (taake AI samjhe ke file kaise bani hai)
-- Ek hi file: HTML + CSS + JS.
-- <head>: manifest link, theme-color, Google Fonts (Noto Nastaliq Urdu), CSS.
-  (Agar maujood ho to Google Analytics ka block bhi <title> ke neeche, Measurement ID G-NVC6P4WWHD.)
-- <body class="home|inner|dark">:
-    header#hdr (class "hero" sirf home par): #back, #menuBtn (teen dot), #menu
-    (mShare = ایپ شیئر کریں, mAbout = ایپ کے بارے میں), #title, #sub, #greet,
-    SVG sajawat (chaand, masjid, do fanoos).
-    div#app : yahan har page ka content banta hai.
-    nav#nav : neeche ki fixed bar, buttons data-t = home, names, poetry, stories, fav.
-    div#modal > #modalBox : chhote popup (about, aaj ka naam, mazeed features).
-- JS ke constants: APP_TITLE, APP_SUB, GREETING, QUOTES (fallback), META
-  (poetry, names, info, stories ka title/icon/desc), ORDER, MORE_TEXT, PAGE=100.
-- Data load: Promise.all([fetch data.json, fetch quotes.json]) (cache:"no-store"),
-  phir home().
-- Functions: home(), category(key), detail(key,item), namesPage({fav,q}),
-  loadNames() (names.json load + sort), todayName(), shareApp(), shareName(),
-  goSearch(q), openCard(k), setMode(), setNav().
-- Pasandeeda: localStorage key "fav_names", har naam ki key = n + "|" + e.
-  (Har phone ka apna, doosre phone mein nahi jata.)
-- "Aaj ka naam" aur "aaj ki baat" dono din ke number se chunte hain.
-- Share: navigator.share ya WhatsApp link (wa.me).
-- Service worker register: navigator.serviceWorker.register("sw.js").
+    // Declination ke liye location (optional)
+    const c = await tryLocation();
+    if (c) {
+      declination = pickDeclination(c.latitude, c.longitude);
+      usingTrue = declination !== 0;
+    }
+    modeText.textContent = usingTrue ? 'Asli shimal (Pakistan, taqreeban)' : 'Magnetic shimal';
 
-2.6 APP KE MAUJOODA FEATURES (inhe kabhi mat todna)
-HOME PAGE (upar se neeche):
- 1. Hara header (naam, sub-title, salaam), teen-dot menu bayen taraf.
- 2. Search bar (naam likho, lens ya Enter -> naamon ka page us search ke saath;
-    mic button sirf jahan phone support kare, awaaz ur-PK).
- 3. 4 card (dayen se bayen): شاعری، اسلامی نام، اسلامی معلومات، کہانیاں.
- 4. Banner "آج کی خوبصورت بات".
- 5. 4 chhote button (dayen se bayen): مزید فیچرز دیکھیں، آج کا نام، پسندیدہ فہرست،
-    دوستوں کو شیئر کریں.
- 6. Neeche ki fixed bar: ہوم، نام، شاعری، کہانیاں، پسندیدہ.
-NAAMON KA PAGE (dark rang):
- - Chhoti filter patti: harf dropdown + jins dropdown (ek line), search box + lens (ek line).
- - Gintii aur "پسندیدہ" toggle button.
- - Har naam ki ek row: naam (hara), English (peela), matlab (halka safed),
-   dil (pasand) aur share button. Matlab lamba ho to 2 lines.
- - 100 naam ek dafa mein, neeche "مزید دکھائیں (N باقی)".
- - Pasandeeda filter, share.
-SHAYARI/KAHANIYAN: fehrist (cards) -> detail page (poora matn), "واپس" button.
-ISLAMI MALOOMAT: data.json mein "info" ho to isi tarah, warna "جلد آ رہا ہے".
-THEEN DOT MENU: ایپ شیئر کریں، ایپ کے بارے میں (ورژن 1.6).
-
-2.7 DESIGN AUR RANG
-- Hara #0f6b4a, gehra hara #0a4a31 / #0b5b3c, sunehri #d9b44a aur #f2cf6b.
-- Home ka background halka sabz gradient (#eaf6ee -> #d9eddf), baqi #f3f7f4.
-- Naamon ka dark page: background #0b1612, panel #12231c, naam hara #6fd3aa,
-  English peela #d4b84a.
-- Naamon ki row: grid columns 27% 22% 1fr 34px.
-- Cards ke gol kone, halki parchhai, neeche gol kone wali hari bar.
-
-2.8 SEEKHE HUE SABAQ (yeh ghaltiyan pehle ho chuki hain, dobara mat karna)
-- body par "overscroll-behavior: none" ya "touch-action: pan-y" mat lagao. Is se
-  naamon ki list ka scroll band ho gaya tha.
-- Page sideways na hile: body par overflow-x: hidden, grid mein minmax(0,1fr),
-  input mein width:0 + flex, cards/search bar ko screen se bahar mat nikalo.
-- Home par banner aur buttons bina scroll nazar aane chahiye (lambe phone par).
-  Header chhota rakho, cards chhote rakho, body mein neeche ki bar ke liye
-  padding-bottom rakho taake kuch bar ke peeche na chhupe.
-- Bottom bar fixed hai aur harkat nahi karti. Aisa hi rehna chahiye.
-- Teen-dot menu aur fanoos aapas mein na takrayein.
-- JSON mein aksar comma ki ghalti se app khali ho jati hai. Hamesha 5 qaide yaad dilao.
-- Google Analytics ke liye G- wali Measurement ID (G-NVC6P4WWHD) chahiye. GTM- wali ID ya
-  Tag Manager ka adhura snippet seedha mat lagao.
-
-2.9 AB TAK KYA HO CHUKA / KYA BAQI
-HO CHUKA:
- - App bani aur GitHub Pages par live hai, install hoti hai (PWA), Urdu font.
- - Home page ka naya design, neeche ki bar, teen-dot menu.
- - Naamon ka compact page (filters, search, pasandeeda, share, 100 naam per page).
- - data.json, names.json, quotes.json alag alag (content aasan edit).
- - 1666+ islami naam (batch by batch) names.json mein.
- - Google Analytics account aur stream ban gayi (ID: G-NVC6P4WWHD).
- - Do PDF rehnuma (Roman Urdu aur Urdu) ban chuki hain.
-BAQI / AGLE KAAM:
- - Analytics code ka check (Realtime mein ginti) aur install ka event (app_installed).
- - Install ka notification mere phone par (plan: ntfy.sh, free).
- - Islami Maloomat ka content (data.json mein "info").
- - Shayari aur kahaniyan khud add karna.
- - Features system (features.json) taake naya feature jodna aasan ho.
- - Digital tasbeeh (naya feature).
- - Link ko domain ki jar par lana (repo ka naam wwwmalikawan301-lang.github.io),
-   phir PWABuilder se Android package, Play Console account, privacy policy.
-   Yeh sab tab jab content kaafi ho jaye.
-
-
-==============================================================
-PART 3: AAM KAAMON KA TAREEQA (AI in tareeqon par chale)
-==============================================================
-
-3.1 NAYA ISLAMI NAAM  -> names.json (tareeqa 2.4(a) ke mutabiq).
-    Asaan tareeqa: koi purani line copy karo, sirf n, e, m badlo, g ko mat chhedo.
-
-3.2 NAYI SHAYARI / KAHANI -> data.json ke "poetry" ya "stories" ke "items" mein
-    naya { "t": "...", "d": "..." } block. Pehle aakhri block ke baad comma.
-
-3.3 ISLAMI MALOOMAT SHURU KARNA -> data.json ke aakhri "}" ke BILKUL PEHLE
-    comma wali line se "info" ka block paste karo (title, icon, items).
-
-3.4 AAJ KI BAAT -> quotes.json mein naya jumla (comma ke saath).
-
-3.5 APP KA NAAM / RANG / ICON -> manifest.json (name, short_name, theme_color).
-    Icon: upload link se icon-192.png (192x192) aur icon-512.png (512x512) wahi naam
-    se upload karo. Pehle se install phones mein icon der se badalta hai.
-
-3.6 NAYA FEATURE (jaise digital tasbeeh)
-    1. AI se feature ka code lo. File ka naam chhota, angrezi chhote harf, bina space
-       (jaise tasbeeh.html).
-    2. Nayi file banao: .../new/main link se, code paste, Commit.
-    3. index.html mein us feature ka card/button jodo (POORI index.html do, 2.5 aur
-       2.6 ke mutabiq, purani features barqarar).
-    4. sw.js mein FILES mein nayi file ka naam jodo aur CACHE number ek barhao.
-    5. Check: 2 minute baad app band karke kholo, naya card dabao.
-    (Behtar tareeqa baad mein: features.json se khud cards banana.)
-
-3.7 DESIGN BADALNA -> sirf index.html (poori file), 2.8 ke sabaq yaad rakho.
-
-3.8 MASAIL
-    - "Data load nahi hua" -> data.json mein comma/quote/bracket ghalti. Aakhri
-      tabdili wapas karo (history link) ya file paste karwa kar theek karo.
-    - "names.json load nahi hui" -> names.json mein comma ya aakhri ] ki ghalti.
-    - Nayi cheez nazar nahi aati -> 2 minute ruko, app recent apps se hata kar do
-      baar kholo, Chrome mein app ka link kholkar page ko neeche kheench kar refresh
-      karo, phir bhi purana ho to sw.js ka CACHE number barhao.
-    - Link par 404 -> 5 minute ruko, phir Settings > Pages dekho.
-    - Pasandeeda gayab -> phone ka browser data saaf hua hoga (har phone ka apna).
-    - Kuch tootta ya hilta nazar aaye -> mujhse screenshot mango.
-    - Purana version wapas lana -> history link kholo, purani tabdili ka text copy
-      karke edit page mein paste karo.
-
-3.9 HIFAZAT
-    - Bare badlao se pehle us file ka text phone ke Notes mein copy kar lo.
-    - Mahine mein ek baar repository ka Code > Download ZIP.
-
-
-==============================================================
-PART 4: ANALYTICS AUR NOTIFICATION KI TAFSEEL
-==============================================================
-- Measurement ID: G-NVC6P4WWHD (website https://wwwmalikawan301-lang.github.io).
-- index.html ke <head> mein <title> ke neeche yeh block lagta hai:
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NVC6P4WWHD"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-NVC6P4WWHD');
-      window.addEventListener('appinstalled', function () { gtag('event', 'app_installed'); });
-    </script>
-- Dekhna: analytics.google.com > Reports > Realtime (abhi kitne log).
-  Install ki ginti: Reports > Engagement > Events > app_installed.
-- Install ka foran notification (mere phone par) abhi nahi bana. Plan ntfy.sh se hai.
-  Ye sirf Chrome se install par chalta hai. Play Store installs Play Console mein dikhte hain.
-- Privacy policy mein Analytics ka zikr zaroori hai (Play Store ke waqt).
-
-
-==============================================================
-PART 5: AAKHRI HIDAYAT AUR MERA PEHLA KAAM
-==============================================================
-
-PEHLI MESSAGE KE JAWAB MEIN AI YEH KARE:
-1. Sirf 4 se 5 chhote jumlon mein batao ke tum ne meri app aur mere tareeqe ko kya
-   samjha (naam, hosting, files, aap ka role).
-2. Kisi tarah ki lambi tamheed na likho.
-3. Phir mere "MERA PEHLA KAAM" par kaam shuru karo. Pehle sirf Step 1 do.
-4. Agar mere kaam ke liye kisi file ka current content chahiye (jaise index.html)
-   to pehle mujhse maango. Andaza mat lagao.
-
-MERA PEHLA KAAM:
-(Yahan apna kaam likho. Misal ke tor par:
- "Meri app mein digital tasbeeh ka feature add karna hai."
- ya "Mujhe 100 naye naam names.json ke format mein do."
- ya "Meri app mein ye masla aa raha hai: ... (screenshot)")
-
-==============================================================
-SCRIPT KHATAM
-==============================================================
+    setTimeout(() => {
+      if (!gotReading) {
+        setStatus('Is phone mein compass sensor nahi mila ya band hai. Chrome update karein aur Settings mein Motion sensors on karein.');
+        startBtn.style.display = 'block';
+        startBtn.disabled = false;
+        active = false;
+      }
+    }, 3000);
+  } catch (err) {
+    setStatus('Compass shuru nahi ho saka.');
+    startBtn.disabled = false;
+  }
+};
+</script>
+</body>
+</html>
