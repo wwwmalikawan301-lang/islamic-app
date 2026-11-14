@@ -162,28 +162,43 @@ body.theme-dark #nav button.on, body.dark #nav button.on { color: #6fd3aa; }
 body.dark #nav button { color: var(--dark-text-muted); }
 body.dark #nav button.on { color: #6fd3aa; }
 
-body.dark #app { padding: 16px; gap: 12px; }
-.panel { background: var(--dark-panel); border: 1px solid var(--dark-border); border-radius: var(--r-lg); padding: 10px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
-.two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-.srch { display: flex; gap: 8px; }
-.panel select, .panel input { width: 100%; min-width: 0; padding: 8px 10px; font-size: 14px; font-family: inherit; background: var(--dark-panel-2); color: var(--dark-text); border: 1px solid var(--dark-border-2); border-radius: var(--r-md); }
-.panel input { flex: 1 1 auto; width: 0; }
-.panel button { flex: 0 0 auto; padding: 8px 16px; font-size: 16px; font-family: inherit; background: var(--dark-name); color: #0b2a1e; border: 0; border-radius: var(--r-md); }
-.bar { display: flex; justify-content: space-between; align-items: center; padding: 0 4px; }
-.count { color: var(--dark-english); font-size: 15px; }
-.chip { background: var(--dark-panel); color: var(--dark-text); border: 1px solid var(--dark-border-2); border-radius: var(--r-full); padding: 6px 16px; font-size: 14px; font-family: inherit; }
-.chip.on { background: var(--dark-name); color: #0b2a1e; border-color: var(--dark-name); }
-.list { background: var(--dark-panel-2); border: 1px solid var(--dark-border); border-radius: var(--r-lg); overflow: hidden; }
-.r { display: grid; grid-template-columns: 27% 22% minmax(0, 1fr) 60px; gap: 6px; align-items: center; padding: 10px 8px; border-bottom: 1px solid #1c312a; cursor: pointer; }
-.r:nth-child(even) { background: var(--dark-panel); }
-.r:last-child { border-bottom: 0; }
-.nm { color: var(--dark-name); font-size: 17px; line-height: 1.9; }
-.en { color: var(--dark-english); font-family: var(--font-num); font-size: 12px; text-align: center; }
-.mn { color: var(--dark-text-soft); font-size: 13px; line-height: 1.8; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.ac { display: flex; gap: 4px; justify-content: center; }
-.ac button { background: none; border: 0; font-size: 16px; padding: 4px; }
-.more { display: none; width: 100%; padding: 12px; font-size: 15px; font-family: inherit; background: var(--dark-panel); color: var(--dark-name); border: 1px solid var(--dark-border-2); border-radius: var(--r-md); margin-top:10px; }
-.empty { padding: 30px; text-align: center; color: var(--dark-text-muted); font-size: 15px; }
+#app > .nsb, #app > .nch { flex: 0 0 auto; }
+.nsb { display: flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--surface-border); border-radius: var(--r-full); padding: 4px 8px 4px 16px; box-shadow: var(--shadow-sm); color: var(--text-secondary); }
+.nsb input { flex: 1 1 auto; width: 0; min-width: 0; border: 0; outline: 0; background: none; font-family: inherit; font-size: 15px; color: var(--text); padding: 10px 0; text-align: left; }
+.nsb input::placeholder { color: var(--text-secondary); opacity: 0.85; }
+.nclr { display: none; border: 0; background: none; color: var(--text-secondary); padding: 8px; align-items: center; }
+.nclr.show { display: flex; }
+.nch { display: flex; gap: 8px; overflow-x: auto; padding: 2px 0 4px; scrollbar-width: none; }
+.nch::-webkit-scrollbar, .nletters::-webkit-scrollbar { display: none; }
+.nc { flex: 0 0 auto; display: flex; align-items: center; gap: 5px; border: 0; background: var(--surface-tint); color: var(--primary); font-family: inherit; font-size: 13px; font-weight: 600; line-height: 1.4; padding: 8px 15px; border-radius: var(--r-full); }
+.nc svg.i { width: 16px; height: 16px; }
+.nc.on { background: var(--primary); color: #fff; }
+.nletters { display: none; gap: 6px; overflow-x: auto; padding: 2px 0; scrollbar-width: none; }
+.nletters.show { display: flex; }
+.nl { flex: 0 0 auto; min-width: 40px; height: 40px; padding: 0 6px; border-radius: 12px; border: 1px solid var(--surface-border); background: var(--surface); color: var(--text); font-size: 19px; font-family: inherit; display: flex; align-items: center; justify-content: center; }
+.nl.on { background: var(--primary); color: #fff; border-color: var(--primary); }
+.ncount { font-size: 12.5px; line-height: 1.5; color: var(--text-secondary); padding: 0 4px; }
+.nlist { display: flex; flex-direction: column; gap: 8px; }
+.nrow { display: flex; align-items: center; gap: 10px; background: var(--surface); border: 1px solid var(--surface-border); border-radius: 16px; padding: 10px 8px 10px 12px; box-shadow: var(--shadow-sm); cursor: pointer; transition: transform 0.12s; }
+.nrow:active { transform: scale(0.99); }
+.nav2 { flex: 0 0 40px; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; line-height: 1; }
+.nav2.m { background: #E6F1FB; color: #0C447C; }
+.nav2.f { background: #FBEAF0; color: #72243E; }
+.nbody { flex: 1 1 auto; min-width: 0; }
+.nen { font-size: 15px; font-weight: 600; color: var(--text); line-height: 1.5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nmn { font-size: 13px; line-height: 1.8; color: var(--text-secondary); unicode-bidi: plaintext; text-align: left; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.nur { flex: 0 0 auto; max-width: 38%; font-size: 21px; line-height: 1.8; color: var(--primary); text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nhrt { flex: 0 0 auto; border: 0; background: none; color: var(--text-secondary); padding: 8px 6px; display: flex; }
+.nhrt.on { color: #D4537E; }
+.nhrt.on svg.i { fill: currentColor; }
+.nmore { display: none; width: 100%; padding: 13px; font-family: inherit; font-size: 14px; font-weight: 600; background: var(--surface-tint); color: var(--primary); border: 0; border-radius: 14px; }
+.nempty { padding: 36px 16px; text-align: center; color: var(--text-secondary); font-size: 14.5px; line-height: 1.9; }
+body.theme-dark .nc, body.theme-dark .nmore { background: rgba(255,255,255,0.08); color: #9fe3c6; }
+body.theme-dark .nc.on, body.theme-dark .nl.on { background: #146B4F; color: #fff; }
+body.theme-dark .nur { color: #6fd3aa; }
+body.theme-dark .nav2.m { background: #12304a; color: #b5d4f4; }
+body.theme-dark .nav2.f { background: #4a1f31; color: #f4c0d1; }
+body.theme-dark .nrow, body.theme-dark .nsb, body.theme-dark .nl { border-color: rgba(255,255,255,0.08); }
 
 .card { background: var(--surface); border-radius: var(--r-lg); padding: 18px; font-size: 17px; line-height: 2; box-shadow: var(--shadow-sm); margin-bottom: 10px;}
 .detail { background: var(--surface); border-radius: var(--r-lg); padding: 24px; line-height: 2.4; font-size: 17px; white-space: pre-line; box-shadow: var(--shadow-sm); }
@@ -428,7 +443,8 @@ const ICONS = {
   beads: '<circle cx="12" cy="4" r="1.7"/><circle cx="18.2" cy="7" r="1.7"/><circle cx="19.5" cy="14" r="1.7"/><circle cx="15.2" cy="19.6" r="1.7"/><circle cx="8.8" cy="19.6" r="1.7"/><circle cx="4.5" cy="14" r="1.7"/><circle cx="5.8" cy="7" r="1.7"/>',
   cal: '<rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',
   mail: '<path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><polyline points="22 6 12 13 2 6"/>',
-  x: '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>'
+  x: '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',
+  down: '<polyline points="6 9 12 15 18 9"/>'
 };
 const ic = n => '<svg class="i" viewBox="0 0 24 24" aria-hidden="true">' + ICONS[n] + '</svg>';
 
@@ -771,50 +787,47 @@ function detail(key, item) {
 
 function namesPage(opts) {
   opts = opts || {};
-  setMode("dark");
-  title.textContent = opts.fav ? "Pasandida Naam" : META.names.title;
+  setMode("inner");
+  app.dir = "ltr";
+  title.textContent = opts.fav ? "Pasandida naam" : "Islami naam";
   sub.textContent = "";
   back.style.display = "flex";
   back.onclick = home;
   setNav(opts.fav ? "fav" : "names");
-  app.innerHTML = `
-    <div class="panel">
-      <div class="two">
-        <select id="fLetter"><option value="">Harf (Sab)</option></select>
-        <select id="fGender">
-          <option value="">Jins (Sab)</option>
-          <option value="لڑکا">Larka</option>
-          <option value="لڑکی">Larki</option>
-        </select>
-      </div>
-      <div class="srch">
-        <input id="fSearch" type="search" placeholder="Naam ya meaning talash karein">
-        <button id="fBtn">🔍</button>
-      </div>
-    </div>
-    <div class="bar">
-      <span class="count" id="count">Load ho raha hai...</span>
-      <button class="chip" id="fFav">🤍 Pasandida</button>
-    </div>
-    <div class="list" id="list"></div>
-    <button class="more" id="more"></button>`;
-  const fLetter = document.getElementById("fLetter");
-  const fGender = document.getElementById("fGender");
+  app.innerHTML =
+    "<div class='nsb'>" + ic("search") +
+    "<input id='fSearch' type='search' placeholder='Naam ya matlab talash karein'>" +
+    "<button class='nclr' id='fClr' aria-label='Saaf'>" + ic("x") + "</button></div>" +
+    "<div class='nch'>" +
+    "<button class='nc on' data-g=''>Sab</button>" +
+    "<button class='nc' data-g='لڑکا'>Larke</button>" +
+    "<button class='nc' data-g='لڑکی'>Larkiyan</button>" +
+    "<button class='nc' id='cLetter'><span id='cLetterTxt'>Harf</span>" + ic("down") + "</button>" +
+    "<button class='nc' id='cFav'>" + ic("heart") + "Pasandida</button>" +
+    "</div>" +
+    "<div class='nletters' id='letters'></div>" +
+    "<div class='ncount' id='count'>Load ho raha hai...</div>" +
+    "<div class='nlist' id='list'></div>" +
+    "<button class='nmore' id='more'></button>";
   const fSearch = document.getElementById("fSearch");
-  const fBtn = document.getElementById("fBtn");
-  const fFav = document.getElementById("fFav");
+  const fClr = document.getElementById("fClr");
+  const cLetter = document.getElementById("cLetter");
+  const cFav = document.getElementById("cFav");
+  const lettersEl = document.getElementById("letters");
   const count = document.getElementById("count");
   const list = document.getElementById("list");
   const more = document.getElementById("more");
+  const genderChips = [...document.querySelectorAll(".nc[data-g]")];
   let onlyFav = !!opts.fav;
+  let G = "", L = "";
   let shown = PAGE;
   let current = [];
-  if (onlyFav) { fFav.classList.add("on"); fFav.textContent = "❤️ Pasandida"; }
+  cFav.classList.toggle("on", onlyFav);
   fSearch.value = opts.q || "";
+  fClr.classList.toggle("show", fSearch.value.length > 0);
+
   function render(reset) {
     if (reset) shown = PAGE;
-    const L = fLetter.value;
-    const G = fGender.value;
     const Q = fSearch.value.trim().toLowerCase();
     current = NAMES.filter(x =>
       (!onlyFav || FAV.includes(keyOf(x))) &&
@@ -822,61 +835,65 @@ function namesPage(opts) {
       (!G || x.g === G) &&
       (!Q || x.n.includes(Q) || x.e.toLowerCase().includes(Q) || x.m.includes(Q))
     );
-    count.textContent = current.length + " Naam";
+    count.textContent = current.length + " naam";
     if (!current.length) {
-      list.innerHTML = "<div class='empty'>" + (onlyFav ? "Abhi koi pasandida naam nahi. Kisi naam ke sath 🤍 dabayein." : "Koi naam nahi mila.") + "</div>";
+      list.innerHTML = "<div class='nempty'>" + (onlyFav ? "Abhi koi pasandida naam nahi.<br>Kisi naam ke dil ko dabayein." : "Koi naam nahi mila.<br>Doosra lafz ya harf try karein.") + "</div>";
     } else {
       list.innerHTML = current.slice(0, shown).map((x, i) =>
-        "<div class='r' data-idx='" + i + "'>" +
-        "<div class='nm'>" + esc(x.n) + "</div>" +
-        "<div class='en'>" + esc(x.e) + "</div>" +
-        "<div class='mn'>" + esc(x.m) + "</div>" +
-        "<div class='ac'>" +
-        "<button data-a='fav' data-i='" + i + "'>" + (FAV.includes(keyOf(x)) ? "❤️" : "🤍") + "</button>" +
-        "<button data-a='share' data-i='" + i + "'>📤</button>" +
-        "</div>" +
+        "<div class='nrow' data-idx='" + i + "'>" +
+        "<div class='nav2 " + (x.g === "لڑکی" ? "f" : "m") + "'>" + esc(x.n.charAt(0)) + "</div>" +
+        "<div class='nbody'><div class='nen'>" + esc(x.e) + "</div><div class='nmn'>" + esc(x.m) + "</div></div>" +
+        "<div class='nur'>" + esc(x.n) + "</div>" +
+        "<button class='nhrt" + (FAV.includes(keyOf(x)) ? " on" : "") + "' data-a='fav' data-i='" + i + "' aria-label='Pasandida'>" + ic("heart") + "</button>" +
         "</div>"
       ).join("");
     }
     if (current.length > shown) { more.style.display = "block"; more.textContent = "Mazeed dikhayein (" + (current.length - shown) + " baqi)"; }
     else { more.style.display = "none"; }
   }
+
   list.onclick = e => {
     const btn = e.target.closest("button[data-a]");
     if (btn) {
       const x = current[Number(btn.dataset.i)];
       if (!x) return;
-      if (btn.dataset.a === "share") { shareName(x); }
-      else {
-        const k = keyOf(x);
-        const at = FAV.indexOf(k);
-        if (at >= 0) FAV.splice(at, 1); else FAV.push(k);
-        saveFav();
-        if (onlyFav) render(false);
-        else btn.textContent = FAV.includes(k) ? "❤️" : "🤍";
-      }
+      const k = keyOf(x);
+      const at = FAV.indexOf(k);
+      if (at >= 0) FAV.splice(at, 1); else FAV.push(k);
+      saveFav();
+      if (onlyFav) render(false);
+      else btn.classList.toggle("on", FAV.includes(k));
       return;
     }
-    const row = e.target.closest(".r");
+    const row = e.target.closest(".nrow");
     if (row) {
       const x = current[Number(row.dataset.idx)];
       if (x) nameDetailPage(x);
     }
   };
   more.onclick = () => { shown += PAGE; render(false); };
-  fFav.onclick = () => {
-    onlyFav = !onlyFav;
-    fFav.classList.toggle("on", onlyFav);
-    fFav.textContent = (onlyFav ? "❤️" : "🤍") + " Pasandida";
+  genderChips.forEach(c => c.onclick = () => {
+    G = c.dataset.g;
+    genderChips.forEach(o => o.classList.toggle("on", o === c));
     render(true);
-  };
+  });
+  cFav.onclick = () => { onlyFav = !onlyFav; cFav.classList.toggle("on", onlyFav); render(true); };
+  cLetter.onclick = () => lettersEl.classList.toggle("show");
+  fSearch.addEventListener("input", () => { fClr.classList.toggle("show", fSearch.value.length > 0); render(true); });
+  fClr.onclick = () => { fSearch.value = ""; fClr.classList.remove("show"); render(true); fSearch.focus(); };
+
   loadNames().then(names => {
     const letters = [...new Set(names.map(x => x.n.charAt(0)))].sort((a, b) => a.localeCompare(b, "ur"));
-    fLetter.innerHTML = '<option value="">Harf (Sab)</option>' + letters.map(l => '<option value="' + esc(l) + '">' + esc(l) + '</option>').join("");
-    fLetter.onchange = () => render(true);
-    fGender.onchange = () => render(true);
-    fSearch.oninput = () => render(true);
-    fBtn.onclick = () => render(true);
+    lettersEl.innerHTML = "<button class='nl on' data-l=''>Sab</button>" + letters.map(l => "<button class='nl' data-l='" + esc(l) + "'>" + esc(l) + "</button>").join("");
+    lettersEl.onclick = e => {
+      const b = e.target.closest(".nl");
+      if (!b) return;
+      L = b.dataset.l;
+      lettersEl.querySelectorAll(".nl").forEach(o => o.classList.toggle("on", o === b));
+      document.getElementById("cLetterTxt").textContent = L ? "Harf: " + L : "Harf";
+      cLetter.classList.toggle("on", !!L);
+      render(true);
+    };
     render(true);
   }).catch(() => { count.textContent = "names.json load nahi hui."; });
 }
