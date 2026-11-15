@@ -581,7 +581,7 @@ $('shareToday').onclick = () => {
   if (!T) return toast('Pehle location chunein');
   const lines = ['🕌 Namaz ke auqaat - ' + LOC.name, $('hijriLine').textContent, ''];
   ['fajr', 'sunrise', 'zuhr', 'asr', 'maghrib', 'isha'].forEach(k => lines.push(ICONS[k] + ' ' + NAMES[k] + ': ' + fmtTime(T[k], LOC.tz)));
-  lines.push('', '(Meri Islamic App)');
+  lines.push('', '(Iman Saathi)');
   shareText(lines.join('\n'));
 };
 $('shareMonth').onclick = () => {
@@ -592,7 +592,7 @@ $('shareMonth').onclick = () => {
     const t = computeDay(y, m, d), f = k => fmtTime(t[k], LOC.tz).replace(' AM', '').replace(' PM', '');
     lines.push(d + ': ' + ['fajr', 'sunrise', 'zuhr', 'asr', 'maghrib', 'isha'].map(f).join(' | '));
   }
-  lines.push('', '(Meri Islamic App)');
+  lines.push('', '(Iman Saathi)');
   shareText(lines.join('\n'));
 };
 
