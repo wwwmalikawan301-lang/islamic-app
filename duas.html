@@ -90,7 +90,7 @@ body { font-family: var(--font-urdu); background: var(--bg); color: var(--text);
 <body>
 
 <header class="header">
-  <a href="index.html" style="font-size:24px;">←</a>
+  <a href="index.html" style="font-size:24px;">→</a>
   <h1>مسنون دعائیں</h1>
   <button id="adminToggle" style="font-size:18px; opacity:0.5;">⚙️</button>
 </header>
@@ -117,7 +117,7 @@ body { font-family: var(--font-urdu); background: var(--bg); color: var(--text);
 
   <!-- Dua Detail Page -->
   <div class="detail-page" id="detailPage">
-    <button class="back-btn" id="backBtn">← واپس فہرست میں</button>
+    <button class="back-btn" id="backBtn">→ واپس فہرست میں</button>
     <div class="dua-detail-card">
       <h2 id="dTitle"></h2>
       <div class="dua-arabic" id="dArabic"></div>
@@ -164,6 +164,8 @@ body { font-family: var(--font-urdu); background: var(--bg); color: var(--text);
 let allDuas = [];
 let currentEditIndex = -1;
 let FAV_DUAS = [];
+let currentItems = [];
+let savedScroll = 0;
 try { FAV_DUAS = JSON.parse(localStorage.getItem("fav_duas") || "[]"); } catch(e) { FAV_DUAS = []; }
 
 const listPage = document.getElementById('listPage');
@@ -193,6 +195,7 @@ async function loadData() {
 }
 
 function renderList(items) {
+  currentItems = items;
   duaList.innerHTML = "";
   if (items.length === 0) {
     emptyState.style.display = "block";
@@ -260,8 +263,11 @@ function shareDua(dua) {
 }
 
 function openDetail(dua) {
+  savedScroll = window.scrollY;
   listPage.classList.add('hidden');
   detailPage.classList.add('active');
+  window.scrollTo(0, 0);
+  try { history.pushState({ duaDetail: true }, ""); } catch (e) {}
 
   document.getElementById('dTitle').innerText = dua.t;
   
@@ -280,7 +286,7 @@ function openDetail(dua) {
     if (idx >= 0) { FAV_DUAS.splice(idx, 1); favBtn.innerHTML = "🤍 پسندیدہ"; }
     else { FAV_DUAS.push(dua.t); favBtn.innerHTML = "❤️ پسندیدہ"; }
     saveFavDuas();
-    renderList(allDuas);
+    renderList(currentItems);
   };
 
   document.getElementById('dCopy').onclick = () => {
@@ -295,10 +301,17 @@ function openDetail(dua) {
   document.getElementById('dShare').onclick = () => shareDua(dua);
 }
 
-document.getElementById('backBtn').onclick = () => {
+function closeDetail() {
+  if (!detailPage.classList.contains('active')) return;
   detailPage.classList.remove('active');
   listPage.classList.remove('hidden');
+  requestAnimationFrame(() => window.scrollTo(0, savedScroll));
+}
+document.getElementById('backBtn').onclick = () => {
+  if (history.state && history.state.duaDetail) history.back();
+  else closeDetail();
 };
+window.addEventListener('popstate', closeDetail);
 
 searchInput.oninput = (e) => {
   const query = e.target.value.toLowerCase();
