@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Meri Islamic App</title>
+<title>Iman Saathi</title>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-NVC6P4WWHD"></script>
 <script>
 window.dataLayer = window.dataLayer || [];
@@ -13,7 +13,7 @@ gtag('config', 'G-NVC6P4WWHD');
 window.addEventListener('appinstalled', function () { gtag('event', 'app_installed'); });
 </script>
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0f6b4a">
+<meta name="theme-color" content="#075B43">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -36,6 +36,14 @@ window.addEventListener('appinstalled', function () { gtag('event', 'app_install
   --shadow-md: 0 4px 12px rgba(0,60,30,0.08);
   --shadow-lg: 0 8px 24px rgba(0,60,30,0.12);
   --font-urdu: "LatinSans", "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", sans-serif;
+  --t-fast: 150ms; --t-med: 250ms; --surface-border: rgba(0,0,0,0.06);
+  --font-num: Georgia, "Times New Roman", serif;
+  --font-scale: 1;
+}
+body.theme-dark {
+  --bg: #101A16; --surface: #1C2B24; --surface-tint: #1C2B24;
+  --text: #F5F7F5; --text-secondary: #B6C4BC; --primary: #146B4F;
+  --primary-gradient: linear-gradient(160deg, #0f5a41, #146B4F 55%, #0b4a36);
   --primary-gradient-hero: radial-gradient(circle at 50% 0%, #1a8f63 0%, rgba(26,143,99,0) 60%), linear-gradient(160deg, #0f5a41, #146B4F 55%, #0b4a36);
 }
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -262,8 +270,8 @@ try {
   auth.signInAnonymously().catch(err => console.log("Auth error:", err));
 } catch (e) { console.log("Firebase available nahi (offline?):", e); }
 
-const APP_TITLE = "Islamic Naam";
-const APP_SUB = "Meri Islamic App";
+const APP_TITLE = "Iman Saathi";
+const APP_SUB = "Aap ka deeni saathi";
 const GREETING = "Assalam o Alaikum! 💚 Allah Ta'ala aap ke sath ho";
 const APP_VERSION = "3.0";
 
@@ -371,15 +379,15 @@ function shareText(text, titleText) {
 }
 function shareApp() {
   const url = location.origin + location.pathname;
-  shareText("Meri Islamic App:\n" + url, "Meri Islamic App");
+  shareText("Iman Saathi:\n" + url, "Iman Saathi");
 }
 function shareName(x) {
   const url = location.origin + location.pathname;
-  shareText(x.n + " (" + x.e + ")\nMeaning: " + x.m + "\n\nMeri Islamic App:\n" + url, x.n);
+  shareText(x.n + " (" + x.e + ")\nMeaning: " + x.m + "\n\nIman Saathi:\n" + url, x.n);
 }
 function shareQuote(q) {
   const url = location.origin + location.pathname;
-  shareText("Aaj ki khoobsurat baat:\n\n\"" + q + "\"\n\nMeri Islamic App:\n" + url, "Aaj ki baat");
+  shareText("Aaj ki khoobsurat baat:\n\n\"" + q + "\"\n\nIman Saathi:\n" + url, "Aaj ki baat");
 }
 
 document.getElementById("mShare").onclick = () => { menu.classList.remove("show"); shareApp(); };
@@ -394,7 +402,7 @@ document.getElementById("mDark").onclick = () => {
 document.getElementById("mSettings").onclick = () => { menu.classList.remove("show"); settingsPage(); };
 document.getElementById("mAbout").onclick = () => {
   menu.classList.remove("show");
-  showModal("<b>Meri Islamic App</b><br>Version " + APP_VERSION + "<br><br><small style='color:#64756C'>Yeh ek muft Islami app hai.</small>");
+  showModal("<b>Iman Saathi</b><br>Version " + APP_VERSION + "<br><br><small style='color:#64756C'>Yeh ek muft Islami app hai.</small>");
 };
 
 function loadNames() {
@@ -655,7 +663,7 @@ function home() {
   };
 
   document.getElementById("qShare").onclick = () => shareQuote(todayQ);
-  document.getElementById("qCopy").onclick = () => { copyText(todayQ + "\n\n— Meri Islamic App"); showToast("Copy ho gaya"); };
+  document.getElementById("qCopy").onclick = () => { copyText(todayQ + "\n\n— Iman Saathi"); showToast("Copy ho gaya"); };
   const qFavBtn = document.getElementById("qFav");
   qFavBtn.onclick = () => {
     const at = FAVQ.indexOf(todayQ);
@@ -773,7 +781,7 @@ function detail(key, item) {
     "<button class='qs' style='background:var(--primary);color:#fff;border:0;border-radius:999px;padding:10px 18px;font-family:inherit;font-size:14px;display:inline-flex;align-items:center;gap:6px'>📤 Share</button>" +
     "<button class='qc' style='background:var(--surface-tint);color:var(--primary-deep);border:0;border-radius:999px;padding:10px 18px;font-family:inherit;font-size:14px;display:inline-flex;align-items:center;gap:6px'>📋 Copy</button>";
   app.appendChild(actions);
-  const textShare = item.t + "\n\n" + item.d + "\n\n— Meri Islamic App";
+  const textShare = item.t + "\n\n" + item.d + "\n\n— Iman Saathi";
   actions.querySelector(".qs").onclick = () => shareText(textShare, item.t);
   actions.querySelector(".qc").onclick = () => { copyText(textShare); showToast("📋 Copy ho gaya"); };
 }
@@ -998,7 +1006,7 @@ function settingsPage() {
     </div>
   `;
 
-  document.getElementById("sAbout").onclick = () => showModal("<b>Meri Islamic App</b><br>Version " + APP_VERSION + "<br><br><small style='color:#64756C'>Yeh ek muft Islami app hai. Allah qubool farmaye.</small>");
+  document.getElementById("sAbout").onclick = () => showModal("<b>Iman Saathi</b><br>Version " + APP_VERSION + "<br><br><small style='color:#64756C'>Yeh ek muft Islami app hai. Allah qubool farmaye.</small>");
   document.getElementById("sShare").onclick = () => shareApp();
   document.getElementById("sDark").onclick = () => {
     const wasDark = localStorage.getItem("theme") === "dark";
@@ -1021,7 +1029,7 @@ function settingsPage() {
   document.getElementById("sPrivacy").onclick = () => showModal("<b>Privacy Policy</b><br><br><small style='text-align:right;display:block;line-height:2'>Yeh app aap ki zaati maloomat jama nahi karti. Aap ke pasandida naam aur settings sirf aap ke phone mein mehfooz hote hain.</small>");
   document.getElementById("sTerms").onclick = () => showModal("<b>Terms of Use</b><br><br><small style='text-align:right;display:block;line-height:2'>Yeh app muft hai. Kisi bhi naam ke meaning ki hatmi tasdeeq ke liye kisi mustanad aalim se rujoo karein.</small>");
   document.getElementById("sFeedback").onclick = () => {
-    window.location.href = "mailto:?subject=" + encodeURIComponent("Meri Islamic App - Feedback") + "&body=" + encodeURIComponent("Assalam o Alaikum,\n\nMeri raye:\n\n");
+    window.location.href = "mailto:?subject=" + encodeURIComponent("Iman Saathi - Feedback") + "&body=" + encodeURIComponent("Assalam o Alaikum,\n\nMeri raye:\n\n");
   };
   document.getElementById("sRate").onclick = () => showToast("Play Store par aane ke baad rating mumkin hogi");
 }
