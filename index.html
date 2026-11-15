@@ -36,14 +36,6 @@ window.addEventListener('appinstalled', function () { gtag('event', 'app_install
   --shadow-md: 0 4px 12px rgba(0,60,30,0.08);
   --shadow-lg: 0 8px 24px rgba(0,60,30,0.12);
   --font-urdu: "LatinSans", "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", sans-serif;
-  --t-fast: 150ms; --t-med: 250ms; --surface-border: rgba(0,0,0,0.06);
-  --font-num: Georgia, "Times New Roman", serif;
-  --font-scale: 1;
-}
-body.theme-dark {
-  --bg: #101A16; --surface: #1C2B24; --surface-tint: #1C2B24;
-  --text: #F5F7F5; --text-secondary: #B6C4BC; --primary: #146B4F;
-  --primary-gradient: linear-gradient(160deg, #0f5a41, #146B4F 55%, #0b4a36);
   --primary-gradient-hero: radial-gradient(circle at 50% 0%, #1a8f63 0%, rgba(26,143,99,0) 60%), linear-gradient(160deg, #0f5a41, #146B4F 55%, #0b4a36);
 }
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -587,6 +579,7 @@ function hijriLine() {
 }
 
 function home() {
+  NAMES_STATE = null;
   setMode("home");
   hdr.dir = "ltr"; app.dir = "ltr";
   title.textContent = APP_TITLE;
@@ -785,8 +778,12 @@ function detail(key, item) {
   actions.querySelector(".qc").onclick = () => { copyText(textShare); showToast("📋 Copy ho gaya"); };
 }
 
+let NAMES_STATE = null; // list ki halat (filter, search, scroll) jab naam kholte hain
 function namesPage(opts) {
   opts = opts || {};
+  const st = (opts.restore && NAMES_STATE) ? NAMES_STATE : null;
+  if (!st) NAMES_STATE = null;
+  if (st) opts = { fav: st.fromFav, q: st.q };
   setMode("inner");
   app.dir = "ltr";
   title.textContent = opts.fav ? "Pasandida naam" : "Islami naam";
@@ -822,6 +819,9 @@ function namesPage(opts) {
   let G = "", L = "";
   let shown = PAGE;
   let current = [];
+  if (st) { onlyFav = st.onlyFav; G = st.G; L = st.L; shown = st.shown; }
+  genderChips.forEach(o => o.classList.toggle("on", o.dataset.g === G));
+  if (L) { document.getElementById("cLetterTxt").textContent = "Harf: " + L; cLetter.classList.add("on"); }
   cFav.classList.toggle("on", onlyFav);
   fSearch.value = opts.q || "";
   fClr.classList.toggle("show", fSearch.value.length > 0);
@@ -868,7 +868,10 @@ function namesPage(opts) {
     const row = e.target.closest(".nrow");
     if (row) {
       const x = current[Number(row.dataset.idx)];
-      if (x) nameDetailPage(x);
+      if (x) {
+        NAMES_STATE = { G, L, onlyFav, q: fSearch.value, shown, scroll: window.scrollY, fromFav: !!opts.fav };
+        nameDetailPage(x);
+      }
     }
   };
   more.onclick = () => { shown += PAGE; render(false); };
@@ -884,7 +887,7 @@ function namesPage(opts) {
 
   loadNames().then(names => {
     const letters = [...new Set(names.map(x => x.n.charAt(0)))].sort((a, b) => a.localeCompare(b, "ur"));
-    lettersEl.innerHTML = "<button class='nl on' data-l=''>Sab</button>" + letters.map(l => "<button class='nl' data-l='" + esc(l) + "'>" + esc(l) + "</button>").join("");
+    lettersEl.innerHTML = "<button class='nl" + (L ? "" : " on") + "' data-l=''>Sab</button>" + letters.map(l => "<button class='nl" + (l === L ? " on" : "") + "' data-l='" + esc(l) + "'>" + esc(l) + "</button>").join("");
     lettersEl.onclick = e => {
       const b = e.target.closest(".nl");
       if (!b) return;
@@ -894,7 +897,8 @@ function namesPage(opts) {
       cLetter.classList.toggle("on", !!L);
       render(true);
     };
-    render(true);
+    render(!st);
+    if (st) requestAnimationFrame(() => window.scrollTo(0, st.scroll));
   }).catch(() => { count.textContent = "names.json load nahi hui."; });
 }
 
@@ -903,8 +907,8 @@ function nameDetailPage(x) {
   title.textContent = x.n;
   sub.textContent = "";
   back.style.display = "flex";
-  back.onclick = () => namesPage();
-  setNav("names");
+  back.onclick = () => namesPage({ restore: true });
+  setNav(NAMES_STATE && NAMES_STATE.fromFav ? "fav" : "names");
   const k = keyOf(x);
   const isFav = FAV.includes(k);
   app.innerHTML = `
